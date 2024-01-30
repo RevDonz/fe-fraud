@@ -8,20 +8,22 @@ import {
 	NavbarContent,
 	NavbarItem,
 } from "@nextui-org/react";
+import { usePathname } from "next/navigation";
 
 const NavbarComponent = () => {
+	const pathname = usePathname();
 	const Menus = [
 		{
 			name: "Assesment Risiko",
-			url: "assesment",
+			url: "/assesment",
 		},
 		{
 			name: "Laporan Keuangan",
-			url: "laporan",
+			url: "/laporan",
 		},
 		{
 			name: "Data Staff",
-			url: "data-staff",
+			url: "/data-staff",
 		},
 	];
 
@@ -33,8 +35,13 @@ const NavbarComponent = () => {
 			<NavbarContent className="hidden sm:flex gap-4" justify="center">
 				{Menus.map((menu) => {
 					return (
-						<NavbarItem key={menu.name} >
-							<Link color="foreground" href={menu.url}>{menu.name}</Link>
+						<NavbarItem key={menu.name} isActive={menu.url === pathname}>
+							<Link
+								color={menu.url === pathname ? "primary" : "foreground"}
+								href={menu.url}
+							>
+								{menu.name}
+							</Link>
 						</NavbarItem>
 					);
 				})}
