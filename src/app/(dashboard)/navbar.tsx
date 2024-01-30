@@ -1,6 +1,7 @@
 "use client";
 
 import {
+	Avatar,
 	Dropdown,
 	DropdownItem,
 	DropdownMenu,
@@ -13,7 +14,6 @@ import {
 	NavbarMenu,
 	NavbarMenuItem,
 	NavbarMenuToggle,
-	User,
 } from "@nextui-org/react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -85,36 +85,19 @@ const NavbarComponent = () => {
 			<NavbarContent justify="end">
 				<Dropdown placement="bottom-end">
 					<DropdownTrigger>
-						<User
+						<Avatar
+							isBordered
 							as="button"
-							avatarProps={{
-								isBordered: true,
-								src: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
-							}}
 							className="transition-transform"
-							description="admin"
-							name="John Doe"
+							src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
 						/>
 					</DropdownTrigger>
-					<DropdownMenu aria-label="User Actions" variant="flat">
-						<DropdownItem
-							isReadOnly
-							key="theme"
-							className="cursor-default"
-							endContent={
-								<select
-									className="z-10 outline-none w-20 py-0.5 rounded-md text-tiny group-data-[hover=true]:border-default-500 border-small border-default-300 dark:border-default-200 bg-transparent text-default-500"
-									id="theme"
-									name="theme"
-								>
-									<option>System</option>
-									<option>Dark</option>
-									<option>Light</option>
-								</select>
-							}
-						>
-							Theme
+					<DropdownMenu aria-label="Profile Actions" variant="flat">
+						<DropdownItem key="profile" className="h-14 gap-2">
+							<p className="font-semibold">Signed in as</p>
+							<p className="font-semibold">John Doe</p>
 						</DropdownItem>
+						<DropdownItem key="settings">My Settings</DropdownItem>
 						<DropdownItem key="logout" color="danger">
 							Log Out
 						</DropdownItem>
