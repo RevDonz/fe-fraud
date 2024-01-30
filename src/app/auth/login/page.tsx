@@ -9,7 +9,7 @@ import {
 	Input,
 	Link,
 } from "@nextui-org/react";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Mail } from "lucide-react";
 import { useState } from "react";
 
 const LoginPage = () => {
@@ -25,7 +25,13 @@ const LoginPage = () => {
 				</CardHeader>
 				<CardBody className="flex flex-col gap-3 items-center">
 					<div className="w-full flex flex-col gap-3">
-						<Input type="email" label="Email" variant="bordered" />
+						<Input
+							autoFocus
+							endContent={<Mail className="text-default-400" />}
+							label="Email"
+							placeholder="Enter your email"
+							variant="bordered"
+						/>
 						<Input
 							label="Password"
 							variant="bordered"
