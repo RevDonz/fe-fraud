@@ -12,55 +12,55 @@ import {
 } from '@nextui-org/react';
 import ModalAssesment from '../home/modal';
 
+export const Questions = [
+  {
+    title: 'Risk Fraud Assesment',
+    questions:
+      'Seberapa sering anda melakukan assesment penilaian kemungkinan penipuan?',
+  },
+  {
+    title: 'Competent Internal Accountant',
+    questions: 'Apakah ada akuntan internal yang kompeten?',
+  },
+  {
+    title: 'Continous Improvement of SOP',
+    questions: 'Apakah anda sering meningkatkan kualitas dari SOP?',
+  },
+  {
+    title: 'Continous Improvement of Internal Control',
+    questions:
+      'Apakah anda sering meningkatkan kualitas dari pengendalian lingkup internal?',
+  },
+  {
+    title: 'Build Good Governance',
+    questions: 'Apakah anda sering memperbaiki tata kelola yang baik?',
+  },
+  {
+    title: 'Build a culture of integrity',
+    questions: 'Apakah anda sering memperbaiki budaya integritas instansi?',
+  },
+  {
+    title: 'Operant Conditioning',
+    questions:
+      'Apakah ada kebijakan tentang perilaku yang diulang, dalam bentuk yang positif ataupun negatif?',
+  },
+  {
+    title: 'Modelling',
+    questions:
+      'Apakah ada kebijakan internal yang diterapkan oleh entitas untuk mengkondisikan setiap individu entitas belajar melalui mengamati dan mencontohkan perilaku baik orang lain di sekitar mereka?',
+  },
+  {
+    title: 'Communication of Fraud Indication',
+    questions:
+      'Apakah ada media komunikasi bagi karyawan untuk pemberitahuan indikasi penipuan?',
+  },
+  {
+    title: 'Consequence of Fraud',
+    questions:
+      'Apakah terdapat kebijakan mengenai penegakan hukuman proporsional dengan melihat jenis pelanggarannya, apakah ringan, sedang, atau serius?',
+  },
+];
 const AssesmentPage = () => {
-  const Questions = [
-    {
-      title: 'Risk Fraud Assesment',
-      questions:
-        'Seberapa sering anda melakukan assesment penilaian kemungkinan penipuan?',
-    },
-    {
-      title: 'Competent Internal Accountant',
-      questions: 'Apakah ada akuntan internal yang kompeten?',
-    },
-    {
-      title: 'Continous Improvement of SOP',
-      questions: 'Apakah anda sering meningkatkan kualitas dari SOP?',
-    },
-    {
-      title: 'Continous Improvement of Internal Control',
-      questions:
-        'Apakah anda sering meningkatkan kualitas dari pengendalian lingkup internal?',
-    },
-    {
-      title: 'Build Good Governance',
-      questions: 'Apakah anda sering memperbaiki tata kelola yang baik?',
-    },
-    {
-      title: 'Build a culture of integrity',
-      questions: 'Apakah anda sering memperbaiki budaya integritas instansi?',
-    },
-    {
-      title: 'Operant Conditioning',
-      questions:
-        'Apakah ada kebijakan tentang perilaku yang diulang, dalam bentuk yang positif ataupun negatif?',
-    },
-    {
-      title: 'Modelling',
-      questions:
-        'Apakah ada kebijakan internal yang diterapkan oleh entitas untuk mengkondisikan setiap individu entitas belajar melalui mengamati dan mencontohkan perilaku baik orang lain di sekitar mereka?',
-    },
-    {
-      title: 'Communication of Fraud Indication',
-      questions:
-        'Apakah ada media komunikasi bagi karyawan untuk pemberitahuan indikasi penipuan?',
-    },
-    {
-      title: 'Consequence of Fraud',
-      questions:
-        'Apakah terdapat kebijakan mengenai penegakan hukuman proporsional dengan melihat jenis pelanggarannya, apakah ringan, sedang, atau serius?',
-    },
-  ];
 
   return (
     <div className='flex items-center w-full max-w-screen-xl mx-auto px-6 py-10'>

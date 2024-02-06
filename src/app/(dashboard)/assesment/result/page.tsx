@@ -1,4 +1,5 @@
 import { Card, CardBody, CardHeader, Divider } from '@nextui-org/react';
+import { Questions } from '../page';
 
 const AssesmentResultPage = () => {
   return (
@@ -9,32 +10,42 @@ const AssesmentResultPage = () => {
             <p>Hasil Assesment - 01/02/2024</p>
           </CardHeader>
           <Divider />
-          <CardBody className='py-5'>
+          <CardBody className='p-5'>
             <h3 className='text-2xl mb-5'>
               Total Skor : <span className='font-semibold'>94</span>
             </h3>
-            <Card radius='sm'>
-              <CardHeader>
-                <p className='font-semibold'>1. Soal</p>
-              </CardHeader>
-              <Divider />
-              <CardBody className='py-5'>
-                <p>
-                  Skor : <span className='font-semibold'>10</span>
-                </p>
-                <p>
-                  Penilaian :{' '}
-                  <span className='font-semibold'>Ada, sudah lengkap</span>
-                </p>
-                <p>
-                  Penilaian akhir : <span className='font-semibold'>Good</span>
-                </p>
-                <p>
-                  Lampiran : <span className='font-semibold'>Anu.pdf</span>
-                </p>
-              </CardBody>
-              <Divider />
-            </Card>
+            <div className='flex flex-col gap-5'>
+              {Questions.map((question, index) => {
+                return (
+                  <Card radius='sm' key={question.title}>
+                    <CardHeader>
+                      <p className='font-semibold'>{index+1}. {question.title}</p>
+                    </CardHeader>
+                    <Divider />
+                    <CardBody className='py-5'>
+                      <p>
+                        Skor : <span className='font-semibold'>10</span>
+                      </p>
+                      <p>
+                        Penilaian :{' '}
+                        <span className='font-semibold'>
+                          Ada, sudah lengkap
+                        </span>
+                      </p>
+                      <p>
+                        Penilaian akhir :{' '}
+                        <span className='font-semibold'>Good</span>
+                      </p>
+                      <p>
+                        Lampiran :{' '}
+                        <span className='font-semibold'>Anu.pdf</span>
+                      </p>
+                    </CardBody>
+                    <Divider />
+                  </Card>
+                );
+              })}
+            </div>
           </CardBody>
           <Divider />
         </Card>
