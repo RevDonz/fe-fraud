@@ -9,7 +9,11 @@ export const middleware: NextMiddleware = async (request) => {
 		secret: process.env.NEXTAUTH_SECRET,
 	});
 
-	if (!token && !["/auth/login"].includes(pathname)) {
+	if (token && ["/auth/login", "/auth/register"].includes(pathname)) {
+		return NextResponse.redirect(new URL("/home", request.url));
+	}
+
+	if (!token && !["/auth/login", "/auth/register"].includes(pathname)) {
 		return NextResponse.redirect(new URL("/auth/login", request.url));
 	}
 

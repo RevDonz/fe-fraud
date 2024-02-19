@@ -1,48 +1,59 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { loginSchema } from "@/schema/auth/login-schema";
+import { registerSchema } from "@/schema/auth/register-schema";
 import { Button, CardBody, CardFooter, Input, Link } from "@nextui-org/react";
-import { Eye, EyeOff, User } from "lucide-react";
-import { signIn } from "next-auth/react";
+import { Eye, EyeOff, Mail, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-const LoginForm = () => {
+const RegisterForm = () => {
 	const [isVisible, setIsVisible] = useState(false);
 	const toggleVisibility = () => setIsVisible(!isVisible);
 	const router = useRouter();
 
-	const { handleSubmit, control, reset } = useForm<z.infer<typeof loginSchema>>(
-		{
-			resolver: zodResolver(loginSchema),
-			defaultValues: {
-				username: "",
-				password: "",
-			},
+	const { handleSubmit, control, reset } = useForm<
+		z.infer<typeof registerSchema>
+	>({
+		resolver: zodResolver(registerSchema),
+		defaultValues: {
+			username: "",
+			email: "",
+			password: "",
 		},
-	);
+	});
 
-	const onSubmit = async (values: z.infer<typeof loginSchema>) => {
+	const onSubmit = async (values: z.infer<typeof registerSchema>) => {
 		try {
-			const result = signIn("credentials", {
-				username: values.username,
-				password: values.password,
-				redirect: false,
+			// const result = signIn("credentials", {
+			// 	username: values.username,
+			// 	email: values.email,
+			// 	password: values.password,
+			// 	redirect: false,
+			// });
+
+			const result = fetch("https://proj_ta-1-p8898073.deta.app/register", {
+				method: "POST",
+				body: JSON.stringify({
+					username: values.username,
+					email: values.email,
+					password: values.password,
+				}),
+				headers: { "Content-Type": "application/json" },
 			});
 
 			toast.promise(result, {
 				loading: "Loading...",
-				success: () => {
+				success: (data) => {
 					reset();
-					router.push("/home");
-					return "Login Berhasil!";
+					router.push("/login");
+					return "Register Akun Berhasil!";
 				},
 				error: (result) => {
-					console.error(result.error);
+					console.error(result);
 					return "Invalid credentials";
 				},
 			});
@@ -63,6 +74,21 @@ const LoginForm = () => {
 								endContent={<User className="text-default-400" />}
 								label="Username"
 								placeholder="Enter your username"
+								type="text"
+								variant="bordered"
+								{...field}
+							/>
+						)}
+					/>
+					<Controller
+						name="email"
+						control={control}
+						render={({ field }) => (
+							<Input
+								autoFocus
+								endContent={<Mail className="text-default-400" />}
+								label="Email"
+								placeholder="Enter your email"
 								type="text"
 								variant="bordered"
 								{...field}
@@ -107,9 +133,9 @@ const LoginForm = () => {
 					Masuk
 				</Button>
 				<div className="text-sm">
-					Belum punya akun?{" "}
-					<Link href="/auth/register" size="sm">
-						Daftar
+					Sudah punya akun?{" "}
+					<Link href="/auth/login" size="sm">
+						Login
 					</Link>
 				</div>
 			</CardFooter>
@@ -117,4 +143,4 @@ const LoginForm = () => {
 	);
 };
 
-export default LoginForm;
+export default RegisterForm;

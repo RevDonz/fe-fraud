@@ -46,6 +46,9 @@ const NavbarComponent = () => {
 			success: () => {
 				return "Logout berhasil!";
 			},
+			error: () => {
+				return "Logout gagal!";
+			},
 		});
 	};
 
