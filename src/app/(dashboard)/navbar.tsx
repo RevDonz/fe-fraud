@@ -15,8 +15,10 @@ import {
 	NavbarMenuItem,
 	NavbarMenuToggle,
 } from "@nextui-org/react";
+import { signOut } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const NavbarComponent = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -29,13 +31,23 @@ const NavbarComponent = () => {
 		},
 		{
 			name: "Laporan Keuangan",
-			url: "/laporan",
+			url: "/report",
 		},
 		{
 			name: "Data Staff",
 			url: "/data-staff",
 		},
 	];
+
+	const handleSignOut = async () => {
+		const signout = signOut();
+		toast.promise(signout, {
+			loading: "Loading..",
+			success: () => {
+				return "Logout berhasil!";
+			},
+		});
+	};
 
 	return (
 		<Navbar
@@ -98,7 +110,7 @@ const NavbarComponent = () => {
 							<p className="font-semibold">John Doe</p>
 						</DropdownItem>
 						<DropdownItem key="settings">My Settings</DropdownItem>
-						<DropdownItem key="logout" color="danger">
+						<DropdownItem key="logout" color="danger" onClick={handleSignOut}>
 							Log Out
 						</DropdownItem>
 					</DropdownMenu>
