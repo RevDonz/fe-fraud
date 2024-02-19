@@ -15,9 +15,12 @@ const RegisterForm = () => {
 	const toggleVisibility = () => setIsVisible(!isVisible);
 	const router = useRouter();
 
-	const { handleSubmit, control, reset } = useForm<
-		z.infer<typeof registerSchema>
-	>({
+	const {
+		handleSubmit,
+		control,
+		reset,
+		formState: { errors },
+	} = useForm<z.infer<typeof registerSchema>>({
 		resolver: zodResolver(registerSchema),
 		defaultValues: {
 			username: "",
@@ -76,6 +79,8 @@ const RegisterForm = () => {
 								placeholder="Enter your username"
 								type="text"
 								variant="bordered"
+								isInvalid={errors.username ? true : false}
+								errorMessage={errors.username?.message}
 								{...field}
 							/>
 						)}
@@ -91,6 +96,8 @@ const RegisterForm = () => {
 								placeholder="Enter your email"
 								type="text"
 								variant="bordered"
+								isInvalid={errors.email ? true : false}
+								errorMessage={errors.email?.message}
 								{...field}
 							/>
 						)}
@@ -117,6 +124,8 @@ const RegisterForm = () => {
 								placeholder="Enter your password"
 								type={isVisible ? "text" : "password"}
 								variant="bordered"
+								isInvalid={errors.password ? true : false}
+								errorMessage={errors.password?.message}
 								{...field}
 							/>
 						)}
