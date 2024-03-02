@@ -1,7 +1,7 @@
 const FooterLandingPage = () => {
 	return (
 		<div className="bg-[#002E62]">
-			<div className="max-w-screen-xl mx-auto px-6 w-full flex flex-col">
+			<div className="max-w-screen-xl mx-auto px-6 w-full">
 				<div className="py-10 flex flex-col gap-10">
 					<div className="bg-white p-10 rounded-lg flex flex-col sm:flex-row justify-between">
 						<div className="w-full sm:w-3/4">
@@ -44,9 +44,9 @@ const FooterLandingPage = () => {
 						</div>
 					</div>
 				</div>
-				<div className="flex items-center justify-center w-full h-12 border-t">
-					<p className="text-white">© 2024 FDP. All Rights Reserved.</p>
-				</div>
+			</div>
+			<div className="flex items-center justify-center w-full h-12 border-t">
+				<p className="text-white">© 2024 FDP. All Rights Reserved.</p>
 			</div>
 		</div>
 	);
