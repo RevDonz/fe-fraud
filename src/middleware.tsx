@@ -13,7 +13,7 @@ export const middleware: NextMiddleware = async (request) => {
 		return NextResponse.redirect(new URL("/home", request.url));
 	}
 
-	if (!token && !["/auth/login", "/auth/register"].includes(pathname)) {
+	if (!token && !["/auth/login", "/auth/register", "/"].includes(pathname)) {
 		return NextResponse.redirect(new URL("/auth/login", request.url));
 	}
 
@@ -23,14 +23,14 @@ export const middleware: NextMiddleware = async (request) => {
 
 	const data = await response.json();
 
-	if (data.success) {
-		switch (pathname) {
-			case "/auth":
-			case "/login":
-			case "/":
-				return NextResponse.redirect(new URL("/auth/login", request.url));
-		}
-	}
+	// if (data.success) {
+	// 	switch (pathname) {
+	// 		case "/auth":
+	// 		case "/login":
+	// 		case "/":
+	// 			return NextResponse.redirect(new URL("/auth/login", request.url));
+	// 	}
+	// }
 };
 
 export const config = {

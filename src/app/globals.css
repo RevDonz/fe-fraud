@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.hero-container {
+  height: calc(100vh - theme(height.16));
+}

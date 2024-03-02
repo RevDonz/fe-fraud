@@ -74,14 +74,12 @@ const NavbarComponent = () => {
 				],
 			}}
 		>
+			<NavbarMenuToggle
+				aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+				className="sm:hidden"
+			/>
 			<NavbarBrand>
-				<NavbarMenuToggle
-					aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-					className="sm:hidden"
-				/>
-				<p className="font-bold text-inherit ml-3 sm:m-0">
-					Fraud Deterrence Propeller
-				</p>
+				<p className="font-bold text-inherit">Fraud Deterrence Propeller</p>
 			</NavbarBrand>
 			<NavbarContent className="hidden sm:flex gap-4" justify="center">
 				{Menus.map((menu) => {
