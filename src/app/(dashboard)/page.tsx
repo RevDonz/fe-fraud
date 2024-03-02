@@ -5,7 +5,7 @@ import Image from "next/image";
 const LandingPage = async () => {
 	return (
 		<div className="flex flex-col w-full">
-			<div className="bg-[#f7f7f7]">
+			<div className="bg-[#f7f7f7]" id="home">
 				<div
 					className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-5 content-center justify-items-stretch hero-container px-6 max-w-screen-xl mx-auto"
 					id="hero"
@@ -33,7 +33,7 @@ const LandingPage = async () => {
 			</div>
 			<div
 				className="px-6 max-w-screen-xl mx-auto py-32 flex flex-col items-center justify-center gap-10"
-				id="hero"
+				id="fitur-utama"
 			>
 				<p className="text-primary-500 font-semibold text-3xl">
 					Fitur Utama Kami
@@ -77,10 +77,7 @@ const LandingPage = async () => {
 				</div>
 			</div>
 			<div className="bg-[#f7f7f7]">
-				<div
-					className="grid grid-cols-1 md:grid-cols-2 gap-5 content-center justify-items-stretch px-6 py-32 max-w-screen-xl mx-auto"
-					id="hero"
-				>
+				<div className="grid grid-cols-1 md:grid-cols-2 gap-5 content-center justify-items-stretch px-6 py-32 max-w-screen-xl mx-auto">
 					<div className="flex flex-col justify-center gap-5">
 						<p className="text-primary-500 font-semibold text-3xl">
 							Assesment Risiko

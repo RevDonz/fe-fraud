@@ -1,6 +1,11 @@
+"use client";
+import { cn } from "@/lib/utils";
+import { usePathname } from "next/navigation";
+
 const FooterLandingPage = () => {
+	const pathname = usePathname();
 	return (
-		<div className="bg-[#002E62]">
+		<div className={cn("bg-[#002E62]", pathname !== "/" ? "hidden" : "")}>
 			<div className="max-w-screen-xl mx-auto px-6 w-full">
 				<div className="py-10 flex flex-col gap-10">
 					<div className="bg-white p-10 rounded-lg flex flex-col sm:flex-row justify-between">

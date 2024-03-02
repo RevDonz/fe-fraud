@@ -23,8 +23,6 @@ export const authOptions: AuthOptions = {
 				});
 				const parsedResponse = await res.json();
 
-				// console.log(parsedResponse);
-
 				if (!res.ok) {
 					console.error(parsedResponse);
 					throw new Error(parsedResponse.message);
@@ -80,7 +78,7 @@ export const authOptions: AuthOptions = {
 				const res = await fetch("https://proj_ta-1-p8898073.deta.app/auth", {
 					headers: { Authorization: `Bearer ${token.id}` },
 				});
-				const data = res.json();
+				const data = await res.json();
 
 				return data;
 			};
@@ -91,17 +89,16 @@ export const authOptions: AuthOptions = {
 				session = {
 					...session,
 					user: {
-						id: data.id,
-						name: data.sub,
-						// email: data.email,
-						// phone: data.phone,
-						// role: token.role,
+						id: data.key,
+						name: data.username,
+						email: data.email,
+						role: data.role,
 						accessToken: token.sub,
 						refreshToken: token.refreshToken,
 					},
 				};
 			} catch (error) {
-				console.log(error);
+				console.log(`error session ${error}`);
 			}
 
 			return session;
