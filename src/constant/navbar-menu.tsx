@@ -19,6 +19,10 @@ export const ListMenuNavbar = {
 	],
 	admin: [
 		{
+			name: "Dashboard",
+			url: "/dashboard",
+		},
+		{
 			name: "Assesment Risiko",
 			url: "/dashboard/assesment",
 		},
