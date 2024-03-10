@@ -20,15 +20,15 @@ export const ListMenuNavbar = {
 	admin: [
 		{
 			name: "Assesment Risiko",
-			url: "/assesment",
+			url: "/dashboard/assesment",
 		},
 		{
 			name: "Laporan Keuangan",
-			url: "/report",
+			url: "/dashboard/report",
 		},
 		{
 			name: "Data Staff",
-			url: "/data-staff",
+			url: "/dashboard/data-staff",
 		},
 	],
 };

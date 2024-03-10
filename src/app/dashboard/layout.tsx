@@ -1,5 +1,3 @@
-import FooterLandingPage from "@/components/landing/footer";
-
 import { getServerAuthSession } from "@/lib/auth";
 import type { ReactNode } from "react";
 import NavbarComponent from "../../components/navbar";
@@ -15,8 +13,6 @@ const DashboardLayout = async ({ children }: { children: ReactNode }) => {
 				role={session?.user.role}
 			/>
 			<div className="flex-1">{children}</div>
-
-			<FooterLandingPage />
 		</div>
 	);
 };
