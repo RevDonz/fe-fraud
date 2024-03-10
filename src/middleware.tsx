@@ -1,5 +1,6 @@
 import { getToken } from "next-auth/jwt";
-import { NextMiddleware, NextResponse } from "next/server";
+import { NextResponse, type NextMiddleware } from "next/server";
+import { Routes } from "./constant/routes";
 
 export const middleware: NextMiddleware = async (request) => {
 	const pathname = request.nextUrl.pathname;
@@ -9,9 +10,9 @@ export const middleware: NextMiddleware = async (request) => {
 		secret: process.env.NEXTAUTH_SECRET,
 	});
 
-	if (token && ["/auth/login", "/auth/register"].includes(pathname)) {
-		return NextResponse.redirect(new URL("/home", request.url));
-	}
+	// if (token && ["/auth/login", "/auth/register"].includes(pathname)) {
+	// 	return NextResponse.redirect(new URL("/home", request.url));
+	// }
 
 	if (!token && !["/auth/login", "/auth/register", "/"].includes(pathname)) {
 		return NextResponse.redirect(new URL("/auth/login", request.url));
@@ -21,16 +22,20 @@ export const middleware: NextMiddleware = async (request) => {
 		headers: { Authorization: `Bearer ${token?.id}` },
 	});
 
-	const data = await response.json();
+	const res = await response.json();
 
-	// if (data.success) {
-	// 	switch (pathname) {
-	// 		case "/auth":
-	// 		case "/login":
-	// 		case "/":
-	// 			return NextResponse.redirect(new URL("/auth/login", request.url));
-	// 	}
-	// }
+	if (res) {
+		const { success, code, data } = res;
+		const firstPath = `/${pathname.split("/")[1]}`;
+
+		if (success && code === 200) {
+			const isAuthorize = Routes.some((route) =>
+				route.role.some(
+					(role) => data.role === role && firstPath === route.url,
+				),
+			);
+		}
+	}
 };
 
 export const config = {

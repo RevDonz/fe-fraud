@@ -1,4 +1,4 @@
-import { AuthOptions, getServerSession } from "next-auth";
+import { type AuthOptions, getServerSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 import { addDays, isBefore } from "date-fns";

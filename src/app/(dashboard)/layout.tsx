@@ -1,7 +1,7 @@
 import FooterLandingPage from "@/components/landing/footer";
 
 import { getServerAuthSession } from "@/lib/auth";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import NavbarComponent from "../../components/navbar";
 
 const DashboardLayout = async ({ children }: { children: ReactNode }) => {

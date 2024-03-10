@@ -115,7 +115,11 @@ const NavbarComponent = ({
 							/>
 						</DropdownTrigger>
 						<DropdownMenu aria-label="Profile Actions" variant="flat">
-							<DropdownItem key="profile" className="h-14 gap-2" href="/home">
+							<DropdownItem
+								key="profile"
+								className="h-14 gap-2"
+								href="/dashboard"
+							>
 								<p className="font-semibold">Signed in as</p>
 								<p className="font-semibold">{role}</p>
 							</DropdownItem>
