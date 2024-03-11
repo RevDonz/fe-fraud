@@ -34,5 +34,9 @@ export const ListMenuNavbar = {
 			name: "Data Staff",
 			url: "/dashboard/data-staff",
 		},
+		{
+			name: "Riwayat Login",
+			url: "/dashboard/login-history",
+		},
 	],
 };
