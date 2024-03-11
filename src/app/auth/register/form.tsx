@@ -2,13 +2,20 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { registerSchema } from "@/schema/auth/register-schema";
-import { Button, CardBody, CardFooter, Input, Link } from "@nextui-org/react";
+import {
+	Button,
+	CardBody,
+	CardFooter,
+	Divider,
+	Input,
+	Link,
+} from "@nextui-org/react";
 import { Eye, EyeOff, Mail, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
+import type { z } from "zod";
 
 const RegisterForm = () => {
 	const [isVisible, setIsVisible] = useState(false);
@@ -66,8 +73,153 @@ const RegisterForm = () => {
 	};
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
-			<CardBody className="flex flex-col gap-3 items-center">
-				<div className="w-full flex flex-col gap-3">
+			<CardBody className="flex flex-col gap-3">
+				<p className="text-xl font-semibold">Profil Pendaftar</p>
+				<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+					<Controller
+						name="username"
+						control={control}
+						render={({ field }) => (
+							<Input
+								autoFocus
+								label="Nama Pendaftar"
+								placeholder=" "
+								type="text"
+								variant="bordered"
+								labelPlacement="outside"
+								isInvalid={errors.username ? true : false}
+								errorMessage={errors.username?.message}
+								{...field}
+							/>
+						)}
+					/>
+					<Controller
+						name="username"
+						control={control}
+						render={({ field }) => (
+							<Input
+								autoFocus
+								label="Jabatan / Posisi Pendaftar"
+								placeholder=" "
+								type="text"
+								variant="bordered"
+								labelPlacement="outside"
+								isInvalid={errors.username ? true : false}
+								errorMessage={errors.username?.message}
+								{...field}
+							/>
+						)}
+					/>
+					<Controller
+						name="username"
+						control={control}
+						render={({ field }) => (
+							<Input
+								autoFocus
+								label="No. Telp Pendaftar"
+								placeholder=" "
+								type="text"
+								variant="bordered"
+								labelPlacement="outside"
+								isInvalid={errors.username ? true : false}
+								errorMessage={errors.username?.message}
+								{...field}
+							/>
+						)}
+					/>
+					<Controller
+						name="username"
+						control={control}
+						render={({ field }) => (
+							<Input
+								autoFocus
+								label="Email Pendaftar"
+								placeholder=" "
+								type="text"
+								variant="bordered"
+								labelPlacement="outside"
+								isInvalid={errors.username ? true : false}
+								errorMessage={errors.username?.message}
+								{...field}
+							/>
+						)}
+					/>
+				</div>
+				<Divider className="my-3" />
+				<p className="text-xl font-semibold">Profil Instansi</p>
+				<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+					<Controller
+						name="username"
+						control={control}
+						render={({ field }) => (
+							<Input
+								autoFocus
+								label="Nama Instansi"
+								placeholder=" "
+								type="text"
+								variant="bordered"
+								labelPlacement="outside"
+								isInvalid={errors.username ? true : false}
+								errorMessage={errors.username?.message}
+								{...field}
+							/>
+						)}
+					/>
+					<Controller
+						name="username"
+						control={control}
+						render={({ field }) => (
+							<Input
+								autoFocus
+								label="Alamat Instansi"
+								placeholder=" "
+								type="text"
+								variant="bordered"
+								labelPlacement="outside"
+								isInvalid={errors.username ? true : false}
+								errorMessage={errors.username?.message}
+								{...field}
+							/>
+						)}
+					/>
+					<Controller
+						name="username"
+						control={control}
+						render={({ field }) => (
+							<Input
+								autoFocus
+								label="No. Telp Instansi"
+								placeholder=" "
+								type="text"
+								variant="bordered"
+								labelPlacement="outside"
+								isInvalid={errors.username ? true : false}
+								errorMessage={errors.username?.message}
+								{...field}
+							/>
+						)}
+					/>
+					<Controller
+						name="username"
+						control={control}
+						render={({ field }) => (
+							<Input
+								autoFocus
+								label="Email Instansi"
+								placeholder=" "
+								type="text"
+								variant="bordered"
+								labelPlacement="outside"
+								isInvalid={errors.username ? true : false}
+								errorMessage={errors.username?.message}
+								{...field}
+							/>
+						)}
+					/>
+				</div>
+				<Divider className="my-3" />
+				<p className="text-xl font-semibold">Kredensial Akun</p>
+				<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
 					<Controller
 						name="username"
 						control={control}
@@ -75,10 +227,12 @@ const RegisterForm = () => {
 							<Input
 								autoFocus
 								endContent={<User className="text-default-400" />}
+								className="col-span-2"
 								label="Username"
 								placeholder="Enter your username"
 								type="text"
 								variant="bordered"
+								labelPlacement="outside"
 								isInvalid={errors.username ? true : false}
 								errorMessage={errors.username?.message}
 								{...field}
@@ -94,6 +248,7 @@ const RegisterForm = () => {
 								endContent={<Mail className="text-default-400" />}
 								label="Email"
 								placeholder="Enter your email"
+								labelPlacement="outside"
 								type="text"
 								variant="bordered"
 								isInvalid={errors.email ? true : false}
@@ -122,6 +277,7 @@ const RegisterForm = () => {
 								}
 								label="Password"
 								placeholder="Enter your password"
+								labelPlacement="outside"
 								type={isVisible ? "text" : "password"}
 								variant="bordered"
 								isInvalid={errors.password ? true : false}
@@ -139,7 +295,7 @@ const RegisterForm = () => {
 					className="w-full"
 					type="submit"
 				>
-					Masuk
+					Register
 				</Button>
 				<div className="text-sm">
 					Sudah punya akun?{" "}
