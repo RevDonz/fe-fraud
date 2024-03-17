@@ -1,6 +1,46 @@
 import { z } from "zod";
 
 export const registerSchema = z.object({
+	namaPendaftar: z
+		.string({
+			required_error: "Required",
+		})
+		.min(1, "Should not be empty"),
+	jabatan: z
+		.string({
+			required_error: "Required",
+		})
+		.min(1, "Should not be empty"),
+	noTelp: z
+		.string({
+			required_error: "Required",
+		})
+		.min(1, "Should not be empty"),
+	emailPendaftar: z
+		.string({
+			required_error: "Required",
+		})
+		.min(1, "Should not be empty"),
+	namaInstansi: z
+		.string({
+			required_error: "Required",
+		})
+		.min(1, "Should not be empty"),
+	alamatInstansi: z
+		.string({
+			required_error: "Required",
+		})
+		.min(1, "Should not be empty"),
+	noTelpInstansi: z
+		.string({
+			required_error: "Required",
+		})
+		.min(1, "Should not be empty"),
+	emailInstansi: z
+		.string({
+			required_error: "Required",
+		})
+		.min(1, "Should not be empty"),
 	username: z
 		.string({
 			required_error: "Username is required",

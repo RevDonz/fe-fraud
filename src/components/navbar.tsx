@@ -7,7 +7,6 @@ import {
 	DropdownItem,
 	DropdownMenu,
 	DropdownTrigger,
-	Link,
 	Navbar,
 	NavbarBrand,
 	NavbarContent,
@@ -18,6 +17,7 @@ import {
 	User,
 } from "@nextui-org/react";
 import { signOut } from "next-auth/react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -131,14 +131,11 @@ const NavbarComponent = ({
 					</Dropdown>
 				) : (
 					<>
-						<Button
-							variant="bordered"
-							color="primary"
-							as={Link}
-							href="/auth/login"
-						>
-							Masuk
-						</Button>
+						<Link href="/auth/login">
+							<Button variant="bordered" color="primary">
+								Masuk
+							</Button>
+						</Link>
 						<Button color="primary" as={Link} href="/auth/register">
 							Daftar
 						</Button>

@@ -14,9 +14,6 @@ dependencies:
   clsx:
     specifier: ^2.1.0
     version: 2.1.0
-  date-fns:
-    specifier: ^3.3.1
-    version: 3.3.1
   framer-motion:
     specifier: ^11.0.3
     version: 11.0.3(react-dom@18.2.0)(react@18.2.0)
@@ -61,6 +58,9 @@ devDependencies:
   autoprefixer:
     specifier: ^10.0.1
     version: 10.4.17(postcss@8.4.33)
+  date-fns:
+    specifier: ^3.3.1
+    version: 3.3.1
   postcss:
     specifier: ^8
     version: 8.4.33
@@ -2727,7 +2727,7 @@ packages:
 
   /date-fns@3.3.1:
     resolution: {integrity: sha512-y8e109LYGgoQDveiEBD3DYXKba1jWf5BA8YU1FL5Tvm0BTdEfy54WLCwnuYWZNnzzvALy/QQ4Hov+Q9RVRv+Zw==}
-    dev: false
+    dev: true
 
   /deepmerge@4.3.1:
     resolution: {integrity: sha512-3sUqbMEc77XqpdNO7FRyRog+eW3ph+GYCbj+rK+uYyRMuwsVy0rMiVtPn+QJlKFvWP/1PYpapqYn0Me2knFn+A==}

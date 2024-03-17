@@ -23,11 +23,11 @@ export const ListMenuNavbar = {
 			url: "/dashboard",
 		},
 		{
-			name: "Assesment Risiko",
+			name: "Fraud Assesment",
 			url: "/dashboard/assesment",
 		},
 		{
-			name: "Laporan Keuangan",
+			name: "Fraud Detection",
 			url: "/dashboard/report",
 		},
 		{

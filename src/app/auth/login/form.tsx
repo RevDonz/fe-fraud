@@ -38,7 +38,7 @@ const LoginForm = () => {
 				loading: "Loading...",
 				success: () => {
 					reset();
-					router.push("/home");
+					router.push("/dashboard");
 					return "Login Berhasil!";
 				},
 				error: (result) => {

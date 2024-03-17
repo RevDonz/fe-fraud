@@ -77,7 +77,7 @@ const RegisterForm = () => {
 				<p className="text-xl font-semibold">Profil Pendaftar</p>
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
 					<Controller
-						name="username"
+						name="namaPendaftar"
 						control={control}
 						render={({ field }) => (
 							<Input
@@ -87,14 +87,14 @@ const RegisterForm = () => {
 								type="text"
 								variant="bordered"
 								labelPlacement="outside"
-								isInvalid={errors.username ? true : false}
-								errorMessage={errors.username?.message}
+								isInvalid={errors.namaPendaftar ? true : false}
+								errorMessage={errors.namaPendaftar?.message}
 								{...field}
 							/>
 						)}
 					/>
 					<Controller
-						name="username"
+						name="jabatan"
 						control={control}
 						render={({ field }) => (
 							<Input
@@ -104,14 +104,14 @@ const RegisterForm = () => {
 								type="text"
 								variant="bordered"
 								labelPlacement="outside"
-								isInvalid={errors.username ? true : false}
-								errorMessage={errors.username?.message}
+								isInvalid={errors.jabatan ? true : false}
+								errorMessage={errors.jabatan?.message}
 								{...field}
 							/>
 						)}
 					/>
 					<Controller
-						name="username"
+						name="noTelp"
 						control={control}
 						render={({ field }) => (
 							<Input
@@ -121,14 +121,14 @@ const RegisterForm = () => {
 								type="text"
 								variant="bordered"
 								labelPlacement="outside"
-								isInvalid={errors.username ? true : false}
-								errorMessage={errors.username?.message}
+								isInvalid={errors.noTelp ? true : false}
+								errorMessage={errors.noTelp?.message}
 								{...field}
 							/>
 						)}
 					/>
 					<Controller
-						name="username"
+						name="emailPendaftar"
 						control={control}
 						render={({ field }) => (
 							<Input
@@ -138,8 +138,8 @@ const RegisterForm = () => {
 								type="text"
 								variant="bordered"
 								labelPlacement="outside"
-								isInvalid={errors.username ? true : false}
-								errorMessage={errors.username?.message}
+								isInvalid={errors.emailPendaftar ? true : false}
+								errorMessage={errors.emailPendaftar?.message}
 								{...field}
 							/>
 						)}
@@ -149,7 +149,7 @@ const RegisterForm = () => {
 				<p className="text-xl font-semibold">Profil Instansi</p>
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
 					<Controller
-						name="username"
+						name="namaInstansi"
 						control={control}
 						render={({ field }) => (
 							<Input
@@ -159,14 +159,14 @@ const RegisterForm = () => {
 								type="text"
 								variant="bordered"
 								labelPlacement="outside"
-								isInvalid={errors.username ? true : false}
-								errorMessage={errors.username?.message}
+								isInvalid={errors.namaInstansi ? true : false}
+								errorMessage={errors.namaInstansi?.message}
 								{...field}
 							/>
 						)}
 					/>
 					<Controller
-						name="username"
+						name="alamatInstansi"
 						control={control}
 						render={({ field }) => (
 							<Input
@@ -176,14 +176,14 @@ const RegisterForm = () => {
 								type="text"
 								variant="bordered"
 								labelPlacement="outside"
-								isInvalid={errors.username ? true : false}
-								errorMessage={errors.username?.message}
+								isInvalid={errors.alamatInstansi ? true : false}
+								errorMessage={errors.alamatInstansi?.message}
 								{...field}
 							/>
 						)}
 					/>
 					<Controller
-						name="username"
+						name="noTelpInstansi"
 						control={control}
 						render={({ field }) => (
 							<Input
@@ -193,14 +193,14 @@ const RegisterForm = () => {
 								type="text"
 								variant="bordered"
 								labelPlacement="outside"
-								isInvalid={errors.username ? true : false}
-								errorMessage={errors.username?.message}
+								isInvalid={errors.noTelpInstansi ? true : false}
+								errorMessage={errors.noTelpInstansi?.message}
 								{...field}
 							/>
 						)}
 					/>
 					<Controller
-						name="username"
+						name="emailInstansi"
 						control={control}
 						render={({ field }) => (
 							<Input
@@ -210,8 +210,8 @@ const RegisterForm = () => {
 								type="text"
 								variant="bordered"
 								labelPlacement="outside"
-								isInvalid={errors.username ? true : false}
-								errorMessage={errors.username?.message}
+								isInvalid={errors.emailInstansi ? true : false}
+								errorMessage={errors.emailInstansi?.message}
 								{...field}
 							/>
 						)}
