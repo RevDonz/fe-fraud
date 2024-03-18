@@ -3,7 +3,7 @@ import { Card, CardBody, CardHeader, Divider } from "@nextui-org/react";
 const DashboardPage = async () => {
 	return (
 		<div className="flex flex-col w-full max-w-screen-xl mx-auto px-6 py-10 gap-5">
-			<p className="text-2xl font-semibold">Data Staff</p>
+			<p className="text-2xl font-semibold">Dashboard</p>
 			<Card className="p-3">
 				<CardHeader>
 					<p className="text-primary-500 text-justify">
