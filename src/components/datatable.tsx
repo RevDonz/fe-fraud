@@ -28,7 +28,7 @@ interface DataTableProps<TData extends GenericItem> {
 	renderCell?: (row: TData, columnKey: React.Key) => React.ReactNode;
 }
 
-export function Datatable2<TData extends GenericItem>({
+export function Datatable<TData extends GenericItem>({
 	data,
 	columns,
 	renderCell,
@@ -118,4 +118,4 @@ export function Datatable2<TData extends GenericItem>({
 	);
 }
 
-export default Datatable2;
+export default Datatable;

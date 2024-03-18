@@ -77,7 +77,10 @@ export const columns = [
 	},
 ];
 
-export const renderCellFraudHistory = (history: FraudHistoryType, columnKey: React.Key) => {
+export const renderCellFraudHistory = (
+	history: FraudHistoryType,
+	columnKey: React.Key,
+) => {
 	const cellValue = history[columnKey as keyof FraudHistoryType];
 
 	switch (columnKey) {

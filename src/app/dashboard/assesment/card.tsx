@@ -1,6 +1,6 @@
 "use client";
 
-import Datatable2 from "@/components/datatable";
+import Datatable from "@/components/datatable";
 import {
 	Button,
 	Card,
@@ -23,7 +23,7 @@ export default function FraudAssesmentCard() {
 		<Card className="p-3">
 			<Tabs aria-label="Options" color="primary" variant="bordered">
 				<Tab key="history" title="Riwayat Fraud Assesment">
-					<Datatable2
+					<Datatable
 						data={FraudHistory}
 						columns={columns}
 						renderCell={renderCellFraudHistory}
