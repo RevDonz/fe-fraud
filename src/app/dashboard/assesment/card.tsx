@@ -1,6 +1,6 @@
 "use client";
 
-import Datatable from "@/components/data-table";
+import Datatable2 from "@/components/datatable";
 import {
 	Button,
 	Card,
@@ -13,6 +13,7 @@ import {
 } from "@nextui-org/react";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
+import { FraudHistory, columns, renderCellFraudHistory } from "./column";
 
 export default function FraudAssesmentCard() {
 	const [isVisible, setIsVisible] = useState(false);
@@ -22,7 +23,11 @@ export default function FraudAssesmentCard() {
 		<Card className="p-3">
 			<Tabs aria-label="Options" color="primary" variant="bordered">
 				<Tab key="history" title="Riwayat Fraud Assesment">
-					<Datatable />
+					<Datatable2
+						data={FraudHistory}
+						columns={columns}
+						renderCell={renderCellFraudHistory}
+					/>
 				</Tab>
 				<Tab key="fill" title="Isi Fraud Assesment">
 					<Card className="p-3">

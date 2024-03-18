@@ -1,5 +1,5 @@
+"use client";
 import { Button, Chip } from "@nextui-org/react";
-import { useCallback } from "react";
 
 export type FraudHistoryType = {
 	id: string;
@@ -77,3 +77,44 @@ export const columns = [
 	},
 ];
 
+export const renderCellFraudHistory = (history: FraudHistoryType, columnKey: React.Key) => {
+	const cellValue = history[columnKey as keyof FraudHistoryType];
+
+	switch (columnKey) {
+		case "hasil":
+			return (
+				<Chip
+					color={
+						history.hasil >= 75
+							? "success"
+							: history.hasil >= 60
+							  ? "warning"
+							  : "danger"
+					}
+					radius="sm"
+					className="text-white"
+				>
+					{`${
+						history.hasil >= 75
+							? "Good"
+							: history.hasil >= 60
+							  ? "Normal"
+							  : "Bad"
+					} / ${history.hasil}`}
+				</Chip>
+			);
+
+		// case "tanggal":
+		// 	return format(cellValue, "dd MMMM yyyy, HH:mm");
+
+		case "aksi":
+			return (
+				<Button color="primary" size="sm">
+					Lihat Detail
+				</Button>
+			);
+
+		default:
+			return cellValue;
+	}
+};
