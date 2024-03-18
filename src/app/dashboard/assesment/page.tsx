@@ -1,12 +1,14 @@
-import FraudAssesmentCard from "./card";
+import Datatable from "@/components/datatable";
+import { FraudHistory, columns, renderCellFraudHistory } from "./column";
 
-const AssesmentPage = () => {
+const HistoryAssesmentPage = () => {
 	return (
-		<div className="flex flex-col w-full max-w-screen-xl mx-auto px-6 py-10 gap-5">
-			<p className="text-2xl font-semibold">Fraud Assesment</p>
-			<FraudAssesmentCard />
-		</div>
+		<Datatable
+			data={FraudHistory}
+			columns={columns}
+			renderCell={renderCellFraudHistory}
+		/>
 	);
 };
 
-export default AssesmentPage;
+export default HistoryAssesmentPage;
