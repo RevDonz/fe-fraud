@@ -1,3 +1,6 @@
+import { Button, Chip } from "@nextui-org/react";
+import { useCallback } from "react";
+
 export type FraudHistoryType = {
 	id: string;
 	pengisi: string;
@@ -7,6 +10,27 @@ export type FraudHistoryType = {
 };
 
 export const FraudHistory: FraudHistoryType[] = [
+	{
+		id: "1",
+		pengisi: "PT Kembang Api",
+		reviewer: "Hazim",
+		tanggal: new Date().toLocaleDateString(),
+		hasil: 90,
+	},
+	{
+		id: "2",
+		pengisi: "PT Rumput Bergoyang",
+		reviewer: "hazim",
+		tanggal: new Date().toLocaleDateString(),
+		hasil: 74,
+	},
+	{
+		id: "1",
+		pengisi: "PT Sendal Capit",
+		reviewer: "hazim",
+		tanggal: new Date().toLocaleDateString(),
+		hasil: 55,
+	},
 	{
 		id: "1",
 		pengisi: "PT Kembang Api",
@@ -52,3 +76,4 @@ export const columns = [
 		label: "AKSI",
 	},
 ];
+
