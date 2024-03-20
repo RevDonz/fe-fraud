@@ -10,7 +10,7 @@ import {
 	Input,
 	Link,
 } from "@nextui-org/react";
-import ModalAssesment from "./modal";
+import ModalAssesment from "../../../components/modal-fraud-assesment";
 
 export const Questions = [
 	{

@@ -1,5 +1,6 @@
 "use client";
 import { Button, Chip } from "@nextui-org/react";
+import Link from "next/link";
 
 export type FraudHistoryType = {
 	id: string;
@@ -107,14 +108,13 @@ export const renderCellFraudHistory = (
 				</Chip>
 			);
 
-		// case "tanggal":
-		// 	return format(cellValue, "dd MMMM yyyy, HH:mm");
-
 		case "aksi":
 			return (
-				<Button color="primary" size="sm">
-					Lihat Detail
-				</Button>
+				<Link href={`/dashboard/fraud-assesment/${history.id}/detail`}>
+					<Button color="primary" size="sm">
+						Lihat Detail
+					</Button>
+				</Link>
 			);
 
 		default:

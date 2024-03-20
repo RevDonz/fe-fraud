@@ -8,18 +8,24 @@ export default function ButtonLink() {
 
 	return (
 		<div className="flex flex-row gap-3 mb-5">
-			<Link href={"/dashboard/assesment"}>
+			<Link href={"/dashboard/fraud-assesment/history"}>
 				<Button
-					variant={pathname === "/dashboard/assesment" ? "solid" : "bordered"}
+					variant={
+						pathname === "/dashboard/fraud-assesment/history"
+							? "solid"
+							: "bordered"
+					}
 					color="primary"
 				>
 					Riwayat Fraud Assesment
 				</Button>
 			</Link>
-			<Link href={"/dashboard/assesment/fill"}>
+			<Link href={"/dashboard/fraud-assesment/create"}>
 				<Button
 					variant={
-						pathname === "/dashboard/assesment/fill" ? "solid" : "bordered"
+						pathname === "/dashboard/fraud-assesment/create"
+							? "solid"
+							: "bordered"
 					}
 					color="primary"
 				>

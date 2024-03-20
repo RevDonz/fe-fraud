@@ -24,7 +24,7 @@ export const ListMenuNavbar = {
 		},
 		{
 			name: "Fraud Assesment",
-			url: "/dashboard/assesment",
+			url: "/dashboard/fraud-assesment/history",
 		},
 		{
 			name: "Fraud Detection",

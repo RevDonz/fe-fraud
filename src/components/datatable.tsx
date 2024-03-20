@@ -1,6 +1,5 @@
 "use client";
 
-import { FraudHistory } from "@/app/dashboard/assesment/column";
 import {
 	Pagination,
 	Select,
@@ -60,7 +59,7 @@ export function Datatable<TData extends GenericItem>({
 			bottomContent={
 				<div className="flex w-full justify-between items-center">
 					<span className="text-default-400 text-small w-1/3">
-						Total: {FraudHistory.length}
+						Total: {data.length}
 					</span>
 					<Pagination
 						isCompact

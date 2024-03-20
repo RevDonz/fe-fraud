@@ -1,13 +1,19 @@
 import Datatable from "@/components/datatable";
+
+import ButtonLink from "../../../../components/button-link";
 import { FraudHistory, columns, renderCellFraudHistory } from "./column";
 
 const HistoryAssesmentPage = () => {
 	return (
-		<Datatable
-			data={FraudHistory}
-			columns={columns}
-			renderCell={renderCellFraudHistory}
-		/>
+		<>
+			<ButtonLink />
+
+			<Datatable
+				data={FraudHistory}
+				columns={columns}
+				renderCell={renderCellFraudHistory}
+			/>
+		</>
 	);
 };
 
