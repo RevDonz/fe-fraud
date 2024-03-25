@@ -74,7 +74,7 @@ const NavbarComponent = ({
 				className="sm:hidden"
 			/>
 			<NavbarBrand>
-				<Link href="/" className="font-bold text-inherit">
+				<Link href="/" className="font-bold text-inherit" prefetch>
 					Fraud Deterrence Propeller
 				</Link>
 			</NavbarBrand>
@@ -85,6 +85,7 @@ const NavbarComponent = ({
 							<Link
 								color={menu.url === pathname ? "primary" : "foreground"}
 								href={menu.url}
+								prefetch
 							>
 								{menu.name}
 							</Link>
@@ -131,11 +132,16 @@ const NavbarComponent = ({
 					</Dropdown>
 				) : (
 					<>
-						<Link href="/auth/login">
-							<Button variant="bordered" color="primary">
-								Masuk
-							</Button>
-						</Link>
+						<Button
+							variant="bordered"
+							color="primary"
+							as={Link}
+							href="/auth/login"
+							prefetch
+						>
+							Masuk
+						</Button>
+
 						<Button color="primary" as={Link} href="/auth/register">
 							Daftar
 						</Button>
