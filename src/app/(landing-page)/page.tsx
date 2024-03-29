@@ -1,5 +1,4 @@
 import { Button, Card, CardBody } from "@nextui-org/react";
-import { FileCheck2, FileSearch } from "lucide-react";
 import Image from "next/image";
 
 const LandingPage = async () => {
@@ -49,13 +48,18 @@ const LandingPage = async () => {
 				<div className="grid grid-cols-1 lg:grid-cols-2 gap-10 w-full lg:w-3/4">
 					<Card radius="sm" className="h-full p-5 ">
 						<CardBody className="flex flex-col gap-5 items-center">
-							<FileCheck2 className="h-16 w-16 text-primary-500" />
+							<Image
+								alt="fraud-assesment"
+								src={"/assets/img/fraud-assesment.svg"}
+								width={200}
+								height={200}
+							/>
 							<p className="font-semibold text-xl">Fraud Assesment</p>
 							<p className="text-justify">
-								Fitur assessment risiko ini membantu mengevaluasi tingkat
-								kerentanan perusahaan terhadap kecurangan laporan keuangan
-								melalui serangkaian pertanyaan yang terfokus pada upaya
-								pencegahan kecurangan.
+								Fitur Fraud assessment ini membantu mengevaluasi tingkat
+								Maturity entitas terhadap kecurangan laporan keuangan melalui
+								serangkaian pertanyaan yang terfokus pada upaya pencegahan Fraud
+								di lingkungan entitas.
 							</p>
 							<div className="items-center justify-center flex mt-auto">
 								<Button color="primary" size="sm">
@@ -66,7 +70,12 @@ const LandingPage = async () => {
 					</Card>
 					<Card radius="sm" className="h-full p-5">
 						<CardBody className="flex flex-col gap-5 items-center">
-							<FileSearch className="h-16 w-16 text-primary-500" />
+							<Image
+								alt="fraud-detect"
+								src={"/assets/img/fraud-detect.svg"}
+								width={200}
+								height={200}
+							/>
 							<p className="font-semibold text-xl">Deteksi Fraud Keuangan</p>
 							<p className="text-justify">
 								Fitur deteksi laporan keuangan ini mengintegrasikan nilai
@@ -88,11 +97,11 @@ const LandingPage = async () => {
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-5 content-center justify-items-stretch px-6 py-32 max-w-screen-xl mx-auto">
 					<div className="flex flex-col justify-center gap-5">
 						<p className="text-primary-500 font-semibold text-3xl">
-							Assesment Risiko
+							Fraud Assesment
 						</p>
 						<p className="text-justify">
-							Fitur assessment risiko merupakan alat efektif untuk mengevaluasi
-							kerentanan perusahaan terhadap kecurangan laporan keuangan.
+							Fitur Fraud assessment merupakan alat efektif untuk mengevaluasi
+							Tingkat Maturity entitas terhadap kecurangan laporan keuangan.
 							Melalui pertanyaan pencegahan kecurangan, sistem menghasilkan
 							nilai risiko, memberikan insight langsung kepada manajemen.
 							Pendekatan ini tidak hanya mengukur risiko kecurangan, tetapi juga
@@ -128,16 +137,9 @@ const LandingPage = async () => {
 						Deteksi Fraud Keuangan
 					</p>
 					<p className="text-justify">
-						Fitur deteksi fraud pada laporan keuangan ini memanfaatkan nilai
-						terbaru laporan keuangan dan membandingkannya dengan data yang telah
-						ada menggunakan model Beneish M-Score. Dengan menganalisis indikator
-						kecurangan, fitur ini menghasilkan output yang menilai apakah
-						terdapat tanda-tanda fraud dalam laporan keuangan. Pendekatan ini
-						mencakup evaluasi manipulasi pendapatan, ketidaksesuaian arus kas,
-						dan pola perilaku keuangan mencurigakan. Sebagai alat deteksi yang
-						efektif, fitur ini tidak hanya menjaga keandalan laporan keuangan
-						tetapi juga membantu mengidentifikasi dan mengatasi potensi risiko
-						fraud.
+						{
+							"Fitur deteksi fraud pada laporan keuangan ini memanfaatkan nilai terbaru laporan keuangan dan membandingkannya dengan data yang telah ada menggunakan model Beneish M-Score. Dengan output berupa skor yang menentukan apakah ada indikasi Fraud pada laporan keuangan yang berupa 2 parameter, yang pertama yaitu apabila skor output < -2.22, berarti entitas kemungkinan tidak melakukan Fraud pada data laporan keuangan. Dan parameter kedua yaitu apabila skor outpot > -2.22, berarti entitas kemungkinan melakukan Fraud pada data laporan keuangan. "
+						}
 					</p>
 				</div>
 			</div>
