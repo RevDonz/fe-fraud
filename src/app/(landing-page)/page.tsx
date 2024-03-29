@@ -12,13 +12,21 @@ const LandingPage = async () => {
 				>
 					<div className="flex flex-col justify-center gap-5">
 						<p className="text-primary-500 font-semibold text-3xl">
-							Pantau Laporan Keuangan Instansi Anda
+							Pantau Laporan Keuangan Entitas Anda
 						</p>
 						<p>
-							FDP Memudahkan pemantauan Laporan Keuangan pada perusahaan anda.
-							Dengan mengisi assesment pencegahan kecurangan pada Laporan
-							Keuangan. FDP Juga menyediakan layanan pendeteksi kecurangan pada
-							Laporan Keuangan menggunakan Beneish M-Score Calculator.
+							FDP Merupakan protokol pencegahan Fraud yang digunakan oleh setiap
+							entitas, baik yang berorientasi profit maupun non-profit.
+						</p>
+						<p>
+							Dalam protokol tersebut terdapat beberapa dimensi dan indikator
+							pencegahan fraud yang wajib dilakukan entitas dan tersedia di
+							entitas, anda dapat mengukur tingkat maturity pencegahan fraud di
+							lingkungan anda, dengan mempergunakan FDP.
+						</p>
+						<p>
+							FDP Juga menyediakan layanan pendeteksi kecurangan pada Laporan
+							Keuangan menggunakan Beneish M-Score Calculator.
 						</p>
 					</div>
 					<div className="justify-self-center">

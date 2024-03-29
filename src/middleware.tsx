@@ -26,14 +26,19 @@ export const middleware: NextMiddleware = async (request) => {
 
 	if (res) {
 		const { success, code, data } = res;
-		const firstPath = `/${pathname.split("/")[1]}`;
 
 		if (success && code === 200) {
 			const isAuthorize = Routes.some((route) =>
-				route.role.some(
-					(role) => data.role === role && firstPath === route.url,
-				),
+				route.role.some((role) => data.role === role && pathname === route.url),
 			);
+			console.log(pathname);
+
+			if (
+				!isAuthorize &&
+				!["/not-found", "/auth/login", "/root/login"].includes(pathname)
+			) {
+				return NextResponse.redirect(new URL("/not-found", request.url));
+			}
 		}
 	}
 };

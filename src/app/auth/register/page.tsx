@@ -6,7 +6,7 @@ const RegisterPage = async () => {
 		<div className="flex flex-col items-center justify-center h-full">
 			<Card className="w-full p-3 max-w-screen-lg rounded-none lg:rounded-lg">
 				<CardHeader className="flex items-center justify-center">
-					<h3 className="text-xl font-semibold">Register</h3>
+					<h3 className="text-xl font-semibold">Pendaftaran Akun</h3>
 				</CardHeader>
 				<RegisterForm />
 			</Card>

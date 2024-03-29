@@ -33,51 +33,74 @@ const RegisterForm = () => {
 			username: "",
 			email: "",
 			password: "",
+			full_name: "",
+			role: "",
+			phone: "",
+			institution_name: "",
+			institution_address: "",
+			institution_phone: "",
+			institution_email: "",
 		},
 	});
 
 	const onSubmit = async (values: z.infer<typeof registerSchema>) => {
 		try {
-			// const result = signIn("credentials", {
-			// 	username: values.username,
-			// 	email: values.email,
-			// 	password: values.password,
-			// 	redirect: false,
-			// });
+			toast.loading("Loading...");
 
-			const result = fetch("https://proj_ta-1-p8898073.deta.app/register", {
-				method: "POST",
-				body: JSON.stringify({
-					username: values.username,
-					email: values.email,
-					password: values.password,
-				}),
-				headers: { "Content-Type": "application/json" },
-			});
+			const response = await fetch(
+				`${process.env.NEXT_PUBLIC_BASE_URL}/register`,
+				{
+					method: "POST",
+					body: JSON.stringify({
+						username: values.username,
+						email: values.email,
+						password: values.password,
+						full_name: values.full_name,
+						role: "admin",
+						phone: values.phone,
+						institution_name: values.institution_name,
+						institution_address: values.institution_address,
+						institution_phone: values.institution_phone,
+						institution_email: values.institution_email,
+					}),
+					headers: { "Content-Type": "application/json" },
+				},
+			);
 
-			toast.promise(result, {
-				loading: "Loading...",
-				success: (data) => {
-					reset();
-					router.push("/login");
-					return "Register Akun Berhasil!";
-				},
-				error: (result) => {
-					console.error(result);
-					return "Invalid credentials";
-				},
-			});
+			const result = await response.json();
+
+			toast.dismiss();
+
+			if (result.success) {
+				toast.success("Berhasil!", {
+					duration: 10000,
+					closeButton: true,
+					description: (
+						<p>
+							Cek email <strong>{values.email}</strong> untuk memverifikasi akun
+							Anda
+						</p>
+					),
+				});
+
+				router.push("/auth/login");
+			} else {
+				toast.error("Gagal!", {
+					description: <p>Terdapat kesalahan</p>,
+				});
+			}
 		} catch (error) {
 			console.log(error);
 		}
 	};
+
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<CardBody className="flex flex-col gap-3">
 				<p className="text-xl font-semibold">Profil Pendaftar</p>
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
 					<Controller
-						name="namaPendaftar"
+						name="full_name"
 						control={control}
 						render={({ field }) => (
 							<Input
@@ -87,14 +110,14 @@ const RegisterForm = () => {
 								type="text"
 								variant="bordered"
 								labelPlacement="outside"
-								isInvalid={errors.namaPendaftar ? true : false}
-								errorMessage={errors.namaPendaftar?.message}
+								isInvalid={errors.full_name ? true : false}
+								errorMessage={errors.full_name?.message}
 								{...field}
 							/>
 						)}
 					/>
 					<Controller
-						name="jabatan"
+						name="role"
 						control={control}
 						render={({ field }) => (
 							<Input
@@ -104,14 +127,14 @@ const RegisterForm = () => {
 								type="text"
 								variant="bordered"
 								labelPlacement="outside"
-								isInvalid={errors.jabatan ? true : false}
-								errorMessage={errors.jabatan?.message}
+								isInvalid={errors.role ? true : false}
+								errorMessage={errors.role?.message}
 								{...field}
 							/>
 						)}
 					/>
 					<Controller
-						name="noTelp"
+						name="phone"
 						control={control}
 						render={({ field }) => (
 							<Input
@@ -121,14 +144,14 @@ const RegisterForm = () => {
 								type="text"
 								variant="bordered"
 								labelPlacement="outside"
-								isInvalid={errors.noTelp ? true : false}
-								errorMessage={errors.noTelp?.message}
+								isInvalid={errors.phone ? true : false}
+								errorMessage={errors.phone?.message}
 								{...field}
 							/>
 						)}
 					/>
 					<Controller
-						name="emailPendaftar"
+						name="email"
 						control={control}
 						render={({ field }) => (
 							<Input
@@ -138,80 +161,80 @@ const RegisterForm = () => {
 								type="text"
 								variant="bordered"
 								labelPlacement="outside"
-								isInvalid={errors.emailPendaftar ? true : false}
-								errorMessage={errors.emailPendaftar?.message}
+								isInvalid={errors.email ? true : false}
+								errorMessage={errors.email?.message}
 								{...field}
 							/>
 						)}
 					/>
 				</div>
 				<Divider className="my-3" />
-				<p className="text-xl font-semibold">Profil Instansi</p>
+				<p className="text-xl font-semibold">Profil Entitas</p>
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
 					<Controller
-						name="namaInstansi"
+						name="institution_name"
 						control={control}
 						render={({ field }) => (
 							<Input
 								autoFocus
-								label="Nama Instansi"
+								label="Nama Entitas"
 								placeholder=" "
 								type="text"
 								variant="bordered"
 								labelPlacement="outside"
-								isInvalid={errors.namaInstansi ? true : false}
-								errorMessage={errors.namaInstansi?.message}
+								isInvalid={errors.institution_name ? true : false}
+								errorMessage={errors.institution_name?.message}
 								{...field}
 							/>
 						)}
 					/>
 					<Controller
-						name="alamatInstansi"
+						name="institution_address"
 						control={control}
 						render={({ field }) => (
 							<Input
 								autoFocus
-								label="Alamat Instansi"
+								label="Alamat Entitas"
 								placeholder=" "
 								type="text"
 								variant="bordered"
 								labelPlacement="outside"
-								isInvalid={errors.alamatInstansi ? true : false}
-								errorMessage={errors.alamatInstansi?.message}
+								isInvalid={errors.institution_address ? true : false}
+								errorMessage={errors.institution_address?.message}
 								{...field}
 							/>
 						)}
 					/>
 					<Controller
-						name="noTelpInstansi"
+						name="institution_phone"
 						control={control}
 						render={({ field }) => (
 							<Input
 								autoFocus
-								label="No. Telp Instansi"
+								label="No. Telp Entitas"
 								placeholder=" "
 								type="text"
 								variant="bordered"
 								labelPlacement="outside"
-								isInvalid={errors.noTelpInstansi ? true : false}
-								errorMessage={errors.noTelpInstansi?.message}
+								isInvalid={errors.institution_phone ? true : false}
+								errorMessage={errors.institution_phone?.message}
 								{...field}
 							/>
 						)}
 					/>
 					<Controller
-						name="emailInstansi"
+						name="institution_email"
 						control={control}
 						render={({ field }) => (
 							<Input
 								autoFocus
-								label="Email Instansi"
+								label="Email Entitas"
 								placeholder=" "
 								type="text"
 								variant="bordered"
 								labelPlacement="outside"
-								isInvalid={errors.emailInstansi ? true : false}
-								errorMessage={errors.emailInstansi?.message}
+								isInvalid={errors.institution_email ? true : false}
+								errorMessage={errors.institution_email?.message}
 								{...field}
 							/>
 						)}

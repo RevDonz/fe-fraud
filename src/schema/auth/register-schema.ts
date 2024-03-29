@@ -1,42 +1,37 @@
 import { z } from "zod";
 
 export const registerSchema = z.object({
-	namaPendaftar: z
+	full_name: z
 		.string({
 			required_error: "Required",
 		})
 		.min(1, "Should not be empty"),
-	jabatan: z
+	role: z
 		.string({
 			required_error: "Required",
 		})
 		.min(1, "Should not be empty"),
-	noTelp: z
+	phone: z
 		.string({
 			required_error: "Required",
 		})
 		.min(1, "Should not be empty"),
-	emailPendaftar: z
+	institution_name: z
 		.string({
 			required_error: "Required",
 		})
 		.min(1, "Should not be empty"),
-	namaInstansi: z
+	institution_address: z
 		.string({
 			required_error: "Required",
 		})
 		.min(1, "Should not be empty"),
-	alamatInstansi: z
+	institution_phone: z
 		.string({
 			required_error: "Required",
 		})
 		.min(1, "Should not be empty"),
-	noTelpInstansi: z
-		.string({
-			required_error: "Required",
-		})
-		.min(1, "Should not be empty"),
-	emailInstansi: z
+	institution_email: z
 		.string({
 			required_error: "Required",
 		})
@@ -58,5 +53,4 @@ export const registerSchema = z.object({
 		})
 		.min(8, "Password should not less than 8 characters")
 		.max(16, "Password should not more than 16 characters"),
-	// rememberMe: z.boolean().default(false),
 });

@@ -1,33 +1,32 @@
 export const Routes = [
 	{
 		name: "Accounts",
-		url: "/accounts",
-		role: ["superadmin"],
+		url: "/dashboard/accounts",
+		role: ["super admin"],
 	},
 	{
 		name: "Data Staff",
-		url: "/data-staff",
+		url: "/dashboard/data-staff",
 		role: ["admin"],
 	},
 	{
 		name: "Dashboard",
 		url: "/dashboard",
-		role: ["admin", "superadmin"],
+		role: ["admin", "super admin"],
 	},
-
 	{
 		name: "Login History",
-		url: "/login-history",
+		url: "/dashboard/login-history",
 		role: ["admin"],
 	},
 	{
 		name: "Fraud Detection",
-		url: "/fraud-detection",
+		url: "/dashboard/fraud-detection",
 		role: ["admin"],
 	},
 	{
 		name: "Fraud Assesment",
-		url: "/fraud-assesment",
+		url: "/dashboard/fraud-assesment",
 		role: ["admin"],
 	},
 ];

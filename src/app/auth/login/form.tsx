@@ -16,17 +16,18 @@ const LoginForm = () => {
 	const toggleVisibility = () => setIsVisible(!isVisible);
 	const router = useRouter();
 
-	const { handleSubmit, control, reset } = useForm<z.infer<typeof loginSchema>>(
-		{
-			resolver: zodResolver(loginSchema),
-			defaultValues: {
-				username: "",
-				password: "",
-			},
+	const { handleSubmit, control, reset, formState } = useForm<
+		z.infer<typeof loginSchema>
+	>({
+		resolver: zodResolver(loginSchema),
+		defaultValues: {
+			username: "",
+			password: "",
 		},
-	);
+	});
 
 	const onSubmit = async (values: z.infer<typeof loginSchema>) => {
+		console.log(formState.errors);
 		try {
 			const result = signIn("credentials", {
 				username: values.username,
