@@ -1,4 +1,4 @@
-import { type AuthOptions, getServerSession } from "next-auth";
+import { getServerSession, type AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 import { addDays, isBefore } from "date-fns";
@@ -12,7 +12,7 @@ export const authOptions: AuthOptions = {
 				password: { label: "password", type: "password" },
 			},
 			async authorize(credentials) {
-				const res = await fetch("https://proj_ta-1-p8898073.deta.app/auth", {
+				const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth`, {
 					method: "POST",
 					// body: JSON.stringify({
 					// 	email: credentials?.username,
@@ -75,7 +75,7 @@ export const authOptions: AuthOptions = {
 		},
 		session: async ({ session, token }) => {
 			const fetchData = async () => {
-				const res = await fetch("https://proj_ta-1-p8898073.deta.app/auth", {
+				const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth`, {
 					headers: { Authorization: `Bearer ${token.id}` },
 				});
 				const data = await res.json();

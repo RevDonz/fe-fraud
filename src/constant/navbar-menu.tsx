@@ -39,4 +39,14 @@ export const ListMenuNavbar = {
 			url: "/dashboard/login-history",
 		},
 	],
+	superadmin: [
+		{
+			name: "Dashboard",
+			url: "/dashboard",
+		},
+		{
+			name: "Kelola Akun",
+			url: "/dashboard/accounts",
+		},
+	],
 };

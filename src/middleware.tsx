@@ -10,15 +10,11 @@ export const middleware: NextMiddleware = async (request) => {
 		secret: process.env.NEXTAUTH_SECRET,
 	});
 
-	// if (token && ["/auth/login", "/auth/register"].includes(pathname)) {
-	// 	return NextResponse.redirect(new URL("/home", request.url));
-	// }
-
 	if (!token && !["/auth/login", "/auth/register", "/"].includes(pathname)) {
 		return NextResponse.redirect(new URL("/auth/login", request.url));
 	}
 
-	const response = await fetch("https://proj_ta-1-p8898073.deta.app/auth", {
+	const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth`, {
 		headers: { Authorization: `Bearer ${token?.id}` },
 	});
 
@@ -28,10 +24,7 @@ export const middleware: NextMiddleware = async (request) => {
 		const { success, code, data } = res;
 
 		if (success && code === 200) {
-			const isAuthorize = Routes.some((route) =>
-				route.role.some((role) => data.role === role && pathname === route.url),
-			);
-			console.log(pathname);
+			const isAuthorize = checkUserPermission(pathname, data.role);
 
 			if (
 				!isAuthorize &&
@@ -39,8 +32,23 @@ export const middleware: NextMiddleware = async (request) => {
 			) {
 				return NextResponse.redirect(new URL("/not-found", request.url));
 			}
+
+			switch (pathname) {
+				case "/":
+					return NextResponse.redirect(new URL("/dashboard", request.url));
+			}
 		}
 	}
+};
+
+const checkUserPermission = (pathname: string, userRole: string) => {
+	const route = Routes.find((route) => route.url === pathname);
+
+	if (!route) {
+		return false;
+	}
+
+	return route.role.includes(userRole);
 };
 
 export const config = {

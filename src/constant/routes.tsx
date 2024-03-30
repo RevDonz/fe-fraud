@@ -25,6 +25,16 @@ export const Routes = [
 		role: ["admin"],
 	},
 	{
+		name: "Fraud Assesment History",
+		url: "/dashboard/fraud-assesment/history",
+		role: ["admin"],
+	},
+	{
+		name: "Fraud Assesment History",
+		url: "/dashboard/fraud-assesment/create",
+		role: ["admin"],
+	},
+	{
 		name: "Fraud Assesment",
 		url: "/dashboard/fraud-assesment",
 		role: ["admin"],
