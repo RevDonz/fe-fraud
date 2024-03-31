@@ -27,7 +27,7 @@ const DashboardPage = async () => {
 						panduan singkat untuk menggunakan fitur-fitur utama aplikasi ini:
 					</p>
 				</CardHeader>
-				{DataDashboard.map((data, index) => {
+				{DataDashboard.map((data) => {
 					if (data.role === session?.user.role)
 						return React.cloneElement(data.component, { key: data.role });
 				})}

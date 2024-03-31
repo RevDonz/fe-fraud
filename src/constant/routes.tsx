@@ -12,7 +12,7 @@ export const Routes = [
 	{
 		name: "Dashboard",
 		url: "/dashboard",
-		role: ["admin", "super admin"],
+		role: ["admin", "super admin", "staff"],
 	},
 	{
 		name: "Login History",

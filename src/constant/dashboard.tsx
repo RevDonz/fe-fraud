@@ -2,8 +2,29 @@ import { Card, CardBody, CardHeader, Divider } from "@nextui-org/react";
 
 export const DataDashboard = [
 	{
-		role: "superadmin",
-		component: <p>asd</p>,
+		role: "super admin",
+		component: (
+			<CardBody>
+				<div className="flex flex-col gap-5">
+					<Card className="p-3" shadow="sm">
+						<CardHeader>
+							<p className="font-semibold">1. Kelola Akun</p>
+						</CardHeader>
+						<Divider />
+						<CardBody>
+							<div className="flex flex-col gap-3 text-justify">
+								<p>
+									Pada fitur Kelola Akun, anda mengelola Admin / Owner yang
+									sudah melakukan registrasi entitas. Anda bisa menerima dan
+									menolak akun baru, dan mengaktifkan dan menonaktifkan Admin /
+									Owner
+								</p>
+							</div>
+						</CardBody>
+					</Card>
+				</div>
+			</CardBody>
+		),
 	},
 	{
 		role: "staff",

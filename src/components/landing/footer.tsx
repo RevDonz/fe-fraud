@@ -1,5 +1,7 @@
 "use client";
 import { cn } from "@/lib/utils";
+import { Button } from "@nextui-org/react";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 const FooterLandingPage = () => {
@@ -8,18 +10,22 @@ const FooterLandingPage = () => {
 		<div className={cn("bg-[#002E62]", pathname !== "/" ? "hidden" : "")}>
 			<div className="max-w-screen-xl mx-auto px-6 w-full">
 				<div className="py-10 flex flex-col gap-10">
-					<div className="bg-white p-10 rounded-lg flex flex-col sm:flex-row justify-between">
-						<div className="w-full sm:w-3/4">
-							<p className="text-2xl font-semibold">
+					<div className="bg-white p-10 rounded-lg flex flex-col sm:flex-row justify-between items-center">
+						<div className="w-full sm:w-3/4 flex flex-col gap-3">
+							<p className="text-2xl font-bold">
 								Daftarkan entitas untuk menggunakan FDP!
 							</p>
-							<p>
-								Daftarkan entitas anda sekarang untuk mulai melakukan pencegahan
-								pada laporan keuangan anda! 
-							</p>
+							<div className="">
+								<Button color="primary">Daftarkan sekarang!</Button>
+							</div>
 						</div>
 						<div className="w-full sm:w-1/4 flex justify-end">
-							<p>logo</p>
+							<Image
+								alt="fraud-detect"
+								src={"/assets/img/logo.svg"}
+								width={150}
+								height={150}
+							/>
 						</div>
 					</div>
 					<div className="grid grid-cols-1 md:grid-cols-4 text-white gap-5">

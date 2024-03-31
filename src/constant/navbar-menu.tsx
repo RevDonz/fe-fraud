@@ -1,4 +1,13 @@
-export const ListMenuNavbar = {
+export type MenuItem = {
+	name: string;
+	url: string;
+};
+
+export type MenuList = {
+	[key: string]: MenuItem[];
+};
+
+export const ListMenuNavbar: MenuList = {
 	landingPage: [
 		{
 			name: "Home",

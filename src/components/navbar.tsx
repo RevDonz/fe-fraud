@@ -1,6 +1,6 @@
 "use client";
 
-import { ListMenuNavbar } from "@/constant/navbar-menu";
+import { ListMenuNavbar, type MenuItem } from "@/constant/navbar-menu";
 import {
 	Button,
 	Dropdown,
@@ -17,6 +17,7 @@ import {
 	User,
 } from "@nextui-org/react";
 import { signOut } from "next-auth/react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -30,9 +31,16 @@ const NavbarComponent = ({
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const pathname = usePathname();
 
-	const Menus = ["/", "/auth/login", "/auth/register"].includes(pathname)
-		? ListMenuNavbar.landingPage
-		: ListMenuNavbar.admin;
+	const isAuthPage = ["/", "/auth/login", "/auth/register"].includes(pathname);
+	let Menus: MenuItem[] = [];
+
+	if (isAuthPage) {
+		Menus = ListMenuNavbar.landingPage;
+	} else if (role === "admin") {
+		Menus = ListMenuNavbar.admin;
+	} else if (role === "super admin") {
+		Menus = ListMenuNavbar.superadmin;
+	}
 
 	const handleSignOut = async () => {
 		const signout = signOut();
@@ -75,7 +83,12 @@ const NavbarComponent = ({
 			/>
 			<NavbarBrand>
 				<Link href="/" className="font-bold text-inherit" prefetch>
-					Fraud Deterrence Propeller
+					<Image
+						alt="fraud-detect"
+						src={"/assets/img/logo.svg"}
+						width={40}
+						height={40}
+					/>
 				</Link>
 			</NavbarBrand>
 			<NavbarContent className="hidden sm:flex gap-4" justify="center">

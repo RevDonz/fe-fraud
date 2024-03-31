@@ -16,9 +16,12 @@ const LoginForm = () => {
 	const toggleVisibility = () => setIsVisible(!isVisible);
 	const router = useRouter();
 
-	const { handleSubmit, control, reset, formState } = useForm<
-		z.infer<typeof loginSchema>
-	>({
+	const {
+		handleSubmit,
+		control,
+		reset,
+		formState: { errors },
+	} = useForm<z.infer<typeof loginSchema>>({
 		resolver: zodResolver(loginSchema),
 		defaultValues: {
 			username: "",
@@ -27,7 +30,6 @@ const LoginForm = () => {
 	});
 
 	const onSubmit = async (values: z.infer<typeof loginSchema>) => {
-		console.log(formState.errors);
 		try {
 			const result = signIn("credentials", {
 				username: values.username,
@@ -66,6 +68,8 @@ const LoginForm = () => {
 								placeholder="Enter your username"
 								type="text"
 								variant="bordered"
+								isInvalid={errors.username ? true : false}
+								errorMessage={errors.username?.message}
 								{...field}
 							/>
 						)}
@@ -92,6 +96,8 @@ const LoginForm = () => {
 								placeholder="Enter your password"
 								type={isVisible ? "text" : "password"}
 								variant="bordered"
+								isInvalid={errors.password ? true : false}
+								errorMessage={errors.password?.message}
 								{...field}
 							/>
 						)}
