@@ -12,27 +12,27 @@ export const Routes = [
 	{
 		name: "Dashboard",
 		url: "/dashboard",
-		role: ["admin", "super admin", "staff"],
+		role: ["admin", "super admin", "staff", "reviewer"],
 	},
 	{
 		name: "Login History",
 		url: "/dashboard/login-history",
-		role: ["admin"],
+		role: ["admin", "staff"],
 	},
 	{
 		name: "Fraud Detection",
 		url: "/dashboard/fraud-detection",
-		role: ["admin"],
+		role: ["admin", "staff"],
 	},
 	{
 		name: "Fraud Assesment History",
 		url: "/dashboard/fraud-assesment/history",
-		role: ["admin"],
+		role: ["admin", "staff", "reviewer"],
 	},
 	{
 		name: "Fraud Assesment History",
 		url: "/dashboard/fraud-assesment/create",
-		role: ["admin"],
+		role: ["admin", "staff", "reviewer"],
 	},
 	{
 		name: "Fraud Assesment",

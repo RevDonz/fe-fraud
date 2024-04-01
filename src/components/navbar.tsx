@@ -40,6 +40,10 @@ const NavbarComponent = ({
 		Menus = ListMenuNavbar.admin;
 	} else if (role === "super admin") {
 		Menus = ListMenuNavbar.superadmin;
+	} else if (role === "staff") {
+		Menus = ListMenuNavbar.staff;
+	} else if (role === "reviewer") {
+		Menus = ListMenuNavbar.reviewer;
 	}
 
 	const handleSignOut = async () => {
@@ -134,8 +138,7 @@ const NavbarComponent = ({
 								className="h-14 gap-2"
 								href="/dashboard"
 							>
-								<p className="font-semibold">Signed in as</p>
-								<p className="font-semibold">{role}</p>
+								<p className="font-semibold">Signed in as {role}</p>
 							</DropdownItem>
 							<DropdownItem key="settings">My Settings</DropdownItem>
 							<DropdownItem key="logout" color="danger" onClick={handleSignOut}>

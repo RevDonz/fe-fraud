@@ -48,6 +48,38 @@ export const ListMenuNavbar: MenuList = {
 			url: "/dashboard/login-history",
 		},
 	],
+	staff: [
+		{
+			name: "Dashboard",
+			url: "/dashboard",
+		},
+		{
+			name: "Fraud Assesment",
+			url: "/dashboard/fraud-assesment/history",
+		},
+		{
+			name: "Fraud Detection",
+			url: "/dashboard/report",
+		},
+		{
+			name: "Data Staff",
+			url: "/dashboard/data-staff",
+		},
+		{
+			name: "Riwayat Login",
+			url: "/dashboard/login-history",
+		},
+	],
+	reviewer: [
+		{
+			name: "Dashboard",
+			url: "/dashboard",
+		},
+		{
+			name: "Fraud Assesment",
+			url: "/dashboard/fraud-assesment/history",
+		},
+	],
 	superadmin: [
 		{
 			name: "Dashboard",

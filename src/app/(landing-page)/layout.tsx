@@ -8,7 +8,10 @@ export default async function LandingPageLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+  
 	const session = await getServerAuthSession();
+  console.log(session?.user.accessToken);
+  
 	return (
 		<div className="flex flex-col min-h-screen h-full w-full">
 			<NavbarComponent
