@@ -1,11 +1,17 @@
-import { Questions } from "@/constant/assesment";
-import { Button, Checkbox, Divider, Input, Link } from "@nextui-org/react";
+"use client";
+import { Questions, type SubBab } from "@/constant/assesment";
+import { getServerAuthSession } from "@/lib/auth";
+import { Divider } from "@nextui-org/react";
+import CreateAssesmentForm from "./form";
 
-export default function FillQuestionPage({
+export default async function FillQuestionPage({
 	params,
 }: {
 	params: { id: string };
 }) {
+	// const session = await getServerAuthSession();
+	// const token = session?.user.accessToken;
+
 	const bab = Number(params.id[0]);
 	const subBab = Number(params.id[1]);
 
@@ -20,39 +26,12 @@ export default function FillQuestionPage({
 				{subBab} {title?.title}: {subTitle?.title}
 			</p>
 			<Divider />
-			{subTitle?.questions?.map((questions, index) => {
-				return (
-					<>
-						<div className="flex flex-col my-3 gap-3">
-							<p>
-								{index + 1}. {questions.title}
-							</p>
-							<div className="justify-between w-full flex">
-								<Checkbox value="ada-lengkap">Ada, dan sudah lengkap</Checkbox>
-								<Checkbox value="ada-belum-lengkap">
-									Ada, belum lengkap{" "}
-								</Checkbox>
-								<Checkbox value="belum-ada">Belum ada</Checkbox>
-							</div>
-						</div>
-						<Divider />
-					</>
-				);
-			})}
-			<div className="flex justify-between items-center mt-5">
-				<div className="flex flex-col gap-3">
-					<p>Upload bukti</p>
-					<Input size="sm" type="file" />
-				</div>
-				<Button
-					href="/assesment/result"
-					as={Link}
-					color="primary"
-					variant="solid"
-				>
-					Submit
-				</Button>
-			</div>
+			<CreateAssesmentForm
+				subTitle={subTitle as SubBab}
+				bab={bab}
+				sub={subBab}
+				token={"a"}
+			/>
 		</div>
 	);
 }

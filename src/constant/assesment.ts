@@ -1,4 +1,23 @@
-export const Questions = [
+export type Questions = {
+	id: string;
+	title: string;
+};
+
+export type SubBab = {
+	id: string;
+	sub_bab: number;
+	title: string;
+	questions: Questions[];
+};
+
+export type BabType = {
+	id: string;
+	bab: number;
+	title: string;
+	subtitle: SubBab[];
+};
+
+export const Questions: BabType[] = [
 	{
 		id: "due-diligent",
 		bab: 1,
