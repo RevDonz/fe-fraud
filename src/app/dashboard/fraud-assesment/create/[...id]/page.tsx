@@ -1,4 +1,3 @@
-"use client";
 import { Questions, type SubBab } from "@/constant/assesment";
 import { getServerAuthSession } from "@/lib/auth";
 import { Divider } from "@nextui-org/react";
@@ -9,8 +8,8 @@ export default async function FillQuestionPage({
 }: {
 	params: { id: string };
 }) {
-	// const session = await getServerAuthSession();
-	// const token = session?.user.accessToken;
+	const session = await getServerAuthSession();
+	const token = session?.user.accessToken;
 
 	const bab = Number(params.id[0]);
 	const subBab = Number(params.id[1]);
@@ -30,7 +29,7 @@ export default async function FillQuestionPage({
 				subTitle={subTitle as SubBab}
 				bab={bab}
 				sub={subBab}
-				token={"a"}
+				token={token as string}
 			/>
 		</div>
 	);

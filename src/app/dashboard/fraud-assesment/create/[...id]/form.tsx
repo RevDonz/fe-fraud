@@ -1,3 +1,4 @@
+"use client";
 import type { SubBab } from "@/constant/assesment";
 import type { assesmentSchema } from "@/schema/fraud/assesment";
 import { Button, Divider, Radio, RadioGroup } from "@nextui-org/react";
@@ -13,7 +14,6 @@ export default function CreateAssesmentForm({
 	const { handleSubmit, register } = useForm<z.infer<typeof assesmentSchema>>();
 
 	const onSubmit = async (values: z.infer<typeof assesmentSchema>) => {
-		
 		// for (const assesment of values.assesment) {
 		// 	await fetch(
 		// 		`${process.env.NEXT_PUBLIC_BASE_URL}/api/point?bab=${assesment.bab}&sub_bab=${assesment.sub_bab}&point=${assesment.point}&answer=${assesment.answer}`,
