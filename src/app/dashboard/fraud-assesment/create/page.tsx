@@ -5,11 +5,9 @@ import {
 	CardBody,
 	CardHeader,
 	Checkbox,
-	Chip,
 	Divider,
-	Link,
 } from "@nextui-org/react";
-import { Check } from "lucide-react";
+import Link from "next/link";
 import ButtonLink from "../../../../components/button-link";
 
 const FillAssesmentPage = () => {
@@ -74,17 +72,16 @@ const FillAssesmentPage = () => {
 														Mulai
 													</Button>
 												)} */}
-												
-												<Button
-													size="sm"
-													color="primary"
-													as={Link}
+
+												<Link
 													href={`/dashboard/fraud-assesment/create/${
 														index + 1
 													}/${index + 1}.${subIndex + 1}`}
 												>
-													Mulai
-												</Button>
+													<Button size="sm" color="primary">
+														Mulai
+													</Button>
+												</Link>
 											</div>
 										</CardBody>
 									</div>
