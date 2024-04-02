@@ -54,11 +54,11 @@ export const columns = [
 		label: "EMAIL",
 	},
 	{
-		key: "role",
-		label: "ROLE",
+		key: "address",
+		label: "ADDRESS",
 	},
 	{
-		key: "status",
-		label: "AKSI",
+		key: "is_active",
+		label: "STATUS",
 	},
 ];

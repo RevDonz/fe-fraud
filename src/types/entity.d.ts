@@ -7,8 +7,8 @@ export type EntityType = {
 };
 
 export type AdminType = {
-	entity: EntityType;
+	institusi: EntityType;
 	id: string;
 	email: string;
-	is_active: true;
+	is_active: boolean;
 };
