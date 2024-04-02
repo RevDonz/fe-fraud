@@ -20,7 +20,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { useCallback, useState } from "react";
 import { DataStaff, columns, type StaffType } from "./columns";
 
-export default function accountsPage() {
+export default async function accountsPage() {
 	const [isVisible, setIsVisible] = useState(false);
 	const toggleVisibility = () => setIsVisible(!isVisible);
 
