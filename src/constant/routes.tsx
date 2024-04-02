@@ -11,7 +11,7 @@ export const Routes = [
 	},
 	{
 		name: "Dashboard",
-		url: "/dashboard",
+		url: "/dashboard/undefined",
 		role: ["admin", "super admin", "staff", "reviewer"],
 	},
 	{

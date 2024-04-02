@@ -6,21 +6,21 @@ export default function FillQuestionPage({
 }: {
 	params: { id: string };
 }) {
-	// const questions = Questions.filter()
+	const bab = Number(params.id[0]);
+	const subBab = Number(params.id[1]);
 
-	const questionId = params.id[0];
-	const subQuestionId = params.id[1];
-	const questionsSQ1 = Questions.find(
-		(item) => item.id === questionId,
-	)?.subtitle.find((sub) => sub.id === subQuestionId)?.questions;
+	const title = Questions.find((item) => item.bab === bab);
+	const subTitle = Questions.find((item) => item.bab === bab)?.subtitle.find(
+		(sub) => sub.sub_bab === subBab,
+	);
 
 	return (
 		<div className="p-3">
 			<p className="font-semibold mb-3">
-				{questionId}: {subQuestionId}
+				{subBab} {title?.title}: {subTitle?.title}
 			</p>
 			<Divider />
-			{questionsSQ1?.map((questions, index) => {
+			{subTitle?.questions?.map((questions, index) => {
 				return (
 					<>
 						<div className="flex flex-col my-3 gap-3">

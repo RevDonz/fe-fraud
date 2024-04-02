@@ -1,10 +1,12 @@
 export const Questions = [
 	{
 		id: "due-diligent",
+		bab: 1,
 		title: "Due Diligent",
 		subtitle: [
 			{
 				id: "risk-fraud-assesment",
+				sub_bab: 1.1,
 				title: "Risk Fraud Assesment",
 				questions: [
 					{
@@ -54,6 +56,7 @@ export const Questions = [
 			},
 			{
 				id: "internal-competent-accountant",
+				sub_bab: 1.2,
 				title: "Internal Competent Accountant",
 				questions: [
 					{
@@ -110,10 +113,12 @@ export const Questions = [
 	},
 	{
 		id: "enhancement-improvement",
+		bab: 2,
 		title: "Enhancement (Improvement)",
 		subtitle: [
 			{
 				id: "continous-improvement-sop",
+				sub_bab: 2.1,
 				title: "Continous Improvement SOP",
 				questions: [
 					{
@@ -168,6 +173,7 @@ export const Questions = [
 			},
 			{
 				id: "continous-improvement-internal-control",
+				sub_bab: 2.2,
 				title: "Continous Improvement-Internal Control",
 				questions: [
 					{
@@ -224,10 +230,12 @@ export const Questions = [
 	},
 	{
 		id: "truthfulness-and-respect",
+		bab: 3,
 		title: "Truthfulness and Respect",
 		subtitle: [
 			{
 				id: "membangun-tata-kelola-yang-baik",
+				sub_bab: 3.1,
 				title: "Membangun Tata Kelola yang Baik",
 				questions: [
 					{
@@ -265,6 +273,7 @@ export const Questions = [
 			},
 			{
 				id: "membangun-budaya-integritas",
+				sub_bab: 3.2,
 				title: "Membangun Budaya Integritas",
 				questions: [
 					{
@@ -300,10 +309,12 @@ export const Questions = [
 	},
 	{
 		id: "efficacy-of-mind",
+		bab: 4,
 		title: "Efficacy of Mind",
 		subtitle: [
 			{
 				id: "operant-conditioning",
+				sub_bab: 4.1,
 				title: "Operant Conditioning",
 				questions: [
 					{
@@ -338,6 +349,7 @@ export const Questions = [
 			{
 				id: "modelling",
 				title: "Modelling",
+				sub_bab: 4.2,
 				questions: [
 					{
 						id: "Q1",
@@ -375,10 +387,12 @@ export const Questions = [
 	},
 	{
 		id: "reinforcement-and-communication",
+		bab: 5,
 		title: "Reinforcement and Communication",
 		subtitle: [
 			{
 				id: "penguatan-positif-dan-komunikasi-yang-efektif",
+				sub_bab: 5.1,
 				title: "Penguatan Positif dan Komunikasi yang Efektif",
 				questions: [
 					{ id: "Q1", title: "Apakah terdapat kebijakan tentang reward?" },
@@ -435,10 +449,12 @@ export const Questions = [
 	},
 	{
 		id: "enforcement-action",
+		bab: 6,
 		title: "Enforcement Action",
 		subtitle: [
 			{
 				id: "tindakan-penegakan-hukum-yang-proporsional",
+				sub_bab: 6.1,
 				title: "Tindakan Penegakan Hukum yang Proporsional",
 				questions: [
 					{

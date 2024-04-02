@@ -36,7 +36,7 @@ const FillAssesmentPage = () => {
 												<p>
 													{index + 1}.{subIndex + 1}. {subquestion.title}
 												</p>
-												{index === 1 ? (
+												{/* {index === 1 ? (
 													<div className="flex gap-3">
 														<Button
 															size="sm"
@@ -67,11 +67,24 @@ const FillAssesmentPage = () => {
 														size="sm"
 														color="primary"
 														as={Link}
-														href={`/dashboard/fraud-assesment/create/${question.id}/${subquestion.id}`}
+														href={`/dashboard/fraud-assesment/create/${
+															index + 1
+														}/${index + 1}.${subIndex + 1}`}
 													>
 														Mulai
 													</Button>
-												)}
+												)} */}
+												
+												<Button
+													size="sm"
+													color="primary"
+													as={Link}
+													href={`/dashboard/fraud-assesment/create/${
+														index + 1
+													}/${index + 1}.${subIndex + 1}`}
+												>
+													Mulai
+												</Button>
 											</div>
 										</CardBody>
 									</div>

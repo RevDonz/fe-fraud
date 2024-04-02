@@ -19,12 +19,13 @@ export const middleware: NextMiddleware = async (request) => {
 	});
 
 	const res = await response.json();
+	const firstPath = `/${pathname.split("/")[1]}/${pathname.split("/")[2]}`;
 
 	if (res) {
 		const { success, code, data } = res;
 
 		if (success && code === 200) {
-			const isAuthorize = checkUserPermission(pathname, data.role);
+			const isAuthorize = checkUserPermission(firstPath, data.role);
 
 			if (
 				!isAuthorize &&
