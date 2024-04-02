@@ -14,7 +14,7 @@ const DashboardPage = async () => {
 	const session = await getServerAuthSession();
 
 	const token = session?.user.accessToken;
-	const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/admin`, {
+	const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin`, {
 		headers: { Authorization: `Bearer ${token}` },
 	});
 	const result = await response.json();

@@ -14,7 +14,7 @@ export const middleware: NextMiddleware = async (request) => {
 		return NextResponse.redirect(new URL("/auth/login", request.url));
 	}
 
-	const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth`, {
+	const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth`, {
 		headers: { Authorization: `Bearer ${token?.id}` },
 	});
 
