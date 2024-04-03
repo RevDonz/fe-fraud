@@ -1,4 +1,5 @@
 import { Questions } from "@/constant/assesment";
+import { getServerAuthSession } from "@/lib/auth";
 import {
 	Button,
 	Card,
@@ -6,11 +7,32 @@ import {
 	CardHeader,
 	Checkbox,
 	Divider,
+	Tooltip,
 } from "@nextui-org/react";
+import { Check } from "lucide-react";
 import Link from "next/link";
 import ButtonLink from "../../../../components/button-link";
 
-const FillAssesmentPage = () => {
+const getFinishedAssesment = async (token: string) => {
+	const response = await fetch(
+		"https://proj_ta-1-p8898073.deta.app/api/assessments/progress",
+		{
+			headers: { Authorization: `Bearer ${token}` },
+		},
+	);
+
+	const result = await response.json();
+	if (result.data === null) result.data = [];
+
+	return result.data;
+};
+
+export default async function FillAssesmentPage() {
+	const session = await getServerAuthSession();
+	const token = session?.user.accessToken;
+
+	const finished: string[] = await getFinishedAssesment(token as string);
+
 	return (
 		<>
 			<ButtonLink />
@@ -19,7 +41,7 @@ const FillAssesmentPage = () => {
 				{/* <ModalAssesment /> */}
 				{Questions.map((question, index) => {
 					return (
-						<Card>
+						<Card key={`${index * 2}`}>
 							<CardHeader>
 								<p className="font-semibold">
 									{index + 1}. {question.title}
@@ -27,62 +49,81 @@ const FillAssesmentPage = () => {
 							</CardHeader>
 							{question.subtitle.map((subquestion, subIndex) => {
 								return (
-									<div key={subquestion.title}>
+									<div key={`${subIndex * 2}`}>
 										<Divider />
 										<CardBody>
 											<div className="flex items-center justify-between ml-4">
 												<p>
 													{index + 1}.{subIndex + 1}. {subquestion.title}
 												</p>
-												{/* {index === 1 ? (
-													<div className="flex gap-3">
-														<Button
-															size="sm"
-															color="warning"
-															className="text-white"
-														>
-															Edit
-														</Button>
-														<Button
-															color="success"
-															isIconOnly
-															size="sm"
-															className="text-white"
-														>
-															<Check className="w-4 h-4" />
-														</Button>
-													</div>
-												) : index === 2 ? (
-													<Chip
-														radius="sm"
-														color="success"
-														className="text-white"
-													>
-														8 / 10
-													</Chip>
+												{finished.length > 0 ? (
+													finished.map((finish, index) => {
+														if (Number(finish) === subquestion.sub_bab) {
+															return (
+																<div className="flex gap-3">
+																	<Button
+																		size="sm"
+																		color="warning"
+																		className="text-white"
+																	>
+																		Edit
+																	</Button>
+																	<Button
+																		color="success"
+																		isIconOnly
+																		size="sm"
+																		className="text-white"
+																	>
+																		<Check className="w-4 h-4" />
+																	</Button>
+																</div>
+															);
+														}
+														if (
+															// index !== question.subtitle.length &&
+															index + 1 ===
+															subIndex
+														) {
+															return (
+																<Button
+																	size="sm"
+																	color="primary"
+																	href={`/dashboard/fraud-assesment/create/${
+																		index + 1
+																	}/${index + 1}.${subIndex + 1}`}
+																	as={Link}
+																>
+																	Mulai
+																</Button>
+															);
+														}
+														return (
+															<Tooltip
+																content="Selesaikan assesment sebelumnya!"
+																color="primary"
+																placement="left"
+																showArrow
+															>
+																<div className="">
+																	<Button size="sm" color="primary" isDisabled>
+																		Mulai
+																	</Button>
+																</div>
+															</Tooltip>
+														);
+													})
 												) : (
 													<Button
 														size="sm"
 														color="primary"
-														as={Link}
 														href={`/dashboard/fraud-assesment/create/${
 															index + 1
 														}/${index + 1}.${subIndex + 1}`}
+														as={Link}
 													>
 														Mulai
 													</Button>
-												)} */}
-
-												<Button
-													size="sm"
-													color="primary"
-													href={`/dashboard/fraud-assesment/create/${
-														index + 1
-													}/${index + 1}.${subIndex + 1}`}
-													as={Link}
-												>
-													Mulai
-												</Button>
+												)}
 											</div>
 										</CardBody>
 									</div>
@@ -109,6 +150,4 @@ const FillAssesmentPage = () => {
 			</div>
 		</>
 	);
-};
-
-export default FillAssesmentPage;
+}

@@ -1,18 +1,16 @@
-import Datatable from "@/components/datatable";
-
+import { getServerAuthSession } from "@/lib/auth";
 import ButtonLink from "../../../../components/button-link";
-import { FraudHistory, columns, renderCellFraudHistory } from "./column";
+import TableHistory from "./table";
 
-const HistoryAssesmentPage = () => {
+const HistoryAssesmentPage = async () => {
+	const session = await getServerAuthSession();
+	const token = session?.user.accessToken;
+
 	return (
 		<>
 			<ButtonLink />
 
-			<Datatable
-				data={FraudHistory}
-				columns={columns}
-				renderCell={renderCellFraudHistory}
-			/>
+			<TableHistory token={token as string} />
 		</>
 	);
 };

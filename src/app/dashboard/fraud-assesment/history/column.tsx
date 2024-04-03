@@ -3,65 +3,24 @@ import { Button, Chip } from "@nextui-org/react";
 import Link from "next/link";
 
 export type FraudHistoryType = {
-	id: string;
-	pengisi: string;
-	reviewer: string;
+	id_institution: string;
+	id_admin: string;
+	id_reviewer: string;
 	tanggal: string;
 	hasil: number;
+	selesai: true;
+	key: string;
+	nama_admin: string;
+	nama_reviewer: string;
 };
-
-export const FraudHistory: FraudHistoryType[] = [
-	{
-		id: "1",
-		pengisi: "PT Kembang Api",
-		reviewer: "Hazim",
-		tanggal: new Date().toLocaleDateString(),
-		hasil: 90,
-	},
-	{
-		id: "2",
-		pengisi: "PT Rumput Bergoyang",
-		reviewer: "hazim",
-		tanggal: new Date().toLocaleDateString(),
-		hasil: 74,
-	},
-	{
-		id: "1",
-		pengisi: "PT Sendal Capit",
-		reviewer: "hazim",
-		tanggal: new Date().toLocaleDateString(),
-		hasil: 55,
-	},
-	{
-		id: "1",
-		pengisi: "PT Kembang Api",
-		reviewer: "Hazim",
-		tanggal: new Date().toLocaleDateString(),
-		hasil: 90,
-	},
-	{
-		id: "2",
-		pengisi: "PT Rumput Bergoyang",
-		reviewer: "hazim",
-		tanggal: new Date().toLocaleDateString(),
-		hasil: 74,
-	},
-	{
-		id: "1",
-		pengisi: "PT Sendal Capit",
-		reviewer: "hazim",
-		tanggal: new Date().toLocaleDateString(),
-		hasil: 55,
-	},
-];
 
 export const columns = [
 	{
-		key: "pengisi",
+		key: "nama_admin",
 		label: "PENGISI ASSESMENT",
 	},
 	{
-		key: "reviewer",
+		key: "nama_reviewer",
 		label: "REVIEWER",
 	},
 	{
@@ -92,8 +51,8 @@ export const renderCellFraudHistory = (
 						history.hasil >= 75
 							? "success"
 							: history.hasil >= 60
-							  ? "warning"
-							  : "danger"
+								? "warning"
+								: "danger"
 					}
 					radius="sm"
 					className="text-white"
@@ -102,15 +61,15 @@ export const renderCellFraudHistory = (
 						history.hasil >= 75
 							? "Good"
 							: history.hasil >= 60
-							  ? "Normal"
-							  : "Bad"
+								? "Normal"
+								: "Bad"
 					} / ${history.hasil}`}
 				</Chip>
 			);
 
 		case "aksi":
 			return (
-				<Link href={`/dashboard/fraud-assesment/${history.id}/detail`}>
+				<Link href={`/dashboard/fraud-assesment/${history.key}/detail`}>
 					<Button color="primary" size="sm">
 						Lihat Detail
 					</Button>

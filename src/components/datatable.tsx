@@ -25,12 +25,14 @@ interface DataTableProps<TData extends GenericItem> {
 	data: TData[];
 	columns: Column[];
 	renderCell?: (row: TData, columnKey: React.Key) => React.ReactNode;
+	isLoading?: boolean;
 }
 
 export function Datatable<TData extends GenericItem>({
 	data,
 	columns,
 	renderCell,
+	isLoading,
 }: DataTableProps<TData>) {
 	const [page, setPage] = useState(1);
 	const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -98,7 +100,12 @@ export function Datatable<TData extends GenericItem>({
 					</TableColumn>
 				)}
 			</TableHeader>
-			<TableBody items={items}>
+			<TableBody
+				items={items}
+				emptyContent={"Tidak ada data"}
+				isLoading={isLoading}
+				loadingContent={"loading.."}
+			>
 				{(item) => {
 					return (
 						<TableRow key={item.id as React.Key}>
