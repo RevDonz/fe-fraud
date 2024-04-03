@@ -23,7 +23,7 @@ export default function CreateAssesmentForm({
 		resolver: zodResolver(assesmentSchema),
 	});
 	const router = useRouter();
-	const onSubmit = async (values: AssesmentType) => {
+	const onSubmit = async (values: z.infer<typeof assesmentSchema>) => {
 		const formData = new FormData();
 		const promises = values.assesment.map(async (assesment) => {
 			try {
