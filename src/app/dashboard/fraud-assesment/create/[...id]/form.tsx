@@ -14,18 +14,37 @@ export default function CreateAssesmentForm({
 	const { handleSubmit, register } = useForm<z.infer<typeof assesmentSchema>>();
 
 	const onSubmit = async (values: z.infer<typeof assesmentSchema>) => {
-		// for (const assesment of values.assesment) {
-		// 	await fetch(
-		// 		`${process.env.NEXT_PUBLIC_BASE_URL}/api/point?bab=${assesment.bab}&sub_bab=${assesment.sub_bab}&point=${assesment.point}&answer=${assesment.answer}`,
-		// 		{
-		// 			headers: { Authorization: `Bearer ${token}` },
-		// 		},
-		// 	);
-		// }
+		const formData = new FormData();
+
+		const promises = values.assesment.map(async (assesment) => {
+			try {
+				formData.append("file", assesment.file);
+				const response = await fetch(
+					`${process.env.NEXT_PUBLIC_BASE_URL}/api/point?bab=${assesment.bab}&sub_bab=${assesment.sub_bab}&point=${assesment.point}&answer=${assesment.answer}`,
+					{
+						method: "POST",
+						body: formData,
+						headers: { Authorization: `Bearer ${token}` },
+					},
+				);
+
+				const result = await response.json();
+
+				if (result.success) {
+					console.log(`Berhasi ilnput ${assesment.sub_bab}`);
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		});
+
+		await Promise.all(promises);
 	};
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
 			{subTitle?.questions?.map((questions, index) => {
+				const { onChange, ref, name } = register(`assesment.${index}.file`);
+
 				return (
 					<div key={`${index * 2}`}>
 						<input
@@ -84,6 +103,14 @@ export default function CreateAssesmentForm({
 								<p>Upload bukti</p>
 								<input
 									type="file"
+									accept=".pdf"
+									onChange={(e) => {
+										if (e.target.files && e.target.files.length > 0) {
+											onChange({
+												target: { value: e.target.files[0], name: name },
+											});
+										}
+									}}
 									className="border file:hidden px-2 py-1 rounded-md text-sm"
 								/>
 							</div>

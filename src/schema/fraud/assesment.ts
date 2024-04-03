@@ -7,6 +7,7 @@ export const assesmentSchema = z.object({
 			sub_bab: z.number(),
 			point: z.number(),
 			answer: z.number(),
+      file: z.mi()
 		}),
 	),
 });
