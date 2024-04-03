@@ -7,7 +7,6 @@ import {
 	CardHeader,
 	Checkbox,
 	Divider,
-	Tooltip,
 } from "@nextui-org/react";
 import { Check } from "lucide-react";
 import Link from "next/link";
@@ -56,11 +55,14 @@ export default async function FillAssesmentPage() {
 												<p>
 													{index + 1}.{subIndex + 1}. {subquestion.title}
 												</p>
-												{finished.length > 0 ? (
-													finished.map((finish, index) => {
+												{/* {finished.length > 0 ? (
+													finished.map((finish, indexFinished) => {
 														if (Number(finish) === subquestion.sub_bab) {
 															return (
-																<div className="flex gap-3">
+																<div
+																	className="flex gap-3"
+																	key={`${index * 2}`}
+																>
 																	<Button
 																		size="sm"
 																		color="warning"
@@ -79,24 +81,25 @@ export default async function FillAssesmentPage() {
 																</div>
 															);
 														}
-														if (
-															// index !== question.subtitle.length &&
-															index + 1 ===
-															subIndex
-														) {
-															return (
-																<Button
-																	size="sm"
-																	color="primary"
-																	href={`/dashboard/fraud-assesment/create/${
-																		index + 1
-																	}/${index + 1}.${subIndex + 1}`}
-																	as={Link}
-																>
-																	Mulai
-																</Button>
-															);
-														}
+														// if (
+														// 	// index !== question.subtitle.length &&
+														// 	index + 1 ===
+														// 	subIndex
+														// ) {
+														// 	return (
+														// 		<Button
+														// 			size="sm"
+														// 			color="primary"
+														// 			href={`/dashboard/fraud-assesment/create/${
+														// 				index + 1
+														// 			}/${index + 1}.${subIndex + 1}`}
+														// 			as={Link}
+														// 		>
+														// 			Mulai
+														// 		</Button>
+														// 	);
+														// }
+
 														return (
 															<Tooltip
 																content="Selesaikan assesment sebelumnya!"
@@ -140,9 +143,39 @@ export default async function FillAssesmentPage() {
 															</Tooltip>
 														)}
 													</>
+												)} */}
+
+												{finished.includes(subquestion.sub_bab.toString()) ? (
+													<div className="flex gap-3" key={`${index * 2}`}>
+														<Button
+															size="sm"
+															color="warning"
+															className="text-white"
+														>
+															Edit
+														</Button>
+														<Button
+															color="success"
+															isIconOnly
+															size="sm"
+															className="text-white"
+														>
+															<Check className="w-4 h-4" />
+														</Button>
+													</div>
+												) : (
+													<Button
+														size="sm"
+														color="primary"
+														href={`/dashboard/fraud-assesment/create/${
+															index + 1
+														}/${index + 1}.${subIndex + 1}`}
+														as={Link}
+													>
+														Mulai
+													</Button>
 												)}
 											</div>
-											{}
 										</CardBody>
 									</div>
 								);
