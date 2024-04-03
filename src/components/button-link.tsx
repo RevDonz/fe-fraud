@@ -8,7 +8,7 @@ export default function ButtonLink() {
 
 	return (
 		<div className="flex flex-row gap-3 mb-5">
-			<Link href={"/dashboard/fraud-assesment/history"}>
+			<Link href={"/dashboard/fraud-assesment/history"} prefetch>
 				<Button
 					variant={
 						pathname === "/dashboard/fraud-assesment/history"
@@ -20,7 +20,7 @@ export default function ButtonLink() {
 					Riwayat Fraud Assesment
 				</Button>
 			</Link>
-			<Link href={"/dashboard/fraud-assesment/create"}>
+			<Link href={"/dashboard/fraud-assesment/create"} prefetch>
 				<Button
 					variant={
 						pathname === "/dashboard/fraud-assesment/create"

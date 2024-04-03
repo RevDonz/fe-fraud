@@ -29,7 +29,7 @@ export const middleware: NextMiddleware = async (request) => {
 
 			if (
 				!isAuthorize &&
-				!["/not-found", "/auth/login", "/root/login"].includes(pathname)
+				!["/not-found", "/auth/login", "/root/login", "/"].includes(pathname)
 			) {
 				return NextResponse.redirect(new URL("/not-found", request.url));
 			}
