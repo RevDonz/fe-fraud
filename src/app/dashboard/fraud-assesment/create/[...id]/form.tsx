@@ -1,10 +1,11 @@
 "use client";
 import type { SubBab } from "@/constant/assesment";
-import type { assesmentSchema } from "@/schema/fraud/assesment";
+import { assesmentSchema } from "@/schema/fraud/assesment";
+import type { AssesmentType } from "@/types/assesment";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Divider, Radio, RadioGroup } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import type { z } from "zod";
 
 export default function CreateAssesmentForm({
@@ -13,50 +14,50 @@ export default function CreateAssesmentForm({
 	sub,
 	token,
 }: { subTitle: SubBab; bab: number; sub: number; token: string }) {
-	const { handleSubmit, register } = useForm<z.infer<typeof assesmentSchema>>();
+	const {
+		handleSubmit,
+		register,
+		formState: { errors },
+	} = useForm<z.infer<typeof assesmentSchema>>({
+		resolver: zodResolver(assesmentSchema),
+	});
 	const router = useRouter();
-	const onSubmit = async (values: z.infer<typeof assesmentSchema>) => {
-		const formData = new FormData();
-
-		const promises = values.assesment.map(async (assesment) => {
-			try {
-				formData.append("file", assesment.file);
-				const response = await fetch(
-					`${process.env.NEXT_PUBLIC_BASE_URL}/api/point?bab=${assesment.bab}&sub_bab=${assesment.sub_bab}&point=${assesment.point}&answer=${assesment.answer}`,
-					{
-						method: "POST",
-						body: formData,
-						headers: { Authorization: `Bearer ${token}` },
-					},
-				);
-
-				if (!response.ok) {
-					throw new Error("Failed to submit data");
-				}
-
-				const result = await response.json();
-
-				if (result.success) {
-					console.log(`Berhasi ilnput ${assesment.sub_bab}`);
-				}
-			} catch (error) {
-				throw new Error("error");
-			}
-		});
-
-		const result = Promise.all(promises);
-		toast.promise(result, {
-			loading: "Loading...",
-			success: (data) => {
-				console.log(data);
-
-				// router.push("/dashboard/fraud-assesment/history");
-				return "Berhasil";
-			},
-			error: () => {
-				return "Gagal submit assesment!";
-			},
-		});
+	const onSubmit = async (values: AssesmentType) => {
+		// const formData = new FormData();
+		// const promises = values.assesment.map(async (assesment) => {
+		// 	try {
+		// 		formData.append("file", assesment.file);
+		// 		const response = await fetch(
+		// 			`${process.env.NEXT_PUBLIC_BASE_URL}/api/point?bab=${assesment.bab}&sub_bab=${assesment.sub_bab}&point=${assesment.point}&answer=${assesment.answer}`,
+		// 			{
+		// 				method: "POST",
+		// 				body: formData,
+		// 				headers: { Authorization: `Bearer ${token}` },
+		// 			},
+		// 		);
+		// 		if (!response.ok) {
+		// 			throw new Error("Failed to submit data");
+		// 		}
+		// 		const result = await response.json();
+		// 		if (result.success) {
+		// 			console.log(`Berhasi ilnput ${assesment.sub_bab}`);
+		// 		}
+		// 	} catch (error) {
+		// 		throw new Error("error");
+		// 	}
+		// });
+		// const result = Promise.all(promises);
+		// toast.promise(result, {
+		// 	loading: "Loading...",
+		// 	success: (data) => {
+		// 		console.log(data);
+		// 		router.push("/dashboard/fraud-assesment/create");
+		// 		return "Berhasil";
+		// 	},
+		// 	error: () => {
+		// 		return "Gagal submit assesment!";
+		// 	},
+		// });
 	};
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
@@ -91,6 +92,11 @@ export default function CreateAssesmentForm({
 								<div className="flex justify-between items-center">
 									<RadioGroup
 										orientation="horizontal"
+										isInvalid={
+											errors.assesment?.at(index)?.answer?.message
+												? true
+												: false
+										}
 										{...register(`assesment.${index}.answer`)}
 									>
 										<Radio
@@ -116,6 +122,7 @@ export default function CreateAssesmentForm({
 										</Radio>
 									</RadioGroup>
 								</div>
+								<p>{errors.assesment?.at(index)?.answer?.message}</p>
 							</div>
 							<div className="flex flex-col gap-1">
 								<p>Upload bukti</p>
