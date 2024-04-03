@@ -73,15 +73,16 @@ const FillAssesmentPage = () => {
 													</Button>
 												)} */}
 
-												<Link
+												<Button
+													size="sm"
+													color="primary"
 													href={`/dashboard/fraud-assesment/create/${
 														index + 1
 													}/${index + 1}.${subIndex + 1}`}
+													as={Link}
 												>
-													<Button size="sm" color="primary">
-														Mulai
-													</Button>
-												</Link>
+													Mulai
+												</Button>
 											</div>
 										</CardBody>
 									</div>
