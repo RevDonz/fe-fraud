@@ -1,4 +1,4 @@
-import { Questions } from "@/constant/assesment";
+import { ListSubBab, Questions } from "@/constant/assesment";
 import { getServerAuthSession } from "@/lib/auth";
 import {
 	Button,
@@ -7,6 +7,7 @@ import {
 	CardHeader,
 	Checkbox,
 	Divider,
+	Tooltip,
 } from "@nextui-org/react";
 import { Check } from "lucide-react";
 import Link from "next/link";
@@ -31,6 +32,9 @@ export default async function FillAssesmentPage() {
 	const token = session?.user.accessToken;
 
 	const finished: string[] = await getFinishedAssesment(token as string);
+	const unFinished = ListSubBab.filter(
+		(item) => !finished.includes(item.toString()),
+	);
 
 	return (
 		<>
@@ -55,95 +59,6 @@ export default async function FillAssesmentPage() {
 												<p>
 													{index + 1}.{subIndex + 1}. {subquestion.title}
 												</p>
-												{/* {finished.length > 0 ? (
-													finished.map((finish, indexFinished) => {
-														if (Number(finish) === subquestion.sub_bab) {
-															return (
-																<div
-																	className="flex gap-3"
-																	key={`${index * 2}`}
-																>
-																	<Button
-																		size="sm"
-																		color="warning"
-																		className="text-white"
-																	>
-																		Edit
-																	</Button>
-																	<Button
-																		color="success"
-																		isIconOnly
-																		size="sm"
-																		className="text-white"
-																	>
-																		<Check className="w-4 h-4" />
-																	</Button>
-																</div>
-															);
-														}
-														// if (
-														// 	// index !== question.subtitle.length &&
-														// 	index + 1 ===
-														// 	subIndex
-														// ) {
-														// 	return (
-														// 		<Button
-														// 			size="sm"
-														// 			color="primary"
-														// 			href={`/dashboard/fraud-assesment/create/${
-														// 				index + 1
-														// 			}/${index + 1}.${subIndex + 1}`}
-														// 			as={Link}
-														// 		>
-														// 			Mulai
-														// 		</Button>
-														// 	);
-														// }
-
-														return (
-															<Tooltip
-																content="Selesaikan assesment sebelumnya!"
-																color="primary"
-																placement="left"
-																showArrow
-															>
-																<div className="">
-																	<Button size="sm" color="primary" isDisabled>
-																		Mulai
-																	</Button>
-																</div>
-															</Tooltip>
-														);
-													})
-												) : (
-													<>
-														{index === 0 && subIndex === 0 ? (
-															<Button
-																size="sm"
-																color="primary"
-																href={`/dashboard/fraud-assesment/create/${
-																	index + 1
-																}/${index + 1}.${subIndex + 1}`}
-																as={Link}
-															>
-																Mulai
-															</Button>
-														) : (
-															<Tooltip
-																content="Selesaikan assesment sebelumnya!"
-																color="primary"
-																placement="left"
-																showArrow
-															>
-																<div className="">
-																	<Button size="sm" color="primary" isDisabled>
-																		Mulai
-																	</Button>
-																</div>
-															</Tooltip>
-														)}
-													</>
-												)} */}
 
 												{finished.includes(subquestion.sub_bab.toString()) ? (
 													<div className="flex gap-3" key={`${index * 2}`}>
@@ -163,7 +78,7 @@ export default async function FillAssesmentPage() {
 															<Check className="w-4 h-4" />
 														</Button>
 													</div>
-												) : (
+												) : unFinished[0] === subquestion.sub_bab ? (
 													<Button
 														size="sm"
 														color="primary"
@@ -174,6 +89,19 @@ export default async function FillAssesmentPage() {
 													>
 														Mulai
 													</Button>
+												) : (
+													<Tooltip
+														content="Selesaikan assesment sebelumnya!"
+														color="primary"
+														placement="left"
+														showArrow
+													>
+														<div className="">
+															<Button size="sm" color="primary" isDisabled>
+																Mulai
+															</Button>
+														</div>
+													</Tooltip>
 												)}
 											</div>
 										</CardBody>
