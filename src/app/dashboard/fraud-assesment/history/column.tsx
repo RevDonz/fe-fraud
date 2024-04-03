@@ -1,4 +1,5 @@
 "use client";
+
 import { Button, Chip } from "@nextui-org/react";
 import Link from "next/link";
 
@@ -12,6 +13,7 @@ export type FraudHistoryType = {
 	key: string;
 	nama_admin: string;
 	nama_reviewer: string;
+	id: string;
 };
 
 export const columns = [
@@ -44,32 +46,23 @@ export const renderCellFraudHistory = (
 	const cellValue = history[columnKey as keyof FraudHistoryType];
 
 	switch (columnKey) {
-		case "hasil":
+		case "nama_reviewer": {
+			const reviewer = cellValue ? cellValue : "-";
+			return reviewer;
+		}
+
+		case "hasil": {
+			const hasil = cellValue !== 0 ? cellValue : "Belum dinilai";
 			return (
-				<Chip
-					color={
-						history.hasil >= 75
-							? "success"
-							: history.hasil >= 60
-								? "warning"
-								: "danger"
-					}
-					radius="sm"
-					className="text-white"
-				>
-					{`${
-						history.hasil >= 75
-							? "Good"
-							: history.hasil >= 60
-								? "Normal"
-								: "Bad"
-					} / ${history.hasil}`}
+				<Chip color="primary" variant="bordered" radius="sm">
+					{hasil}
 				</Chip>
 			);
+		}
 
 		case "aksi":
 			return (
-				<Link href={`/dashboard/fraud-assesment/${history.key}/detail`}>
+				<Link href={`/dashboard/fraud-assesment/${history.id}/detail`}>
 					<Button color="primary" size="sm">
 						Lihat Detail
 					</Button>

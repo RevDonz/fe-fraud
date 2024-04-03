@@ -21,18 +21,18 @@ interface GenericItem {
 	id: string;
 }
 
-interface DataTableProps<TData extends GenericItem> {
+interface DataTableProps<TData> {
 	data: TData[];
 	columns: Column[];
+	label: string;
 	renderCell?: (row: TData, columnKey: React.Key) => React.ReactNode;
-	isLoading?: boolean;
 }
 
 export function Datatable<TData extends GenericItem>({
 	data,
 	columns,
+	label,
 	renderCell,
-	isLoading,
 }: DataTableProps<TData>) {
 	const [page, setPage] = useState(1);
 	const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -56,7 +56,7 @@ export function Datatable<TData extends GenericItem>({
 
 	return (
 		<Table
-			aria-label="Example table with dynamic content"
+			aria-label={label}
 			bottomContentPlacement="outside"
 			bottomContent={
 				<div className="flex w-full justify-between items-center">
@@ -100,12 +100,7 @@ export function Datatable<TData extends GenericItem>({
 					</TableColumn>
 				)}
 			</TableHeader>
-			<TableBody
-				items={items}
-				emptyContent={"Tidak ada data"}
-				isLoading={isLoading}
-				loadingContent={"loading.."}
-			>
+			<TableBody items={items} emptyContent={"Tidak ada data"}>
 				{(item) => {
 					return (
 						<TableRow key={item.id as React.Key}>

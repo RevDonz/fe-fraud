@@ -2,7 +2,9 @@
 import type { SubBab } from "@/constant/assesment";
 import type { assesmentSchema } from "@/schema/fraud/assesment";
 import { Button, Divider, Radio, RadioGroup } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import type { z } from "zod";
 
 export default function CreateAssesmentForm({
@@ -12,7 +14,7 @@ export default function CreateAssesmentForm({
 	token,
 }: { subTitle: SubBab; bab: number; sub: number; token: string }) {
 	const { handleSubmit, register } = useForm<z.infer<typeof assesmentSchema>>();
-
+	const router = useRouter();
 	const onSubmit = async (values: z.infer<typeof assesmentSchema>) => {
 		const formData = new FormData();
 
@@ -28,22 +30,38 @@ export default function CreateAssesmentForm({
 					},
 				);
 
+				if (!response.ok) {
+					throw new Error("Failed to submit data");
+				}
+
 				const result = await response.json();
 
 				if (result.success) {
 					console.log(`Berhasi ilnput ${assesment.sub_bab}`);
 				}
 			} catch (error) {
-				console.log(error);
+				throw new Error("error");
 			}
 		});
 
-		await Promise.all(promises);
+		const result = Promise.all(promises);
+		toast.promise(result, {
+			loading: "Loading...",
+			success: (data) => {
+				console.log(data);
+
+				// router.push("/dashboard/fraud-assesment/history");
+				return "Berhasil";
+			},
+			error: () => {
+				return "Gagal submit assesment!";
+			},
+		});
 	};
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
 			{subTitle?.questions?.map((questions, index) => {
-				const { onChange, ref, name } = register(`assesment.${index}.file`);
+				const { onChange, name } = register(`assesment.${index}.file`);
 
 				return (
 					<div key={`${index * 2}`}>
