@@ -24,14 +24,14 @@ interface GenericItem {
 interface DataTableProps<TData> {
 	data: TData[];
 	columns: Column[];
-	label: string;
+	label?: string;
 	renderCell?: (row: TData, columnKey: React.Key) => React.ReactNode;
 }
 
 export function Datatable<TData extends GenericItem>({
 	data,
 	columns,
-	label,
+	label = "Table",
 	renderCell,
 }: DataTableProps<TData>) {
 	const [page, setPage] = useState(1);
@@ -72,7 +72,7 @@ export function Datatable<TData extends GenericItem>({
 						onChange={(page) => setPage(page)}
 					/>
 					<div className="flex items-center justify-end w-1/3 gap-3">
-						<label>Rows per page</label>
+						<p>Rows per page</p>
 						<Select
 							onChange={onRowsPerPageChange}
 							defaultSelectedKeys={["5"]}

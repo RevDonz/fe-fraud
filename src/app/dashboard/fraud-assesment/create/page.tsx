@@ -113,18 +113,36 @@ export default async function FillAssesmentPage() {
 														);
 													})
 												) : (
-													<Button
-														size="sm"
-														color="primary"
-														href={`/dashboard/fraud-assesment/create/${
-															index + 1
-														}/${index + 1}.${subIndex + 1}`}
-														as={Link}
-													>
-														Mulai
-													</Button>
+													<>
+														{index === 0 && subIndex === 0 ? (
+															<Button
+																size="sm"
+																color="primary"
+																href={`/dashboard/fraud-assesment/create/${
+																	index + 1
+																}/${index + 1}.${subIndex + 1}`}
+																as={Link}
+															>
+																Mulai
+															</Button>
+														) : (
+															<Tooltip
+																content="Selesaikan assesment sebelumnya!"
+																color="primary"
+																placement="left"
+																showArrow
+															>
+																<div className="">
+																	<Button size="sm" color="primary" isDisabled>
+																		Mulai
+																	</Button>
+																</div>
+															</Tooltip>
+														)}
+													</>
 												)}
 											</div>
+											{}
 										</CardBody>
 									</div>
 								);
