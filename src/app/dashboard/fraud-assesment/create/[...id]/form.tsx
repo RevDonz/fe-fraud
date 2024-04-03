@@ -1,7 +1,6 @@
 "use client";
 import type { SubBab } from "@/constant/assesment";
 import { assesmentSchema } from "@/schema/fraud/assesment";
-import type { AssesmentType } from "@/types/assesment";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Divider, Radio, RadioGroup } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
@@ -119,10 +118,12 @@ export default function CreateAssesmentForm({
 									</RadioGroup>
 								</div>
 
-								{errors.assesment && (
+								{errors.assesment?.[index]?.answer?.message ? (
 									<p className="text-sm text-danger">
-										{`${errors.assesment[index]?.answer?.message}`}
+										{errors.assesment?.[index]?.answer?.message}
 									</p>
+								) : (
+									""
 								)}
 							</div>
 							<div className="flex flex-col gap-1">
