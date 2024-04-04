@@ -10,40 +10,38 @@ export const middleware: NextMiddleware = async (request) => {
 		secret: process.env.NEXTAUTH_SECRET,
 	});
 
-	if (!token && !["/auth/login", "/auth/register", "/"].includes(pathname)) {
-		return NextResponse.redirect(new URL("/auth/login", request.url));
-	}
-
 	const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth`, {
 		headers: { Authorization: `Bearer ${token?.id}` },
 	});
 
 	const res = await response.json();
+
+	if (!token && !["/auth/login", "/auth/register", "/"].includes(pathname)) {
+		return NextResponse.redirect(new URL("/auth/login", request.url));
+	}
+
 	const firstPath = `/${pathname.split("/")[1]}/${pathname.split("/")[2]}`;
 
-	if (res) {
-		const { success, code, data } = res;
+	const { success, code, data } = res;
+	if (success && code === 200) {
+		const isAuthorize = checkUserPermission(firstPath, data.role);
 
-		if (success && code === 200) {
-			const isAuthorize = checkUserPermission(firstPath, data.role);
+		if (
+			!isAuthorize &&
+			!["/not-found", "/auth/login", "/root/login", "/"].includes(pathname)
+		) {
+			return NextResponse.redirect(new URL("/not-found", request.url));
+		}
 
-			if (
-				!isAuthorize &&
-				!["/not-found", "/auth/login", "/root/login", "/"].includes(pathname)
-			) {
-				return NextResponse.redirect(new URL("/not-found", request.url));
-			}
-
-			switch (pathname) {
-				case "/":
-					return NextResponse.redirect(new URL("/dashboard", request.url));
-			}
+		switch (pathname) {
+			case "/":
+				return NextResponse.redirect(new URL("/dashboard", request.url));
 		}
 	}
 };
 
-const checkUserPermission = (pathname: string, userRole: string) => {
-	const route = Routes.find((route) => route.url === pathname);
+const checkUserPermission = (firstPath: string, userRole: string) => {
+	const route = Routes.find((route) => route.url === firstPath);
 
 	if (!route) {
 		return false;

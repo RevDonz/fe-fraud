@@ -9,12 +9,13 @@ import {
 	ModalHeader,
 	useDisclosure,
 } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const ModalAssesment = () => {
 	const { isOpen, onOpen, onOpenChange } = useDisclosure();
 	const [isChecked, setIsChecked] = useState(false);
-
+	const router = useRouter();
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		onOpen();
@@ -49,7 +50,12 @@ const ModalAssesment = () => {
 							<Checkbox isSelected={isChecked} onValueChange={setIsChecked}>
 								Saya setuju dengan pernyataan diatas
 							</Checkbox>
-							<Button color="primary" onPress={onClose} isDisabled={!isChecked}>
+							<Button
+								color="primary"
+								onPress={onClose}
+								isDisabled={!isChecked}
+								onClick={() => router.refresh()}
+							>
 								Mulai Assesment
 							</Button>
 						</ModalFooter>

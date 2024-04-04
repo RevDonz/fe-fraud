@@ -63,7 +63,6 @@ export const Questions = [
 const AssesmentPage = () => {
 	return (
 		<div className="flex items-center w-full max-w-screen-xl mx-auto px-6 py-10">
-			<ModalAssesment />
 			<div className="max-w-2xl w-full mx-auto flex flex-col gap-10">
 				{Questions.map((questions, index) => {
 					return (

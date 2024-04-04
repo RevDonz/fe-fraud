@@ -26,12 +26,14 @@ export default function CreateAssesmentForm({
 		const formData = new FormData();
 		const promises = values.assesment.map(async (assesment) => {
 			try {
-				formData.append("file", assesment.file);
+				if (typeof assesment.file !== "undefined") {
+					formData.append("file", assesment.file);
+				}
 				const response = await fetch(
 					`${process.env.NEXT_PUBLIC_BASE_URL}/api/point?bab=${assesment.bab}&sub_bab=${assesment.sub_bab}&point=${assesment.point}&answer=${assesment.answer}`,
 					{
 						method: "POST",
-						body: formData,
+						body: typeof assesment.file !== "undefined" ? formData : undefined,
 						headers: { Authorization: `Bearer ${token}` },
 					},
 				);
@@ -40,7 +42,7 @@ export default function CreateAssesmentForm({
 				}
 				const result = await response.json();
 				if (result.success) {
-					console.log(`Berhasi ilnput ${assesment.sub_bab}`);
+					console.log(`Berhasi ilnput ${assesment.point}`);
 				}
 			} catch (error) {
 				throw new Error("error");
