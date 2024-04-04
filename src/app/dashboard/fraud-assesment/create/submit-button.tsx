@@ -20,7 +20,10 @@ export default function SubmitButton({
 				router.push("/dashboard/fraud-assesment/history");
 				return "Berhasil";
 			},
-			error: "Lengkapi Assesment!",
+			error: (data) => {
+				console.log(data);
+				return "Lengkapi Assesment!";
+			},
 		});
 	};
 

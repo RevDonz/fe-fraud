@@ -55,10 +55,13 @@ export const submitAssesment = async (token: string, id: string) => {
 		}
 
 		const result = await response.json();
+
 		if (result.success) return result.data;
 
 		return result;
 	} catch (error) {
+		console.log(error);
+
 		throw new Error("error");
 	}
 };

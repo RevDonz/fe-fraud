@@ -31,13 +31,9 @@ export default async function FillAssesmentPage() {
 			? ListSubBab.filter((item) => !finished.includes(item.toString()))
 			: [];
 
-	console.log("finished:", finished);
-	console.log("unFinished:", unFinished);
-
 	const isAttempAssesment = await startAssesment(token as string);
 
-	const key =
-		fraudHistory.length > 0 && fraudHistory[fraudHistory.length - 1].key;
+	const key = fraudHistory.length > 0 && fraudHistory[0].key;
 
 	return (
 		<>
@@ -108,7 +104,7 @@ export default async function FillAssesmentPage() {
 															</div>
 														</Tooltip>
 													)
-												) : (
+												) : index === 0 && subIndex === 0 ? (
 													<Button
 														size="sm"
 														color="primary"
@@ -119,6 +115,19 @@ export default async function FillAssesmentPage() {
 													>
 														Mulai
 													</Button>
+												) : (
+													<Tooltip
+														content="Selesaikan assesment sebelumnya!"
+														color="primary"
+														placement="left"
+														showArrow
+													>
+														<div className="">
+															<Button size="sm" color="primary" isDisabled>
+																Mulai
+															</Button>
+														</div>
+													</Tooltip>
 												)}
 											</div>
 										</CardBody>
