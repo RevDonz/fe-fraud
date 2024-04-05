@@ -1,0 +1,20 @@
+name: Update Staging on Main Push
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update_staging:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Merge main into staging
+        run: |
+          git checkout staging
+          git pull origin main
+          git push origin staging
