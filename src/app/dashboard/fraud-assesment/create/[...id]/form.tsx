@@ -3,6 +3,7 @@ import type { SubBab } from "@/constant/assesment";
 import { assesmentSchema } from "@/schema/fraud/assesment";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Divider, Radio, RadioGroup } from "@nextui-org/react";
+import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -22,45 +23,57 @@ export default function CreateAssesmentForm({
 		resolver: zodResolver(assesmentSchema),
 	});
 	const router = useRouter();
+
+	const mutation = useMutation({
+		mutationKey: ["submit-assesment"],
+		mutationFn: async (values: z.infer<typeof assesmentSchema>) => {
+			const formData = new FormData();
+			const promises = values.assesment.map(async (assesment) => {
+				try {
+					if (typeof assesment.file !== "undefined") {
+						formData.append("file", assesment.file);
+					}
+					const response = await fetch(
+						`${process.env.NEXT_PUBLIC_BASE_URL}/api/point?bab=${assesment.bab}&sub_bab=${assesment.sub_bab}&point=${assesment.point}&answer=${assesment.answer}`,
+						{
+							method: "POST",
+							body:
+								typeof assesment.file !== "undefined" ? formData : undefined,
+							headers: { Authorization: `Bearer ${token}` },
+						},
+					);
+					if (!response.ok) {
+						throw new Error("Failed to submit data");
+					}
+					const result = await response.json();
+					if (result.success) {
+						return result.data;
+					}
+				} catch (error) {
+					throw new Error("error");
+				}
+			});
+			return Promise.all(promises);
+		},
+		onMutate() {
+			toast.loading("Loading...");
+		},
+		onSuccess() {
+			router.push("/dashboard/fraud-assesment/create");
+			toast.dismiss();
+			toast.success("Berhasil");
+		},
+		onError(error) {
+			toast.dismiss();
+			toast.success("Gagal submit assesment!");
+			console.log("Error submit", error);
+		},
+	});
+
 	const onSubmit = async (values: z.infer<typeof assesmentSchema>) => {
-		const formData = new FormData();
-		const promises = values.assesment.map(async (assesment) => {
-			try {
-				if (typeof assesment.file !== "undefined") {
-					formData.append("file", assesment.file);
-				}
-				const response = await fetch(
-					`${process.env.NEXT_PUBLIC_BASE_URL}/api/point?bab=${assesment.bab}&sub_bab=${assesment.sub_bab}&point=${assesment.point}&answer=${assesment.answer}`,
-					{
-						method: "POST",
-						body: typeof assesment.file !== "undefined" ? formData : undefined,
-						headers: { Authorization: `Bearer ${token}` },
-					},
-				);
-				if (!response.ok) {
-					throw new Error("Failed to submit data");
-				}
-				const result = await response.json();
-				if (result.success) {
-					console.log(`Berhasi ilnput ${assesment.point}`);
-				}
-			} catch (error) {
-				throw new Error("error");
-			}
-		});
-		const result = Promise.all(promises);
-		toast.promise(result, {
-			loading: "Loading...",
-			success: (data) => {
-				console.log(data);
-				router.push("/dashboard/fraud-assesment/create");
-				return "Berhasil";
-			},
-			error: () => {
-				return "Gagal submit assesment!";
-			},
-		});
+		mutation.mutate(values);
 	};
+
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
 			{subTitle?.questions?.map((questions, index) => {
@@ -149,7 +162,12 @@ export default function CreateAssesmentForm({
 				);
 			})}
 			<div className="flex justify-between items-center mt-5">
-				<Button color="primary" variant="solid" type="submit">
+				<Button
+					color="primary"
+					variant="solid"
+					type="submit"
+					isLoading={mutation.isPending}
+				>
 					Submit
 				</Button>
 			</div>
