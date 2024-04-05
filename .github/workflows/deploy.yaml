@@ -1,0 +1,23 @@
+name: Sync Main to Staging
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v2
+        with:
+          ref: main
+
+      - name: Push changes to staging
+        run: |
+          git fetch --prune --unshallow
+          git checkout staging
+          git merge main
+          git push origin staging
