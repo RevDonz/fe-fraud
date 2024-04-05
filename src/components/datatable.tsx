@@ -47,8 +47,7 @@ export function Datatable<TData extends GenericItem>({
 }: DataTableProps<TData>) {
 	const [page, setPage] = useState(1);
 	const [rowsPerPage, setRowsPerPage] = useState(5);
-	const loadingState: LoadingState =
-		isLoading || data.length === 0 ? "loading" : "idle";
+	const loadingState: LoadingState = isLoading ? "loading" : "idle";
 
 	const onRowsPerPageChange = useCallback(
 		(e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -76,7 +75,7 @@ export function Datatable<TData extends GenericItem>({
 			aria-label={label}
 			bottomContentPlacement="outside"
 			classNames={{
-				table: isLoading && "min-h-64",
+				table: isLoading && "min-h-[205px]",
 			}}
 			bottomContent={
 				<div className="flex w-full justify-between items-center">
