@@ -73,3 +73,4 @@ export const renderCellFraudHistory = (
 			return cellValue;
 	}
 };
+

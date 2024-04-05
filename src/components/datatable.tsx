@@ -4,6 +4,7 @@ import {
 	Pagination,
 	Select,
 	SelectItem,
+	Spinner,
 	Table,
 	TableBody,
 	TableCell,
@@ -21,21 +22,33 @@ interface GenericItem {
 	id: string;
 }
 
+type LoadingState =
+	| "loading"
+	| "sorting"
+	| "loadingMore"
+	| "error"
+	| "idle"
+	| "filtering";
+
 interface DataTableProps<TData> {
 	data: TData[];
 	columns: Column[];
 	label?: string;
 	renderCell?: (row: TData, columnKey: React.Key) => React.ReactNode;
+	isLoading?: boolean;
 }
 
 export function Datatable<TData extends GenericItem>({
 	data,
 	columns,
 	label = "Table",
+	isLoading,
 	renderCell,
 }: DataTableProps<TData>) {
 	const [page, setPage] = useState(1);
 	const [rowsPerPage, setRowsPerPage] = useState(5);
+	const loadingState: LoadingState =
+		isLoading || data.length === 0 ? "loading" : "idle";
 
 	const onRowsPerPageChange = useCallback(
 		(e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -44,6 +57,10 @@ export function Datatable<TData extends GenericItem>({
 		},
 		[],
 	);
+	// const pages = useMemo(() => {
+	// 	return data.length ? Math.ceil(data.length / rowsPerPage) : 0;
+	// }, [data.length, rowsPerPage]);
+
 	const pages = Math.ceil(data.length / rowsPerPage);
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
@@ -58,6 +75,9 @@ export function Datatable<TData extends GenericItem>({
 		<Table
 			aria-label={label}
 			bottomContentPlacement="outside"
+			classNames={{
+				table: isLoading && "min-h-64",
+			}}
 			bottomContent={
 				<div className="flex w-full justify-between items-center">
 					<span className="text-default-400 text-small w-1/3">
@@ -100,7 +120,12 @@ export function Datatable<TData extends GenericItem>({
 					</TableColumn>
 				)}
 			</TableHeader>
-			<TableBody items={items} emptyContent={"Tidak ada data"}>
+			<TableBody
+				items={data ?? []}
+				loadingContent={<Spinner />}
+				loadingState={loadingState}
+				emptyContent={!isLoading && data.length < 1 && "Tidak ada data"}
+			>
 				{(item) => {
 					return (
 						<TableRow key={item.id as React.Key}>

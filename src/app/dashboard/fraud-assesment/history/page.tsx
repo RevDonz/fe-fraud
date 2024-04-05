@@ -1,26 +1,23 @@
-import Datatable from "@/components/datatable";
 import { getServerAuthSession } from "@/lib/auth";
 import ButtonLink from "../../../../components/button-link";
-import { columns, renderCellFraudHistory } from "./column";
-import { getAssesmentHistory } from "@/lib/assesment";
-
-
+import TableCoba from "./table";
 
 const HistoryAssesmentPage = async () => {
 	const session = await getServerAuthSession();
 	const token = session?.user.accessToken;
-	const data = await getAssesmentHistory(token as string);
 
 	return (
 		<>
 			<ButtonLink />
 
-			<Datatable
+			<TableCoba token={token as string} />
+
+			{/* <Datatable
 				data={data}
 				columns={columns}
 				renderCell={renderCellFraudHistory}
-        label="Table Fraud Assesment"
-			/>
+				label="Table Fraud Assesment"
+			/> */}
 		</>
 	);
 };
