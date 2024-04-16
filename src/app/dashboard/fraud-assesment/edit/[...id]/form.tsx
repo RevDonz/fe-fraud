@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
 
-export default function CreateAssesmentForm({
+export default function EditAssesmentForm({
 	subTitle,
 	bab,
 	sub,
@@ -65,7 +65,7 @@ export default function CreateAssesmentForm({
 		},
 		onError(error) {
 			toast.dismiss();
-			toast.error("Gagal submit assesment!");
+			toast.success("Gagal submit assesment!");
 			console.log("Error submit", error);
 		},
 	});
