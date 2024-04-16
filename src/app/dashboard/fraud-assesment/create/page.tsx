@@ -67,7 +67,7 @@ export default async function FillAssesmentPage() {
 																size="sm"
 																color="warning"
 																className="text-white"
-																href={`/dashboard/fraud-assesment/create/${
+																href={`/dashboard/fraud-assesment/edit/${
 																	index + 1
 																}/${index + 1}.${subIndex + 1}`}
 																as={Link}

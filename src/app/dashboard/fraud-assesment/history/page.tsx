@@ -1,6 +1,6 @@
 import { getServerAuthSession } from "@/lib/auth";
 import ButtonLink from "../../../../components/button-link";
-import TableCoba from "./table";
+import TableHistroy from "./table";
 
 const HistoryAssesmentPage = async () => {
 	const session = await getServerAuthSession();
@@ -10,7 +10,7 @@ const HistoryAssesmentPage = async () => {
 		<>
 			<ButtonLink />
 
-			<TableCoba token={token as string} />
+			<TableHistroy token={token as string} />
 
 			{/* <Datatable
 				data={data}

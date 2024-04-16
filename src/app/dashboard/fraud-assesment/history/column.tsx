@@ -27,7 +27,11 @@ export const columns = [
 	},
 	{
 		key: "tanggal",
-		label: "TANGGAL PENILAIAN",
+		label: "TANGGAL PEMBUATAN",
+	},
+	{
+		key: "status",
+		label: "STATUS",
 	},
 	{
 		key: "hasil",
@@ -60,17 +64,33 @@ export const renderCellFraudHistory = (
 			);
 		}
 
+		case "status": {
+			const status = history.selesai ? "Selesai" : "Belum Selesai";
+			return (
+				<Chip
+					color={history.selesai ? "success" : "warning"}
+					variant="flat"
+					radius="sm"
+				>
+					{status}
+				</Chip>
+			);
+		}
+
 		case "aksi":
 			return (
-				<Link href={`/dashboard/fraud-assesment/${history.id}/detail`}>
-					<Button color="primary" size="sm">
-						Lihat Detail
-					</Button>
-				</Link>
+				<Button
+					color="primary"
+					size="sm"
+					as={Link}
+					href={`/dashboard/fraud-assesment/${history.id}/detail`}
+					isDisabled={!history.selesai}
+				>
+					Lihat Detail
+				</Button>
 			);
 
 		default:
 			return cellValue;
 	}
 };
-

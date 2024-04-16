@@ -5,7 +5,7 @@ import { getAssesmentHistory } from "@/lib/assesment";
 import { useQuery } from "@tanstack/react-query";
 import { columns, renderCellFraudHistory } from "./column";
 
-const TableCoba = ({ token }: { token: string }) => {
+const TableHistroy = ({ token }: { token: string }) => {
 	const { data, isLoading } = useQuery({
 		queryKey: ["fraud-history"],
 		queryFn: async () => {
@@ -25,4 +25,4 @@ const TableCoba = ({ token }: { token: string }) => {
 	);
 };
 
-export default TableCoba;
+export default TableHistroy;
