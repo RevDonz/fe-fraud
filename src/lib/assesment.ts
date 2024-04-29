@@ -1,3 +1,6 @@
+import type { CurrentSubBab } from "@/types/assesment";
+
+// Get All Assesment History
 export const getAssesmentHistory = async (token: string) => {
 	const response = await fetch(
 		`${process.env.NEXT_PUBLIC_BASE_URL}/api/assessments`,
@@ -12,6 +15,7 @@ export const getAssesmentHistory = async (token: string) => {
 	return result.data;
 };
 
+// Start Assesment
 export const startAssesment = async (token: string) => {
 	const response = await fetch(
 		`${process.env.NEXT_PUBLIC_BASE_URL}/api/assessment`,
@@ -26,6 +30,7 @@ export const startAssesment = async (token: string) => {
 	return result.success;
 };
 
+// Get Sub Bab Finished
 export const getFinishedAssesment = async (token: string) => {
 	const response = await fetch(
 		`${process.env.NEXT_PUBLIC_BASE_URL}/api/assessments/progress`,
@@ -40,6 +45,7 @@ export const getFinishedAssesment = async (token: string) => {
 	return result.data;
 };
 
+// Submit Finished Assesment
 export const submitAssesment = async (token: string, id: string) => {
 	try {
 		const response = await fetch(
@@ -64,4 +70,24 @@ export const submitAssesment = async (token: string, id: string) => {
 
 		throw new Error("error");
 	}
+};
+
+// Get SubBab Current Assesment
+export const getAssesmentSubBab = async (
+	token: string,
+	subBab: string,
+): Promise<CurrentSubBab[]> => {
+	const response = await fetch(
+		`${process.env.NEXT_PUBLIC_BASE_URL}/api/assessment?sub_bab=${subBab}`,
+		{
+			headers: { Authorization: `Bearer ${token}` },
+		},
+	);
+
+	const result = await response.json();
+	if (result.data === null) result.data = [];
+
+	result.data.sort((a: CurrentSubBab, b: CurrentSubBab) => a.point - b.point);
+
+	return result.data;
 };
