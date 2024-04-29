@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
 	Button,
 	Divider,
+	Link,
 	Radio,
 	RadioGroup,
 	Skeleton,
@@ -163,9 +164,9 @@ export default function EditAssesmentForm({
 									""
 								)}
 							</div>
-							<div className="flex flex-col gap-1">
-								<p>Upload bukti</p>
-								<div className="flex items-center justify-center gap-3">
+							<div className="flex flex-row gap-1 items-end justify-end">
+								<div className="flex flex-col gap-3 w-1/2">
+									<p>Upload bukti</p>
 									<input
 										type="file"
 										accept=".pdf"
@@ -178,14 +179,17 @@ export default function EditAssesmentForm({
 										}}
 										className="border file:hidden px-2 py-1 rounded-md text-sm"
 									/>
-									<Button
-										onClick={() =>
-											router.push(data?.[index].proof?.url as string)
-										}
-									>
-										Download
-									</Button>
 								</div>
+								<Button
+									size="sm"
+									as={Link}
+									href={`https://${data?.[index].proof?.url}`}
+									target="_blank"
+									isDisabled={isLoading ? true : data?.[index].proof === null}
+									color="primary"
+								>
+									Download
+								</Button>
 							</div>
 						</div>
 						<Divider />

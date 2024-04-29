@@ -17,6 +17,7 @@ export default function BackButton() {
 			isIconOnly
 			color="primary"
 			onClick={() => router.back()}
+      aria-label="back-button"
 		>
 			<ArrowLeft />
 		</Button>

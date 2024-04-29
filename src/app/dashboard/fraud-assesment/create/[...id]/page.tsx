@@ -1,7 +1,14 @@
 import { Questions, type SubBab } from "@/constant/assesment";
 import { getServerAuthSession } from "@/lib/auth";
 import { Divider } from "@nextui-org/react";
+import type { Metadata } from "next";
 import CreateAssesmentForm from "./form";
+
+export const metadata: Metadata = {
+	title: "Fraud Assesment - Create | Fraud Deterrence Propeller",
+	description:
+		"Fraud Deterrence Propeller merupakan protokol pencegahan Fraud yang digunakan oleh setiap entitas, baik yang berorientasi profit maupun non-profit.",
+};
 
 export default async function FillQuestionPage({
 	params,
