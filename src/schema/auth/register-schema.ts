@@ -51,6 +51,7 @@ export const registerSchema = z.object({
 		.string({
 			required_error: "Password is required",
 		})
+		.min(1, "Password is required")
 		.min(8, "Password should not less than 8 characters")
 		.max(16, "Password should not more than 16 characters"),
 });

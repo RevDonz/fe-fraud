@@ -1,9 +1,17 @@
 "use client";
 import type { SubBab } from "@/constant/assesment";
+import { getAssesmentSubBab } from "@/lib/assesment";
 import { assesmentSchema } from "@/schema/fraud/assesment";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Divider, Radio, RadioGroup } from "@nextui-org/react";
-import { useMutation } from "@tanstack/react-query";
+import {
+	Button,
+	Divider,
+	Link,
+	Radio,
+	RadioGroup,
+	Skeleton,
+} from "@nextui-org/react";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -74,6 +82,16 @@ export default function EditAssesmentForm({
 		mutation.mutate(values);
 	};
 
+	const { data, isLoading } = useQuery({
+		queryKey: ["current-subbab-assesment", sub],
+		queryFn: async () => {
+			const data = await getAssesmentSubBab(token, sub.toString());
+			return data;
+		},
+	});
+
+	console.log(data);
+
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
 			{subTitle?.questions?.map((questions, index) => {
@@ -105,32 +123,37 @@ export default function EditAssesmentForm({
 									{index + 1}. {questions.title}
 								</p>
 								<div className="flex justify-between items-center">
-									<RadioGroup
-										orientation="horizontal"
-										{...register(`assesment.${index}.answer`)}
-									>
-										<Radio
-											type="radio"
-											value="1"
+									{isLoading ? (
+										<Skeleton className="h-4 w-full rounded-md" />
+									) : (
+										<RadioGroup
+											orientation="horizontal"
+											defaultValue={data?.[index].answer.toString()}
 											{...register(`assesment.${index}.answer`)}
 										>
-											Ada, dan sudah lengkap
-										</Radio>
-										<Radio
-											type="radio"
-											value="2"
-											{...register(`assesment.${index}.answer`)}
-										>
-											Ada, belum lengkap
-										</Radio>
-										<Radio
-											type="radio"
-											value="3"
-											{...register(`assesment.${index}.answer`)}
-										>
-											Belum ada
-										</Radio>
-									</RadioGroup>
+											<Radio
+												type="radio"
+												value="1"
+												{...register(`assesment.${index}.answer`)}
+											>
+												Ada, dan sudah lengkap
+											</Radio>
+											<Radio
+												type="radio"
+												value="2"
+												{...register(`assesment.${index}.answer`)}
+											>
+												Ada, belum lengkap
+											</Radio>
+											<Radio
+												type="radio"
+												value="3"
+												{...register(`assesment.${index}.answer`)}
+											>
+												Belum ada
+											</Radio>
+										</RadioGroup>
+									)}
 								</div>
 
 								{errors.assesment?.[index]?.answer?.message ? (
@@ -141,20 +164,32 @@ export default function EditAssesmentForm({
 									""
 								)}
 							</div>
-							<div className="flex flex-col gap-1">
-								<p>Upload bukti</p>
-								<input
-									type="file"
-									accept=".pdf"
-									onChange={(e) => {
-										if (e.target.files && e.target.files.length > 0) {
-											onChange({
-												target: { value: e.target.files[0], name: name },
-											});
-										}
-									}}
-									className="border file:hidden px-2 py-1 rounded-md text-sm"
-								/>
+							<div className="flex flex-row gap-1 items-end justify-end">
+								<div className="flex flex-col gap-3 w-1/2">
+									<p>Upload bukti</p>
+									<input
+										type="file"
+										accept=".pdf"
+										onChange={(e) => {
+											if (e.target.files && e.target.files.length > 0) {
+												onChange({
+													target: { value: e.target.files[0], name: name },
+												});
+											}
+										}}
+										className="border file:hidden px-2 py-1 rounded-md text-sm"
+									/>
+								</div>
+								<Button
+									size="sm"
+									as={Link}
+									href={`https://${data?.[index].proof?.url}`}
+									target="_blank"
+									isDisabled={isLoading ? true : data?.[index].proof === null}
+									color="primary"
+								>
+									Download
+								</Button>
 							</div>
 						</div>
 						<Divider />

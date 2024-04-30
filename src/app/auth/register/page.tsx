@@ -1,5 +1,12 @@
 import { Card, CardHeader } from "@nextui-org/react";
+import type { Metadata } from "next";
 import RegisterForm from "./form";
+
+export const metadata: Metadata = {
+	title: "Register | Fraud Deterrence Propeller",
+	description:
+		"Fraud Deterrence Propeller merupakan protokol pencegahan Fraud yang digunakan oleh setiap entitas, baik yang berorientasi profit maupun non-profit.",
+};
 
 const RegisterPage = async () => {
 	return (

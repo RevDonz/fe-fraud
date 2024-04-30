@@ -68,7 +68,7 @@ const LoginForm = () => {
 								placeholder="Enter your username"
 								type="text"
 								variant="bordered"
-								isInvalid={errors.username ? true : false}
+								isInvalid={!!errors.username}
 								errorMessage={errors.username?.message}
 								{...field}
 							/>
@@ -96,7 +96,7 @@ const LoginForm = () => {
 								placeholder="Enter your password"
 								type={isVisible ? "text" : "password"}
 								variant="bordered"
-								isInvalid={errors.password ? true : false}
+								isInvalid={!!errors.password}
 								errorMessage={errors.password?.message}
 								{...field}
 							/>

@@ -110,7 +110,7 @@ const RegisterForm = () => {
 								type="text"
 								variant="bordered"
 								labelPlacement="outside"
-								isInvalid={errors.full_name ? true : false}
+								isInvalid={!!errors.full_name}
 								errorMessage={errors.full_name?.message}
 								{...field}
 							/>
@@ -127,7 +127,7 @@ const RegisterForm = () => {
 								type="text"
 								variant="bordered"
 								labelPlacement="outside"
-								isInvalid={errors.role ? true : false}
+								isInvalid={!!errors.role}
 								errorMessage={errors.role?.message}
 								{...field}
 							/>
@@ -144,7 +144,7 @@ const RegisterForm = () => {
 								type="text"
 								variant="bordered"
 								labelPlacement="outside"
-								isInvalid={errors.phone ? true : false}
+								isInvalid={!!errors.phone}
 								errorMessage={errors.phone?.message}
 								{...field}
 							/>
@@ -161,7 +161,7 @@ const RegisterForm = () => {
 								type="text"
 								variant="bordered"
 								labelPlacement="outside"
-								isInvalid={errors.email ? true : false}
+								isInvalid={!!errors.email}
 								errorMessage={errors.email?.message}
 								{...field}
 							/>
@@ -182,7 +182,7 @@ const RegisterForm = () => {
 								type="text"
 								variant="bordered"
 								labelPlacement="outside"
-								isInvalid={errors.institution_name ? true : false}
+								isInvalid={!!errors.institution_name}
 								errorMessage={errors.institution_name?.message}
 								{...field}
 							/>
@@ -199,7 +199,7 @@ const RegisterForm = () => {
 								type="text"
 								variant="bordered"
 								labelPlacement="outside"
-								isInvalid={errors.institution_address ? true : false}
+								isInvalid={!!errors.institution_address}
 								errorMessage={errors.institution_address?.message}
 								{...field}
 							/>
@@ -216,7 +216,7 @@ const RegisterForm = () => {
 								type="text"
 								variant="bordered"
 								labelPlacement="outside"
-								isInvalid={errors.institution_phone ? true : false}
+								isInvalid={!!errors.institution_phone}
 								errorMessage={errors.institution_phone?.message}
 								{...field}
 							/>
@@ -233,7 +233,7 @@ const RegisterForm = () => {
 								type="text"
 								variant="bordered"
 								labelPlacement="outside"
-								isInvalid={errors.institution_email ? true : false}
+								isInvalid={!!errors.institution_email}
 								errorMessage={errors.institution_email?.message}
 								{...field}
 							/>
@@ -256,7 +256,7 @@ const RegisterForm = () => {
 								type="text"
 								variant="bordered"
 								labelPlacement="outside"
-								isInvalid={errors.username ? true : false}
+								isInvalid={!!errors.username}
 								errorMessage={errors.username?.message}
 								{...field}
 							/>
@@ -274,7 +274,7 @@ const RegisterForm = () => {
 								labelPlacement="outside"
 								type="text"
 								variant="bordered"
-								isInvalid={errors.email ? true : false}
+								isInvalid={!!errors.email}
 								errorMessage={errors.email?.message}
 								{...field}
 							/>
@@ -303,7 +303,7 @@ const RegisterForm = () => {
 								labelPlacement="outside"
 								type={isVisible ? "text" : "password"}
 								variant="bordered"
-								isInvalid={errors.password ? true : false}
+								isInvalid={!!errors.password}
 								errorMessage={errors.password?.message}
 								{...field}
 							/>

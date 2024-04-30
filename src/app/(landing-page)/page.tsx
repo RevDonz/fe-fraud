@@ -1,5 +1,12 @@
 import { Button, Card, CardBody } from "@nextui-org/react";
+import type { Metadata } from "next";
 import Image from "next/image";
+
+export const metadata: Metadata = {
+	title: "Fraud Deterrence Propeller",
+	description:
+		"Fraud Deterrence Propeller merupakan protokol pencegahan Fraud yang digunakan oleh setiap entitas, baik yang berorientasi profit maupun non-profit.",
+};
 
 const LandingPage = async () => {
 	return (

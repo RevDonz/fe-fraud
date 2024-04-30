@@ -8,3 +8,19 @@ export type AssesmentAsnwerType = {
 	point: number;
 	answer: number;
 };
+
+export type CurrentSubBab = {
+	id_assessment: string;
+	bab: string;
+	sub_bab: string;
+	point: number;
+	answer: number;
+	skor: number;
+	proof?: ProofType;
+};
+
+export type ProofType = {
+	id_user: string;
+	url: string;
+	file_name: string;
+};

@@ -1,4 +1,4 @@
-import ButtonLink from "@/components/button-link";
+import ButtonLink from "@/components/button-link-assesment";
 import ModalAssesment from "@/components/modal-fraud-assesment";
 import { ListSubBab, Questions } from "@/constant/assesment";
 import {
@@ -16,8 +16,15 @@ import {
 	Tooltip,
 } from "@nextui-org/react";
 import { Check } from "lucide-react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import SubmitButton from "./submit-button";
+
+export const metadata: Metadata = {
+	title: "Fraud Assesment - Create | Fraud Deterrence Propeller",
+	description:
+		"Fraud Deterrence Propeller merupakan protokol pencegahan Fraud yang digunakan oleh setiap entitas, baik yang berorientasi profit maupun non-profit.",
+};
 
 export default async function FillAssesmentPage() {
 	const session = await getServerAuthSession();

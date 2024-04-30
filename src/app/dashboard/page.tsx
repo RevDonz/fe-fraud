@@ -6,14 +6,14 @@ import type { Metadata } from "next";
 import React from "react";
 
 export const metadata: Metadata = {
-	title: "Dashboard",
-	description: "Dashboard Page",
+	title: "Dashboard | Fraud Deterrence Propeller",
+	description:
+		"Fraud Deterrence Propeller merupakan protokol pencegahan Fraud yang digunakan oleh setiap entitas, baik yang berorientasi profit maupun non-profit.",
 };
 
 const DashboardPage = async () => {
 	const session = await getServerAuthSession();
 
-	
 	return (
 		<div className="flex flex-col w-full max-w-screen-xl mx-auto px-6 py-10 gap-5">
 			<p className="text-2xl font-semibold">Dashboard</p>
