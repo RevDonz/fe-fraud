@@ -7,7 +7,11 @@ export default function BackButton() {
 	const router = useRouter();
 	const pathname = usePathname();
 
-	if (pathname === "/dashboard/fraud-assesment/history") {
+	if (
+		["/dashboard/fraud-assesment/history", "/dashboard/data-staff"].includes(
+			pathname,
+		)
+	) {
 		return null;
 	}
 
@@ -17,7 +21,7 @@ export default function BackButton() {
 			isIconOnly
 			color="primary"
 			onClick={() => router.back()}
-      aria-label="back-button"
+			aria-label="back-button"
 		>
 			<ArrowLeft />
 		</Button>
