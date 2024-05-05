@@ -1,3 +1,6 @@
+import type { AdminType, EntityType } from "@/types/entity";
+import { Chip, type ChipProps } from "@nextui-org/react";
+
 export type StaffType = {
 	id: string;
 	name: string;
@@ -5,44 +8,6 @@ export type StaffType = {
 	role: string;
 	status: string;
 };
-
-export const DataStaff = [
-	{
-		id: "1",
-		name: "Reva Doni Aprilio",
-		email: "doni.staff@gmail.com",
-		role: "staff",
-		status: "aktif",
-	},
-	{
-		id: "2",
-		name: "Reva Doni Aprilio",
-		email: "doni.staff@gmail.com",
-		status: "nonaktif",
-		role: "staff",
-	},
-	{
-		id: "3",
-		name: "Reva Doni Aprilio",
-		email: "doni.staff@gmail.com",
-		status: "aktif",
-		role: "staff",
-	},
-	{
-		id: "4",
-		name: "Reva Doni Aprilio",
-		email: "doni.staff@gmail.com",
-		status: "aktif",
-		role: "staff",
-	},
-	{
-		id: "5",
-		name: "Reva Doni Aprilio",
-		email: "doni.staff@gmail.com",
-		status: "aktif",
-		role: "staff",
-	},
-];
 
 export const columns = [
 	{
@@ -62,3 +27,34 @@ export const columns = [
 		label: "STATUS",
 	},
 ];
+
+const statusColorMap: Record<string, ChipProps["color"]> = {
+	active: "success",
+	nonactive: "danger",
+};
+
+export const renderCellAccounts = (data: AdminType, columnKey: React.Key) => {
+	const cellValue = data[columnKey as keyof AdminType];
+
+	switch (columnKey) {
+		case "is_active":
+			return (
+				<Chip
+					className="capitalize"
+					color={statusColorMap[data.is_active ? "active" : "nonactive"]}
+					variant="flat"
+				>
+					{cellValue ? "Active" : "Nonactive"}
+				</Chip>
+			);
+
+		case "name":
+		case "address":
+		case "phone":
+		case "email":
+			return data.institusi[columnKey as keyof EntityType];
+
+		default:
+			return "";
+	}
+};

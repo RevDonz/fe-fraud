@@ -12,6 +12,7 @@ import {
 	Skeleton,
 } from "@nextui-org/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -118,7 +119,7 @@ export default function EditAssesmentForm({
 							{...register(`assesment.${index}.point`)}
 						/>
 						<div className="flex w-full justify-between my-3 items-center">
-							<div className="flex flex-col gap-3">
+							<div className="flex flex-col gap-3 w-3/4">
 								<p>
 									{index + 1}. {questions.title}
 								</p>
@@ -164,32 +165,40 @@ export default function EditAssesmentForm({
 									""
 								)}
 							</div>
-							<div className="flex flex-row gap-1 items-end justify-end">
-								<div className="flex flex-col gap-3 w-1/2">
-									<p>Upload bukti</p>
-									<input
-										type="file"
-										accept=".pdf"
-										onChange={(e) => {
-											if (e.target.files && e.target.files.length > 0) {
-												onChange({
-													target: { value: e.target.files[0], name: name },
-												});
-											}
-										}}
-										className="border file:hidden px-2 py-1 rounded-md text-sm"
-									/>
-								</div>
-								<Button
-									size="sm"
-									as={Link}
-									href={`https://${data?.[index].proof?.url}`}
-									target="_blank"
-									isDisabled={isLoading ? true : data?.[index].proof === null}
-									color="primary"
-								>
-									Download
-								</Button>
+							<div className="flex flex-row gap-3 justify-end items-center w-1/4">
+								{data?.[index].proof !== null ? (
+									<div className="flex items-end gap-3 w-full justify-between">
+										<div className="flex flex-col gap-3">
+											<p>Upload bukti</p>
+											<Link
+												size="sm"
+												href={`https://${data?.[index].proof?.url}`}
+												target="_blank"
+											>
+												{data?.[index].proof?.file_name}
+											</Link>
+										</div>
+										<Button isIconOnly color="danger" size="sm">
+											<Trash2 className="w-4 h-4" />
+										</Button>
+									</div>
+								) : (
+									<div className="flex flex-col gap-3 w-full">
+										<p>Upload bukti</p>
+										<input
+											type="file"
+											accept=".pdf"
+											onChange={(e) => {
+												if (e.target.files && e.target.files.length > 0) {
+													onChange({
+														target: { value: e.target.files[0], name: name },
+													});
+												}
+											}}
+											className="border file:hidden px-2 py-1 rounded-md text-sm"
+										/>
+									</div>
+								)}
 							</div>
 						</div>
 						<Divider />

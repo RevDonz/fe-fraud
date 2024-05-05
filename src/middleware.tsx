@@ -4,39 +4,51 @@ import { Routes } from "./constant/routes";
 
 export const middleware: NextMiddleware = async (request) => {
 	const pathname = request.nextUrl.pathname;
+	console.log(pathname);
 
 	const token = await getToken({
 		req: request,
 		secret: process.env.NEXTAUTH_SECRET,
 	});
 
-	const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth`, {
-		headers: { Authorization: `Bearer ${token?.id}` },
-	});
+	try {
+		const response = await fetch(
+			`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth`,
+			{
+				headers: { Authorization: `Bearer ${token?.id}` },
+			},
+		);
 
-	const res = await response.json();
+		const res = await response.json();
 
-	if (!token && !["/auth/login", "/auth/register", "/"].includes(pathname)) {
-		return NextResponse.redirect(new URL("/auth/login", request.url));
-	}
-
-	const firstPath = `/${pathname.split("/")[1]}/${pathname.split("/")[2]}`;
-
-	const { success, code, data } = res;
-	if (success && code === 200) {
-		const isAuthorize = checkUserPermission(firstPath, data.role);
-
-		if (
-			!isAuthorize &&
-			!["/not-found", "/auth/login", "/root/login", "/"].includes(pathname)
-		) {
-			return NextResponse.redirect(new URL("/not-found", request.url));
+		if (!token && !["/auth/login", "/auth/register", "/"].includes(pathname)) {
+			return NextResponse.redirect(new URL("/auth/login", request.url));
 		}
 
-		switch (pathname) {
-			case "/":
-				return NextResponse.redirect(new URL("/dashboard", request.url));
+		const firstPath = `/${pathname.split("/")[1]}/${pathname.split("/")[2]}`;
+
+		const { success, code, data } = res;
+		if (success && code === 200) {
+			const isAuthorize = checkUserPermission(firstPath, data.role);
+
+			if (
+				!isAuthorize &&
+				!["/not-found", "/auth/login", "/root/login", "/"].includes(pathname)
+			) {
+				return NextResponse.redirect(new URL("/not-found", request.url));
+			}
+
+			switch (pathname) {
+				case "/":
+					return NextResponse.redirect(new URL("/dashboard", request.url));
+			}
 		}
+	} catch (error) {
+		// Tangani kesalahan saat pemanggilan API
+		console.error("Error during API call:", error);
+		// Tindakan yang sesuai saat terjadi kesalahan, misalnya menampilkan halaman error
+
+		return NextResponse.redirect(new URL("/error", request.url));
 	}
 };
 
