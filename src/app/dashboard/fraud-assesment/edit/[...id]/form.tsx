@@ -172,7 +172,7 @@ export default function EditAssesmentForm({
 											<p>Upload bukti</p>
 											<Link
 												size="sm"
-												href={`https://${data?.[index].proof?.url}`}
+												href={`http://devta-1-j8022502.deta.app/api/actualfile/${data?.[index].proof?.file_name}`}
 												target="_blank"
 											>
 												{data?.[index].proof?.file_name}

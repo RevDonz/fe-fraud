@@ -66,7 +66,7 @@ export default function CreateAssesmentForm({
 		onError(error) {
 			toast.dismiss();
 			toast.error("Gagal submit assesment!");
-			console.log("Error submit", error.name);
+			console.log("Error submit", error.message);
 		},
 	});
 

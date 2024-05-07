@@ -18,6 +18,7 @@ const HistoryAssesmentPage = async () => {
 		<>
 			<ButtonLink />
 
+			<p>asd</p>
 			<TableHistroy token={token as string} />
 		</>
 	);
