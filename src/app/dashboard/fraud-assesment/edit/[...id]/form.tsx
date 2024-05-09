@@ -11,7 +11,7 @@ import {
 	RadioGroup,
 	Skeleton,
 } from "@nextui-org/react";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -34,6 +34,7 @@ export default function EditAssesmentForm({
 		resolver: zodResolver(assesmentSchema),
 	});
 	const router = useRouter();
+	const queryClient = useQueryClient();
 
 	const mutation = useMutation({
 		mutationKey: ["submit-assesment"],
@@ -69,10 +70,9 @@ export default function EditAssesmentForm({
 		onMutate() {
 			toast.loading("Loading...");
 		},
-		onSuccess(data) {
-			console.log(data);
-
-			// router.push("/dashboard/fraud-assesment/create");
+		onSuccess() {
+			queryClient.invalidateQueries({ queryKey: ["current-subbab-assesment"] });
+			router.push("/dashboard/fraud-assesment/create");
 			toast.dismiss();
 			toast.success("Berhasil");
 		},
