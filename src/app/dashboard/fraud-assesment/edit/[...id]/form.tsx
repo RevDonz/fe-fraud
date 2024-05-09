@@ -50,7 +50,9 @@ export default function EditAssesmentForm({
 						{
 							method: "PATCH",
 							body:
-								typeof assesment.file !== "undefined" ? formData : undefined,
+								assesment.file !== undefined && assesment.file !== null
+									? formData
+									: null,
 							headers: { Authorization: `Bearer ${token}` },
 						},
 					);
@@ -85,6 +87,7 @@ export default function EditAssesmentForm({
 
 	const onSubmit = async (values: z.infer<typeof assesmentSchema>) => {
 		mutation.mutate(values);
+		// console.log(values);
 	};
 
 	const { data, isLoading } = useQuery({
