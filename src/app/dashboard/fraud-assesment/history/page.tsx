@@ -1,7 +1,7 @@
 import { getServerAuthSession } from "@/lib/auth";
-import ButtonLink from "../../../../components/button-link-assesment";
 import TableHistroy from "./table";
 
+import ButtonLink from "@/components/button-link-assesment";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -18,14 +18,8 @@ const HistoryAssesmentPage = async () => {
 		<>
 			<ButtonLink />
 
+			<p>asd</p>
 			<TableHistroy token={token as string} />
-
-			{/* <Datatable
-				data={data}
-				columns={columns}
-				renderCell={renderCellFraudHistory}
-				label="Table Fraud Assesment"
-			/> */}
 		</>
 	);
 };

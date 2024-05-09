@@ -1,52 +1,19 @@
+"use client";
+
+import { Button } from "@nextui-org/react";
+import Link from "next/link";
+
 export type StaffType = {
-	id: string;
-	name: string;
+	full_name: string;
 	email: string;
 	role: string;
-	status: string;
+	status: boolean;
+	id: string;
 };
-
-export const DataStaff = [
-	{
-		id: "1",
-		name: "Reva Doni Aprilio",
-		email: "doni.staff@gmail.com",
-		role: "staff",
-		status: "aktif",
-	},
-	{
-		id: "2",
-		name: "Reva Doni Aprilio",
-		email: "doni.staff@gmail.com",
-		status: "nonaktif",
-		role: "staff",
-	},
-	{
-		id: "3",
-		name: "Reva Doni Aprilio",
-		email: "doni.staff@gmail.com",
-		status: "aktif",
-		role: "staff",
-	},
-	{
-		id: "4",
-		name: "Reva Doni Aprilio",
-		email: "doni.staff@gmail.com",
-		status: "aktif",
-		role: "staff",
-	},
-	{
-		id: "5",
-		name: "Reva Doni Aprilio",
-		email: "doni.staff@gmail.com",
-		status: "aktif",
-		role: "staff",
-	},
-];
 
 export const columns = [
 	{
-		key: "name",
+		key: "full_name",
 		label: "NAMA AKUN",
 	},
 	{
@@ -62,3 +29,28 @@ export const columns = [
 		label: "AKSI",
 	},
 ];
+
+export const renderCellDataStaff = (staff: StaffType, columnKey: React.Key) => {
+	const cellValue = staff[columnKey as keyof StaffType];
+
+	switch (columnKey) {
+		case "status":
+			return (
+				<Button
+					color="primary"
+					size="sm"
+					as={Link}
+					href={"/dashboard/fraud-assesment/"}
+					// isDisabled={!history.selesai}
+				>
+					Lihat Detail
+				</Button>
+			);
+
+      case "role":
+        return <p className="capitalize">{cellValue}</p>
+
+		default:
+			return cellValue;
+	}
+};

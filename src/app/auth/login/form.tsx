@@ -114,9 +114,9 @@ const LoginForm = () => {
 					Masuk
 				</Button>
 				<div className="text-sm">
-					Belum punya akun?{" "}
+					Atau buat akun baru{" "}
 					<Link href="/auth/register" size="sm">
-						Daftar
+						Disini
 					</Link>
 				</div>
 			</CardFooter>

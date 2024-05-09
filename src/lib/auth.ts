@@ -12,15 +12,18 @@ export const authOptions: AuthOptions = {
 				password: { label: "password", type: "password" },
 			},
 			async authorize(credentials) {
-				const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth`, {
-					method: "POST",
-					// body: JSON.stringify({
-					// 	email: credentials?.username,
-					// 	password: credentials?.password,
-					// }),
-					body: new URLSearchParams(credentials).toString(),
-					headers: { "Content-Type": "application/x-www-form-urlencoded" },
-				});
+				const res = await fetch(
+					`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth`,
+					{
+						method: "POST",
+						// body: JSON.stringify({
+						// 	email: credentials?.username,
+						// 	password: credentials?.password,
+						// }),
+						body: new URLSearchParams(credentials).toString(),
+						headers: { "Content-Type": "application/x-www-form-urlencoded" },
+					},
+				);
 				const parsedResponse = await res.json();
 
 				if (!res.ok) {
@@ -75,9 +78,12 @@ export const authOptions: AuthOptions = {
 		},
 		session: async ({ session, token }) => {
 			const fetchData = async () => {
-				const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth`, {
-					headers: { Authorization: `Bearer ${token.id}` },
-				});
+				const res = await fetch(
+					`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth`,
+					{
+						headers: { Authorization: `Bearer ${token.id}` },
+					},
+				);
 				const data = await res.json();
 
 				return data;
