@@ -4,7 +4,6 @@ import { Routes } from "./constant/routes";
 
 export const middleware: NextMiddleware = async (request) => {
 	const pathname = request.nextUrl.pathname;
-	console.log(pathname);
 
 	const token = await getToken({
 		req: request,

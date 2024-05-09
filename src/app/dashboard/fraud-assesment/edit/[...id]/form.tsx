@@ -27,6 +27,8 @@ export default function EditAssesmentForm({
 	const {
 		handleSubmit,
 		register,
+		setValue,
+		getValues,
 		formState: { errors },
 	} = useForm<z.infer<typeof assesmentSchema>>({
 		resolver: zodResolver(assesmentSchema),
@@ -45,7 +47,7 @@ export default function EditAssesmentForm({
 					const response = await fetch(
 						`${process.env.NEXT_PUBLIC_BASE_URL}/api/point?bab=${assesment.bab}&sub_bab=${assesment.sub_bab}&point=${assesment.point}&answer=${assesment.answer}`,
 						{
-							method: "POST",
+							method: "PATCH",
 							body:
 								typeof assesment.file !== "undefined" ? formData : undefined,
 							headers: { Authorization: `Bearer ${token}` },
@@ -67,8 +69,10 @@ export default function EditAssesmentForm({
 		onMutate() {
 			toast.loading("Loading...");
 		},
-		onSuccess() {
-			router.push("/dashboard/fraud-assesment/create");
+		onSuccess(data) {
+			console.log(data);
+
+			// router.push("/dashboard/fraud-assesment/create");
 			toast.dismiss();
 			toast.success("Berhasil");
 		},
@@ -90,8 +94,6 @@ export default function EditAssesmentForm({
 			return data;
 		},
 	});
-
-	console.log(data);
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
@@ -166,7 +168,7 @@ export default function EditAssesmentForm({
 								)}
 							</div>
 							<div className="flex flex-row gap-3 justify-end items-center w-1/4">
-								{data?.[index].proof !== null ? (
+								{data?.[index].proof !== null && getValues(name) !== null ? (
 									<div className="flex items-end gap-3 w-full justify-between">
 										<div className="flex flex-col gap-3">
 											<p>Upload bukti</p>
@@ -178,7 +180,17 @@ export default function EditAssesmentForm({
 												{data?.[index].proof?.file_name}
 											</Link>
 										</div>
-										<Button isIconOnly color="danger" size="sm">
+										<Button
+											isIconOnly
+											color="danger"
+											size="sm"
+											onClick={() => {
+												setValue(name, null, {
+													shouldValidate: true,
+													shouldDirty: true,
+												});
+											}}
+										>
 											<Trash2 className="w-4 h-4" />
 										</Button>
 									</div>
