@@ -62,13 +62,12 @@ export function Datatable<TData extends GenericItem>({
 
 	const pages = Math.ceil(data.length / rowsPerPage);
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	const items = useMemo(() => {
 		const start = (page - 1) * rowsPerPage;
 		const end = start + rowsPerPage;
 
 		return data.slice(start, end);
-	}, [page, rowsPerPage]);
+	}, [page, data, rowsPerPage]);
 
 	return (
 		<Table
@@ -120,7 +119,7 @@ export function Datatable<TData extends GenericItem>({
 				)}
 			</TableHeader>
 			<TableBody
-				items={data ?? []}
+				items={items}
 				loadingContent={<Spinner />}
 				loadingState={loadingState}
 				emptyContent={!isLoading && data.length < 1 && "Tidak ada data"}

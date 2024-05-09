@@ -24,3 +24,15 @@ export type ProofType = {
 	url: string;
 	file_name: string;
 };
+
+export type Assesments = {
+	id_institution: string;
+	id_admin: string;
+	id_reviewer?: string;
+	tanggal: string;
+	hasil: number;
+	selesai: boolean;
+	key: string;
+	nama_admin: string;
+	nama_reviewer: string;
+};

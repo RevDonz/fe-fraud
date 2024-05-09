@@ -1,7 +1,10 @@
+import type { FraudHistoryType } from "@/app/dashboard/fraud-assesment/history/column";
 import type { CurrentSubBab } from "@/types/assesment";
 
 // Get All Assesment History
-export const getAssesmentHistory = async (token: string) => {
+export const getAssesmentHistory = async (
+	token: string,
+): Promise<FraudHistoryType[]> => {
 	const response = await fetch(
 		`${process.env.NEXT_PUBLIC_BASE_URL}/api/assessments`,
 		{

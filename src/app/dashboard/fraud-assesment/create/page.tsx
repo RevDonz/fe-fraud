@@ -40,7 +40,7 @@ export default async function FillAssesmentPage() {
 
 	const isAttempAssesment = await startAssesment(token as string);
 
-	const key = fraudHistory.length > 0 && fraudHistory[0].key;
+	const assesment = fraudHistory.filter((assesment) => !assesment.selesai);
 
 	return (
 		<>
@@ -148,7 +148,7 @@ export default async function FillAssesmentPage() {
 						</Card>
 					);
 				})}
-				<SubmitButton id={key} token={token as string} />
+				<SubmitButton id={assesment[0].key} token={token as string} />
 			</div>
 		</>
 	);

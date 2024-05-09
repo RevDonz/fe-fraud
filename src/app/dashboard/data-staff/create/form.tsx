@@ -153,7 +153,7 @@ export default function CreateStaffForm() {
 					)}
 				/>
 			</div>
-			<Button color="primary" >Tambah Akun</Button>
+			<Button color="primary">Tambah Akun</Button>
 		</div>
 	);
 }

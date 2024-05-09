@@ -3,7 +3,11 @@
 import Datatable from "@/components/datatable";
 import { getAssesmentHistory } from "@/lib/assesment";
 import { useQuery } from "@tanstack/react-query";
-import { columns, renderCellFraudHistory } from "./column";
+import {
+	columns,
+	renderCellFraudHistory,
+	type FraudHistoryType,
+} from "./column";
 
 const TableHistroy = ({ token }: { token: string }) => {
 	const { data, isLoading } = useQuery({
@@ -13,6 +17,15 @@ const TableHistroy = ({ token }: { token: string }) => {
 			return data;
 		},
 	});
+
+	const compareDates = (a: FraudHistoryType, b: FraudHistoryType) => {
+		const dateA = new Date(a.tanggal).getTime();
+		const dateB = new Date(b.tanggal).getTime();
+		return dateB - dateA;
+	};
+
+	// Mengurutkan array berdasarkan tanggal
+	const sortedData = data?.sort(compareDates);
 
 	return (
 		<Datatable
