@@ -11,7 +11,7 @@ export const Routes = [
 	},
 	{
 		name: "Dashboard",
-		url: "/dashboard/undefined",
+		url: "/dashboard",
 		role: ["admin", "super admin", "staff", "reviewer"],
 	},
 	{
@@ -27,12 +27,17 @@ export const Routes = [
 	{
 		name: "Fraud Assesment History",
 		url: "/dashboard/fraud-assesment/history",
-		role: ["admin", "staff", "reviewer"],
+		role: ["admin", "staff"],
 	},
 	{
-		name: "Fraud Assesment History",
+		name: "Create Fraud Assesment",
 		url: "/dashboard/fraud-assesment/create",
-		role: ["admin", "staff", "reviewer"],
+		role: ["admin", "staff"],
+	},
+	{
+		name: "Grade Fraud Assesment",
+		url: "/dashboard/fraud-assesment/grade",
+		role: ["reviewer"],
 	},
 	{
 		name: "Fraud Assesment",

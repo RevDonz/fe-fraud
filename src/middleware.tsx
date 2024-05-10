@@ -10,6 +10,8 @@ export const middleware: NextMiddleware = async (request) => {
 		secret: process.env.NEXTAUTH_SECRET,
 	});
 
+	console.log("pathname:", pathname);
+
 	try {
 		const response = await fetch(
 			`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth`,
@@ -28,7 +30,9 @@ export const middleware: NextMiddleware = async (request) => {
 
 		const { success, code, data } = res;
 		if (success && code === 200) {
-			const isAuthorize = checkUserPermission(firstPath, data.role);
+			const isAuthorize = checkUserPermission(pathname, data.role);
+			console.log(firstPath);
+			console.log(data.role);
 
 			if (
 				!isAuthorize &&
