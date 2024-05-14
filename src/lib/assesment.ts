@@ -18,6 +18,21 @@ export const getAssesmentHistory = async (
 	return result.data;
 };
 
+// Check Activated Assesment
+export const checkAssesment = async (token: string) => {
+	const response = await fetch(
+		`${process.env.NEXT_PUBLIC_BASE_URL}/api/assessment?sub_bab=1.1`,
+		{
+			method: "GET",
+			headers: { Authorization: `Bearer ${token}` },
+		},
+	);
+
+	const result = await response.json();
+
+	return result.success;
+};
+
 // Start Assesment
 export const startAssesment = async (token: string) => {
 	const response = await fetch(

@@ -10,8 +10,6 @@ export const middleware: NextMiddleware = async (request) => {
 		secret: process.env.NEXTAUTH_SECRET,
 	});
 
-	console.log("pathname:", pathname);
-
 	try {
 		const response = await fetch(
 			`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth`,
@@ -31,8 +29,6 @@ export const middleware: NextMiddleware = async (request) => {
 		const { success, code, data } = res;
 		if (success && code === 200) {
 			const isAuthorize = checkUserPermission(pathname, data.role);
-			console.log(firstPath);
-			console.log(data.role);
 
 			if (
 				!isAuthorize &&
@@ -47,9 +43,7 @@ export const middleware: NextMiddleware = async (request) => {
 			}
 		}
 	} catch (error) {
-		// Tangani kesalahan saat pemanggilan API
 		console.error("Error during API call:", error);
-		// Tindakan yang sesuai saat terjadi kesalahan, misalnya menampilkan halaman error
 
 		return NextResponse.redirect(new URL("/error", request.url));
 	}

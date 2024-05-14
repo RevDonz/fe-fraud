@@ -703,9 +703,9 @@ export default function SubmitButton({
 				>
 					Submit
 				</Button>
-				{/* <Button type="button" onClick={automation}>
+				<Button type="button" onClick={automation}>
 					Automation Assesment
-				</Button> */}
+				</Button>
 			</div>
 		</div>
 	);

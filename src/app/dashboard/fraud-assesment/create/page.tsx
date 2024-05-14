@@ -2,9 +2,9 @@ import ButtonLink from "@/components/button-link-assesment";
 import ModalAssesment from "@/components/modal-fraud-assesment";
 import { ListSubBab, Questions } from "@/constant/assesment";
 import {
+	checkAssesment,
 	getAssesmentHistory,
 	getFinishedAssesment,
-	startAssesment,
 } from "@/lib/assesment";
 import { getServerAuthSession } from "@/lib/auth";
 import {
@@ -38,13 +38,13 @@ export default async function FillAssesmentPage() {
 			? ListSubBab.filter((item) => !finished.includes(item.toString()))
 			: [];
 
-	const isAttempAssesment = await startAssesment(token as string);
+	const isAttempAssesment = await checkAssesment(token as string);
 
 	const assesment = fraudHistory.filter((assesment) => !assesment.selesai);
 
 	return (
 		<>
-			{isAttempAssesment && <ModalAssesment />}
+			{!isAttempAssesment && <ModalAssesment token={token as string} />}
 			<ButtonLink />
 
 			<div className="flex flex-col gap-5">
@@ -148,7 +148,10 @@ export default async function FillAssesmentPage() {
 						</Card>
 					);
 				})}
-				<SubmitButton id={assesment[0].key} token={token as string} />
+				<SubmitButton
+					id={isAttempAssesment && assesment[0].key}
+					token={token as string}
+				/>
 			</div>
 		</>
 	);

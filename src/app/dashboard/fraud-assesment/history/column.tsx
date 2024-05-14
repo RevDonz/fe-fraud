@@ -83,7 +83,7 @@ export const renderCellFraudHistory = (
 					color="primary"
 					size="sm"
 					as={Link}
-					href={`/dashboard/fraud-assesment/${history.id}/detail`}
+					href={`/dashboard/fraud-assesment/detail/${history.key}`}
 					isDisabled={!history.selesai}
 				>
 					Lihat Detail
