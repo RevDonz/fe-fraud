@@ -129,7 +129,7 @@ const NavbarComponent = ({
 								}}
 								className="transition-transform"
 								description={email}
-								name={`@${name}`}
+								name={`${name}`}
 							/>
 						</DropdownTrigger>
 						<DropdownMenu aria-label="Profile Actions" variant="flat">
