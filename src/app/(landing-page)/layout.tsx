@@ -17,7 +17,7 @@ export default async function LandingPageLayout({
 			<NavbarComponent
 				name={session?.user.name as string}
 				email={session?.user.email as string}
-				role={session?.user.role}
+				role={session?.user.role as string}
 			/>
 			<div className="flex-1">{children}</div>
 
