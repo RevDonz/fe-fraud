@@ -18,11 +18,7 @@ export default function ButtonLink() {
 			</Button>
 			{/* <Link href={"/dashboard/fraud-assesment/history"}></Link> */}
 			<Button
-				variant={
-					pathname === "/dashboard/accounts"
-						? "solid"
-						: "bordered"
-				}
+				variant={pathname === "/dashboard/accounts/edit" ? "solid" : "bordered"}
 				color="primary"
 				as={Link}
 				href={"/dashboard/accounts"}

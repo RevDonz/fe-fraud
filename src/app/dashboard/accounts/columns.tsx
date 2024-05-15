@@ -15,12 +15,12 @@ export const columns = [
 		label: "NAMA AKUN",
 	},
 	{
-		key: "email",
-		label: "EMAIL",
+		key: "id",
+		label: "ID",
 	},
 	{
-		key: "address",
-		label: "ADDRESS",
+		key: "email",
+		label: "EMAIL",
 	},
 	{
 		key: "is_active",
@@ -55,6 +55,6 @@ export const renderCellAccounts = (data: AdminType, columnKey: React.Key) => {
 			return data.institusi[columnKey as keyof EntityType];
 
 		default:
-			return "";
+			return cellValue as React.ReactNode;
 	}
 };
