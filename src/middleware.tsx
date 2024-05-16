@@ -4,28 +4,32 @@ import { NextResponse } from "next/server";
 import { Routes } from "./constant/routes";
 
 export async function middleware(req: NextRequest) {
-	// const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-	// const { pathname } = req.nextUrl;
+	const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+	const { pathname } = req.nextUrl;
+	console.log(token);
+	console.log(pathname);
 
-	// if (token && (pathname === "/auth/login" || pathname === "/auth/register")) {
-	// 	return NextResponse.redirect(new URL("/dashboard", req.url));
-	// }
+	if (token && (pathname === "/auth/login" || pathname === "/auth/register")) {
+		return NextResponse.redirect(new URL("/dashboard", req.url));
+	}
 
-	// const route = Routes.find((route) => pathname.startsWith(route.url));
+	const route = Routes.find((route) => pathname.startsWith(route.url));
+	console.log(route);
 
-	// if (route) {
-	// 	if (!token) {
-	// 		return NextResponse.redirect(new URL("/auth/login", req.url));
-	// 	}
+	if (route) {
+		if (!token) {
+			return NextResponse.redirect(new URL("/auth/login", req.url));
+		}
 
-	// 	const userHasAccess = route.role.includes(token.role);
+		const userHasAccess = route.role.includes(token.role);
+		console.log(userHasAccess);
 
-	// 	if (!userHasAccess) {
-	// 		return NextResponse.redirect(new URL("/404", req.url));
-	// 	}
-	// }
+		// if (!userHasAccess) {
+		// 	return NextResponse.redirect(new URL("/404", req.url));
+		// }
+	}
 
-	// return NextResponse.next();
+	return NextResponse.next();
 }
 
 export const config = {
