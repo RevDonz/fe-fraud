@@ -25,9 +25,9 @@ export async function middleware(req: NextRequest) {
 		const userHasAccess = route.role.includes(token.role);
 		console.log(`userHasAccess ${userHasAccess}`);
 
-		// if (!userHasAccess) {
-		// 	return NextResponse.redirect(new URL("/404", req.url));
-		// }
+		if (!userHasAccess) {
+			return NextResponse.redirect(new URL("/404", req.url));
+		}
 	}
 
 	return NextResponse.next();
