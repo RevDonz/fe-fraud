@@ -1,3 +1,4 @@
+import { addDays, isBefore } from "date-fns";
 import {
 	getServerSession,
 	type AuthOptions,
@@ -112,8 +113,51 @@ export const authOptions: AuthOptions = {
 				token.username = user.username;
 				token.name = user.fullName;
 				token.email = user.email;
+				token.expires_at = addDays(new Date(), 1);
+				return token;
 			}
-			return token;
+
+			if (token.expires_at && isBefore(new Date(), token.expires_at)) {
+				return token;
+			}
+
+			try {
+				const res = await fetch(
+					`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth`,
+					{
+						method: "PUT",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify({
+							refresh_token: token.refreshToken,
+						}),
+					},
+				);
+
+				const refreshedTokens = await res.json();
+
+				console.log(refreshedTokens);
+
+				if (!res.ok) {
+					throw refreshedTokens;
+				}
+
+				return {
+					...token,
+					accessToken: refreshedTokens.data.access_token,
+					accessTokenExpires: addDays(new Date(), 1),
+					refreshToken:
+						refreshedTokens.data.refresh_token ?? token.refreshToken,
+				};
+			} catch (error) {
+				console.error("Error refreshing access token", error);
+
+				return {
+					...token,
+					error: "RefreshAccessTokenError",
+				};
+			}
 		},
 		async session({ session, token }) {
 			session.user.accessToken = token.accessToken;
@@ -125,6 +169,7 @@ export const authOptions: AuthOptions = {
 	},
 	session: {
 		strategy: "jwt",
+		maxAge: 24 * 60 * 60,
 	},
 	pages: {
 		signIn: "/auth/login",

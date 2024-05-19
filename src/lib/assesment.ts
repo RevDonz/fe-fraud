@@ -34,7 +34,7 @@ export const checkAssesment = async (token: string) => {
 };
 
 // Start Assesment
-export const startAssesment = async (token: string) => {
+export const startAssesment = async (token: string): Promise<boolean> => {
 	const response = await fetch(
 		`${process.env.NEXT_PUBLIC_BASE_URL}/api/assessment`,
 		{

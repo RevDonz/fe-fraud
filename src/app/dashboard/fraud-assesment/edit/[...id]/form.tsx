@@ -79,7 +79,7 @@ export default function EditAssesmentForm({
 		},
 		onError(error) {
 			toast.dismiss();
-			toast.success("Gagal submit assesment!");
+			toast.error("Gagal submit assesment!");
 			console.log("Error submit", error);
 		},
 	});
