@@ -12,3 +12,12 @@ export type AdminType = {
 	email: string;
 	is_active: boolean;
 };
+
+export type StaffType = {
+	full_name: string;
+	email: string;
+	role: string;
+	status: boolean;
+	id: string;
+	key: string;
+};

@@ -1,14 +1,6 @@
 import type { AdminType, EntityType } from "@/types/entity";
 import { Chip, type ChipProps } from "@nextui-org/react";
 
-export type StaffType = {
-	id: string;
-	name: string;
-	email: string;
-	role: string;
-	status: string;
-};
-
 export const columns = [
 	{
 		key: "name",
