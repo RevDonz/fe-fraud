@@ -21,3 +21,11 @@ export type StaffType = {
 	id: string;
 	key: string;
 };
+
+export type LoginHistoryType = {
+	id: string;
+	nama: string;
+	email: string;
+	role: string;
+	tanggal: string;
+};
