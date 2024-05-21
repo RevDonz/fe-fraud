@@ -95,7 +95,7 @@ const NavbarComponent = ({
 					/>
 				</Link>
 			</NavbarBrand>
-			<NavbarContent className="hidden sm:flex gap-4" justify="center">
+			<NavbarContent className="hidden sm:flex gap-10" justify="center">
 				{Menus.map((menu) => {
 					return (
 						<NavbarItem key={menu.name} isActive={menu.url === pathname}>

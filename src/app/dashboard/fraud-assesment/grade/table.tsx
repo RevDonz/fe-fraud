@@ -1,6 +1,6 @@
 "use client";
 import Datatable from "@/components/datatable";
-import { getAssesmentHistory } from "@/lib/assesment";
+import { getEvaluationAssesment } from "@/lib/assesment";
 import { Tab, Tabs } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -15,7 +15,7 @@ const TableGrade = ({ token }: { token: string }) => {
 	const { data, isLoading } = useQuery({
 		queryKey: ["fraud-history"],
 		queryFn: async () => {
-			const data = await getAssesmentHistory(token);
+			const data = await getEvaluationAssesment(token);
 			return data;
 		},
 	});

@@ -34,8 +34,12 @@ export const columns = [
 		label: "STATUS",
 	},
 	{
-		key: "hasil",
-		label: "HASIL",
+		key: "hasil_internal",
+		label: "HASIL INTERNAL",
+	},
+	{
+		key: "hasil_external",
+		label: "HASIL EXTERNAL",
 	},
 	{
 		key: "aksi",

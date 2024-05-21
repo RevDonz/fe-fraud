@@ -109,3 +109,20 @@ export const getAssesmentSubBab = async (
 
 	return result.data;
 };
+
+// Get Assesment need to be Evaluation
+export const getEvaluationAssesment = async (
+	token: string,
+): Promise<FraudHistoryType[]> => {
+	const response = await fetch(
+		`${process.env.NEXT_PUBLIC_BASE_URL}/api/assessments/list`,
+		{
+			headers: { Authorization: `Bearer ${token}` },
+		},
+	);
+
+	const result = await response.json();
+	if (result.data === null) result.data = [];
+
+	return result.data;
+};

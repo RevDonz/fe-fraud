@@ -56,9 +56,6 @@ export function Datatable<TData extends GenericItem>({
 		},
 		[],
 	);
-	// const pages = useMemo(() => {
-	// 	return data.length ? Math.ceil(data.length / rowsPerPage) : 0;
-	// }, [data.length, rowsPerPage]);
 
 	const pages = Math.ceil(data.length / rowsPerPage);
 
