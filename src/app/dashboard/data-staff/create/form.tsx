@@ -68,7 +68,7 @@ export default function CreateStaffForm({
 			if (result.success) {
 				toast.success("Berhasil!");
 
-				router.push("/dashobard/data-staff");
+				router.push("/dashboard/data-staff");
 			} else {
 				toast.error("Gagal!", {
 					description: <p>Terdapat kesalahan</p>,

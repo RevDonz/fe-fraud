@@ -66,6 +66,43 @@ export function Datatable<TData extends GenericItem>({
 		return data.slice(start, end);
 	}, [page, data, rowsPerPage]);
 
+	const BottomContent = () => {
+		return (
+			<div className="flex w-full justify-between items-center">
+				<span className="text-default-400 text-small w-1/3">
+					Total: {data.length}
+				</span>
+				<Pagination
+					isCompact
+					showControls
+					showShadow
+					page={page}
+					total={pages}
+					onChange={(page) => setPage(page)}
+				/>
+				<div className="flex items-center justify-end w-1/3 gap-3">
+					<p>Rows per page</p>
+					<Select
+						onChange={onRowsPerPageChange}
+						defaultSelectedKeys={["5"]}
+						className="max-w-20"
+						size="sm"
+					>
+						<SelectItem key={"5"} value={5}>
+							5
+						</SelectItem>
+						<SelectItem key={"10"} value={10}>
+							10
+						</SelectItem>
+						<SelectItem key={"15"} value={15}>
+							15
+						</SelectItem>
+					</Select>
+				</div>
+			</div>
+		);
+	};
+
 	return (
 		<Table
 			aria-label={label}
@@ -73,40 +110,7 @@ export function Datatable<TData extends GenericItem>({
 			classNames={{
 				table: isLoading && "min-h-[205px]",
 			}}
-			bottomContent={
-				<div className="flex w-full justify-between items-center">
-					<span className="text-default-400 text-small w-1/3">
-						Total: {data.length}
-					</span>
-					<Pagination
-						isCompact
-						showControls
-						showShadow
-						page={page}
-						total={pages}
-						onChange={(page) => setPage(page)}
-					/>
-					<div className="flex items-center justify-end w-1/3 gap-3">
-						<p>Rows per page</p>
-						<Select
-							onChange={onRowsPerPageChange}
-							defaultSelectedKeys={["5"]}
-							className="max-w-20"
-							size="sm"
-						>
-							<SelectItem key={"5"} value={5}>
-								5
-							</SelectItem>
-							<SelectItem key={"10"} value={10}>
-								10
-							</SelectItem>
-							<SelectItem key={"15"} value={15}>
-								15
-							</SelectItem>
-						</Select>
-					</div>
-				</div>
-			}
+			bottomContent={<BottomContent />}
 		>
 			<TableHeader columns={columns}>
 				{(column) => (
