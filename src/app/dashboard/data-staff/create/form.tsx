@@ -38,8 +38,6 @@ export default function CreateStaffForm({
 
 	const onSubmit = async (values: z.infer<typeof staffSchema>) => {
 		try {
-			console.log(values);
-
 			toast.loading("Loading...");
 
 			const response = await fetch(
@@ -133,7 +131,7 @@ export default function CreateStaffForm({
 								autoFocus
 								label="No. Telp"
 								placeholder=" "
-								type="text"
+								type="number"
 								variant="bordered"
 								labelPlacement="outside"
 								isInvalid={!!errors.phone}

@@ -15,6 +15,7 @@ export const staffSchema = z
 		phone: z
 			.string({
 				required_error: "Required",
+				invalid_type_error: "No. Telp isi dengan angka",
 			})
 			.min(1, " No. Telp tidak boleh kosong"),
 		username: z
