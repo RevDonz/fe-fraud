@@ -141,7 +141,7 @@ const RegisterForm = () => {
 								autoFocus
 								label="No. Telp Pendaftar"
 								placeholder=" "
-								type="text"
+								type="number"
 								variant="bordered"
 								labelPlacement="outside"
 								isInvalid={!!errors.phone}
@@ -213,7 +213,7 @@ const RegisterForm = () => {
 								autoFocus
 								label="No. Telp Entitas"
 								placeholder=" "
-								type="text"
+								type="number"
 								variant="bordered"
 								labelPlacement="outside"
 								isInvalid={!!errors.institution_phone}
