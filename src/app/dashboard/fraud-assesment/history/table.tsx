@@ -10,7 +10,7 @@ import {
 } from "./column";
 
 const TableHistroy = ({ token }: { token: string }) => {
-	const { data, isLoading } = useQuery({
+	const { data, isPending } = useQuery({
 		queryKey: ["fraud-history"],
 		queryFn: async () => {
 			const data = await getAssesmentHistory(token);
@@ -25,14 +25,14 @@ const TableHistroy = ({ token }: { token: string }) => {
 	};
 
 	// Mengurutkan array berdasarkan tanggal
-	const sortedData = data?.sort(compareDates);
+	// const sortedData = data?.sort(compareDates);
 
 	return (
 		<Datatable
 			data={data ?? []}
 			columns={columns}
 			renderCell={renderCellFraudHistory}
-			isLoading={isLoading}
+			isLoading={isPending}
 			label="Table Fraud Assesment"
 		/>
 	);

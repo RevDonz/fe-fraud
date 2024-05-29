@@ -20,14 +20,14 @@ interface QuestionsListProps {
 }
 
 const QuestionsList: React.FC<QuestionsListProps> = ({ token }) => {
-	const { data: finished, isLoading } = useQuery<string[]>({
+	const { data: finished, isPending } = useQuery<string[]>({
 		queryKey: ["fraud-finished-assesment"],
 		queryFn: async () => {
 			return await getFinishedAssesment(token);
 		},
 	});
 
-	if (isLoading) {
+	if (isPending) {
 		return <LoadingAssesment />;
 	}
 

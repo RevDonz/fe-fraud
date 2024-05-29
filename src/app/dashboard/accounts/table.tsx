@@ -15,7 +15,7 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
 export const DataTableAccounts = ({ token }: { token: string }) => {
 	const queryClient = useQueryClient();
 
-	const { data, isLoading, error } = useQuery({
+	const { data, isPending, error } = useQuery({
 		queryKey: ["admin-list"],
 		queryFn: async () => {
 			try {
@@ -103,7 +103,7 @@ export const DataTableAccounts = ({ token }: { token: string }) => {
 			data={data ?? []}
 			columns={columns}
 			renderCell={renderCellAccounts}
-			isLoading={isLoading}
+			isLoading={isPending}
 			label="Table Account Admin"
 		/>
 	);

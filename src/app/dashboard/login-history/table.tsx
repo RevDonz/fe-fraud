@@ -6,7 +6,7 @@ import type { LoginHistoryType } from "@/types/entity";
 import { useQuery } from "@tanstack/react-query";
 
 const TableLoginHistory = ({ token }: { token: string }) => {
-	const { data, isLoading } = useQuery({
+	const { data, isPending } = useQuery({
 		queryKey: ["data-login-history"],
 		queryFn: async () => {
 			const data = await getLoginHistory(token);
@@ -61,7 +61,7 @@ const TableLoginHistory = ({ token }: { token: string }) => {
 			data={dataLoginHistoryWithId ?? []}
 			columns={columns}
 			renderCell={renderCellDataStaff}
-			isLoading={isLoading}
+			isLoading={isPending}
 			label="Table Data Staff"
 		/>
 	);

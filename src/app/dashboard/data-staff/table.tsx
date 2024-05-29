@@ -10,7 +10,7 @@ import { toast } from "sonner";
 const TableStaff = ({ token }: { token: string }) => {
 	const queryClient = useQueryClient();
 
-	const { data, isLoading } = useQuery({
+	const { data, isPending } = useQuery({
 		queryKey: ["data-staff"],
 		queryFn: async () => {
 			const data = await getAllStaff(token);
@@ -94,7 +94,7 @@ const TableStaff = ({ token }: { token: string }) => {
 			data={DataStaffWithId ?? []}
 			columns={columns}
 			renderCell={renderCellDataStaff}
-			isLoading={isLoading}
+			isLoading={isPending}
 			label="Table Data Staff"
 		/>
 	);

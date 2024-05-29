@@ -1,21 +1,14 @@
 "use client";
+import { Questions } from "@/constant/assesment";
 import { getDetailAssesment } from "@/lib/assesment";
-import {
-	Button,
-	Table,
-	TableBody,
-	TableCell,
-	TableColumn,
-	TableHeader,
-	TableRow,
-} from "@nextui-org/react";
+import { Button, Card, CardBody, CardHeader, Divider } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
 
 export default function DetailAssesmentPage({
 	token,
 	assesmentKey,
 }: { token: string; assesmentKey: string }) {
-	const { data, isLoading } = useQuery({
+	const { data, isPending } = useQuery({
 		queryKey: ["fraud-history"],
 		queryFn: async () => {
 			const data = await getDetailAssesment(token, assesmentKey);
@@ -24,7 +17,8 @@ export default function DetailAssesmentPage({
 	});
 
 	return (
-		<Table aria-label="Example static collection table">
+		<div className="flex flex-col gap-5">
+			{/* <Table aria-label="Example static collection table">
 			<TableHeader>
 				<TableColumn>PENGISI ASSESMENT</TableColumn>
 				<TableColumn>REVIEWER</TableColumn>
@@ -43,6 +37,46 @@ export default function DetailAssesmentPage({
 					</TableCell>
 				</TableRow>
 			</TableBody>
-		</Table>
+		</Table> */}
+			<div className="flex flex-col gap-5">
+				{Questions.map((question, index) => (
+					<Card key={`${index * 2}`}>
+						<CardHeader>
+							<p className="font-semibold">
+								{index + 1}. {question.title}
+							</p>
+						</CardHeader>
+						{question.subtitle.map((subquestion, subIndex) => (
+							<div key={`${subIndex * 2}`}>
+								<Divider />
+								<CardBody>
+									<div className="flex items-center justify-between ml-4">
+										<p>
+											{index + 1}.{subIndex + 1}. {subquestion.title}
+										</p>
+
+										<div className="flex gap-3" key={`${index * 2}`}>
+											<Button
+												size="sm"
+												color="success"
+												className="text-white"
+												isLoading={isPending}
+											>
+												{isPending
+													? ""
+													: data?.point[subquestion.sub_bab.toString()]}
+											</Button>
+											<Button color="primary" size="sm" className="text-white">
+												Lihat Detail
+											</Button>
+										</div>
+									</div>
+								</CardBody>
+							</div>
+						))}
+					</Card>
+				))}
+			</div>
+		</div>
 	);
 }

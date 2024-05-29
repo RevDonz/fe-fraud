@@ -12,7 +12,7 @@ import {
 } from "./column";
 
 const TableGrade = ({ token }: { token: string }) => {
-	const { data, isLoading } = useQuery({
+	const { data, isPending } = useQuery({
 		queryKey: ["fraud-history"],
 		queryFn: async () => {
 			const data = await getEvaluationAssesment(token);
@@ -39,7 +39,7 @@ const TableGrade = ({ token }: { token: string }) => {
 					data={notAssessed ?? []}
 					columns={columnsNotAssessed}
 					renderCell={renderCellNotAssessed}
-					isLoading={isLoading}
+					isLoading={isPending}
 					label="Table Fraud Assesment"
 				/>
 			</Tab>
@@ -48,7 +48,7 @@ const TableGrade = ({ token }: { token: string }) => {
 					data={hasAssessed ?? []}
 					columns={columnsAssessed}
 					renderCell={renderCellHasAssessed}
-					isLoading={isLoading}
+					isLoading={isPending}
 					label="Table Fraud Assesment"
 				/>
 			</Tab>

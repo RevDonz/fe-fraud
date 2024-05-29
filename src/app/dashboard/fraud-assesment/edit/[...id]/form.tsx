@@ -89,7 +89,7 @@ export default function EditAssesmentForm({
 		// console.log(values);
 	};
 
-	const { data, isLoading } = useQuery({
+	const { data, isPending } = useQuery({
 		queryKey: ["current-subbab-assesment", sub],
 		queryFn: async () => {
 			const data = await getAssesmentSubBab(token, sub.toString());
@@ -141,7 +141,7 @@ export default function EditAssesmentForm({
 									{index + 1}. {questions.title}
 								</p>
 								<div className="flex justify-between items-center">
-									{isLoading ? (
+									{isPending ? (
 										<Skeleton className="h-4 w-full rounded-md" />
 									) : (
 										<RadioGroup
