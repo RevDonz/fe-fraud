@@ -1,44 +1,95 @@
 "use client";
 import { Questions } from "@/constant/assesment";
 import { getDetailAssesment } from "@/lib/assesment";
-import { Button, Card, CardBody, CardHeader, Divider } from "@nextui-org/react";
+import {
+	Button,
+	Card,
+	CardBody,
+	CardHeader,
+	Divider,
+	Modal,
+	ModalBody,
+	ModalContent,
+	ModalFooter,
+	ModalHeader,
+	Table,
+	TableBody,
+	TableCell,
+	TableColumn,
+	TableHeader,
+	TableRow,
+	useDisclosure,
+} from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import LoadingDetailAssesment from "./loadingDetail";
 
 export default function DetailAssesmentList({
 	token,
 	assesmentKey,
 }: { token: string; assesmentKey: string }) {
+	const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+	const router = useRouter();
+
 	const { data, isPending } = useQuery({
 		queryKey: ["fraud-detail-assesment"],
 		queryFn: async () => {
 			const data = await getDetailAssesment(token, assesmentKey);
+
 			return data;
 		},
 	});
 
+	if (isPending) return <LoadingDetailAssesment />;
+
 	return (
 		<div className="flex flex-col gap-5">
-			{/* <Table aria-label="Example static collection table">
-			<TableHeader>
-				<TableColumn>PENGISI ASSESMENT</TableColumn>
-				<TableColumn>REVIEWER</TableColumn>
-				<TableColumn>TANGGAL & WAKTU PENILAIAN</TableColumn>
-				<TableColumn>HASIL</TableColumn>
-				<TableColumn>AKSI</TableColumn>
-			</TableHeader>
-			<TableBody>
-				<TableRow key="1">
-					<TableCell>{data?.assesment.nama_admin}</TableCell>
-					<TableCell>{data?.assesment.nama_reviewer}</TableCell>
-					<TableCell>{data?.assesment.tanggal}</TableCell>
-					<TableCell>{data?.assesment.hasil}</TableCell>
-					<TableCell>
-						<Button type="button">Unduh</Button>
-					</TableCell>
-				</TableRow>
-			</TableBody>
-		</Table> */}
+			<Modal
+				isOpen={!data?.assessment.selesai}
+				onOpenChange={onOpenChange}
+				isDismissable={false}
+				hideCloseButton
+				size="xl"
+				backdrop="blur"
+			>
+				<ModalContent>
+					<ModalHeader className="flex flex-col gap-1">
+						Assesment belum selesai!
+					</ModalHeader>
+					<ModalBody>
+						<p className="text-danger-500">Dilarang masuk!</p>
+					</ModalBody>
+					<ModalFooter className="flex items-center justify-between">
+						<Button
+							color="primary"
+							onClick={() => router.push("/dashboard/fraud-assesment/history")}
+						>
+							Kembali
+						</Button>
+					</ModalFooter>
+				</ModalContent>
+			</Modal>
+			<Table aria-label="Example static collection table">
+				<TableHeader>
+					<TableColumn>PENGISI ASSESMENT</TableColumn>
+					<TableColumn>REVIEWER</TableColumn>
+					<TableColumn>TANGGAL & WAKTU PENILAIAN</TableColumn>
+					<TableColumn>HASIL</TableColumn>
+					<TableColumn>AKSI</TableColumn>
+				</TableHeader>
+				<TableBody>
+					<TableRow key="1">
+						<TableCell>{data?.assessment.admin}</TableCell>
+						<TableCell>{data?.assessment.reviewer_internal}</TableCell>
+						<TableCell>{data?.assessment.tanggal}</TableCell>
+						<TableCell>{data?.assessment.hasil}</TableCell>
+						<TableCell>
+							<Button type="button">Unduh</Button>
+						</TableCell>
+					</TableRow>
+				</TableBody>
+			</Table>
 			<div className="flex flex-col gap-5">
 				{Questions.map((question, index) => (
 					<Card key={`${index * 2}`}>
@@ -67,6 +118,7 @@ export default function DetailAssesmentList({
 													? data?.point[subquestion.sub_bab.toString()]
 													: ""}
 											</Button>
+
 											<Button
 												color="primary"
 												size="sm"

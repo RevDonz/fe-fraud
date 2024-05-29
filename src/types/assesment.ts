@@ -34,7 +34,10 @@ export type Assesments = {
 	selesai: boolean;
 	key: string;
 	nama_admin: string;
+	admin: string;
 	nama_reviewer: string;
+	reviewer_internal: string;
+	reviewer_external: string;
 };
 
 export interface AssesmentPoint {
@@ -42,11 +45,11 @@ export interface AssesmentPoint {
 }
 
 export type DetailAssesment = {
-	assesment: Assesments;
+	assessment: Assesments;
 	point: AssesmentPoint;
 };
 
-export type FraudHistoryType = {
+export interface FraudHistoryType {
 	id_institution: string;
 	id_admin: string;
 	id_reviewer_internal: string;
@@ -60,4 +63,4 @@ export type FraudHistoryType = {
 	admin: string;
 	reviewer_internal: string;
 	reviewer_external: string;
-};
+}
