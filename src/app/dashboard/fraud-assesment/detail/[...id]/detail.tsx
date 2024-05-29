@@ -1,82 +1,80 @@
 "use client";
 import { Questions } from "@/constant/assesment";
-import { getDetailAssesment } from "@/lib/assesment";
-import { Button, Card, CardBody, CardHeader, Divider } from "@nextui-org/react";
+import { getAssesmentSubBab } from "@/lib/assesment";
+import { Divider, Link, Radio, RadioGroup, Skeleton } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
 
 export default function DetailAssesmentPage({
+	bab,
+	subBab,
 	token,
-	assesmentKey,
-}: { token: string; assesmentKey: string }) {
+}: { bab: number; subBab: number; token: string }) {
+	const subTitle = Questions.find((item) => item.bab === bab)?.subtitle.find(
+		(sub) => sub.sub_bab === subBab,
+	);
+
 	const { data, isPending } = useQuery({
-		queryKey: ["fraud-detail-assesment"],
+		queryKey: ["detail-subbab-assesment", subBab],
 		queryFn: async () => {
-			const data = await getDetailAssesment(token, assesmentKey);
+			const data = await getAssesmentSubBab(token, subBab.toString());
 			return data;
 		},
 	});
 
 	return (
-		<div className="flex flex-col gap-5">
-			{/* <Table aria-label="Example static collection table">
-			<TableHeader>
-				<TableColumn>PENGISI ASSESMENT</TableColumn>
-				<TableColumn>REVIEWER</TableColumn>
-				<TableColumn>TANGGAL & WAKTU PENILAIAN</TableColumn>
-				<TableColumn>HASIL</TableColumn>
-				<TableColumn>AKSI</TableColumn>
-			</TableHeader>
-			<TableBody>
-				<TableRow key="1">
-					<TableCell>{data?.assesment.nama_admin}</TableCell>
-					<TableCell>{data?.assesment.nama_reviewer}</TableCell>
-					<TableCell>{data?.assesment.tanggal}</TableCell>
-					<TableCell>{data?.assesment.hasil}</TableCell>
-					<TableCell>
-						<Button type="button">Unduh</Button>
-					</TableCell>
-				</TableRow>
-			</TableBody>
-		</Table> */}
-			<div className="flex flex-col gap-5">
-				{Questions.map((question, index) => (
-					<Card key={`${index * 2}`}>
-						<CardHeader>
-							<p className="font-semibold">
-								{index + 1}. {question.title}
-							</p>
-						</CardHeader>
-						{question.subtitle.map((subquestion, subIndex) => (
-							<div key={`${subIndex * 2}`}>
-								<Divider />
-								<CardBody>
-									<div className="flex items-center justify-between ml-4">
-										<p>
-											{index + 1}.{subIndex + 1}. {subquestion.title}
-										</p>
-
-										<div className="flex gap-3" key={`${index * 2}`}>
-											<Button
-												size="sm"
-												color="success"
-												className="text-white"
-												isLoading={isPending}
-											>
-												{data?.point && !isPending
-													? data?.point[subquestion.sub_bab.toString()]
-													: ""}
-											</Button>
-											<Button color="primary" size="sm" className="text-white">
-												Lihat Detail
-											</Button>
-										</div>
-									</div>
-								</CardBody>
+		<div>
+			{subTitle?.questions?.map((questions, index) => {
+				return (
+					<div key={`${index * 2}`}>
+						<div className="flex w-full justify-between my-3 items-center">
+							<div className="flex flex-col gap-3 w-3/4">
+								<p>
+									{index + 1}. {questions.title}
+								</p>
+								<div className="flex justify-between items-center">
+									{isPending ? (
+										<Skeleton className="h-4 w-full rounded-md" />
+									) : (
+										<RadioGroup
+											orientation="horizontal"
+											defaultValue={data?.[index].answer.toString()}
+										>
+											<Radio type="radio" value="1">
+												Ada, dan sudah lengkap
+											</Radio>
+											<Radio type="radio" value="2">
+												Ada, belum lengkap
+											</Radio>
+											<Radio type="radio" value="3">
+												Belum ada
+											</Radio>
+										</RadioGroup>
+									)}
+								</div>
 							</div>
-						))}
-					</Card>
-				))}
-			</div>
+							<div className="flex flex-row gap-3 justify-end items-center w-1/4">
+								<div className="flex flex-col gap-3 w-full">
+									<div className="flex flex-col gap-3">
+										<p>Bukti</p>
+										{data?.[index].proof !== null ? (
+											<Link
+												size="sm"
+												href={`http://devta-1-j8022502.deta.app/api/actualfile/${data?.[index].proof?.file_name}`}
+												target="_blank"
+											>
+												{data?.[index].proof?.file_name}
+											</Link>
+										) : (
+											<p>-</p>
+										)}
+									</div>
+								</div>
+							</div>
+						</div>
+						<Divider />
+					</div>
+				);
+			})}
 		</div>
 	);
 }
