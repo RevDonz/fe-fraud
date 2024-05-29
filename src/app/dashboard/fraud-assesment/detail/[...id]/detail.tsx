@@ -9,7 +9,7 @@ export default function DetailAssesmentPage({
 	assesmentKey,
 }: { token: string; assesmentKey: string }) {
 	const { data, isPending } = useQuery({
-		queryKey: ["fraud-history"],
+		queryKey: ["fraud-detail-assesment"],
 		queryFn: async () => {
 			const data = await getDetailAssesment(token, assesmentKey);
 			return data;
@@ -62,9 +62,9 @@ export default function DetailAssesmentPage({
 												className="text-white"
 												isLoading={isPending}
 											>
-												{isPending
-													? ""
-													: data?.point[subquestion.sub_bab.toString()]}
+												{data?.point && !isPending
+													? data?.point[subquestion.sub_bab.toString()]
+													: ""}
 											</Button>
 											<Button color="primary" size="sm" className="text-white">
 												Lihat Detail
