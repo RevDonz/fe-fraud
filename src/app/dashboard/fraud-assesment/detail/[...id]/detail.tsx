@@ -37,7 +37,7 @@ export default function DetailAssesmentPage({
 									) : (
 										<RadioGroup
 											orientation="horizontal"
-											defaultValue={data?.[index].answer.toString()}
+											value={data?.[index].answer.toString()}
 										>
 											<Radio type="radio" value="1">
 												Ada, dan sudah lengkap
