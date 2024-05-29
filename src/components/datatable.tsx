@@ -78,13 +78,13 @@ export function Datatable<TData extends GenericItem>({
 					showShadow
 					page={page}
 					total={pages}
-					onChange={(page) => setPage(page)}
+					onChange={setPage}
 				/>
 				<div className="flex items-center justify-end w-1/3 gap-3">
 					<p>Rows per page</p>
 					<Select
 						onChange={onRowsPerPageChange}
-						defaultSelectedKeys={["5"]}
+						selectedKeys={[rowsPerPage]}
 						className="max-w-20"
 						size="sm"
 					>

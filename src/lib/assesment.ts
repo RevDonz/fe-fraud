@@ -1,5 +1,5 @@
 import type { FraudHistoryType } from "@/app/dashboard/fraud-assesment/history/column";
-import type { CurrentSubBab } from "@/types/assesment";
+import type { CurrentSubBab, DetailAssesment } from "@/types/assesment";
 
 // Get All Assesment History
 export const getAssesmentHistory = async (
@@ -15,7 +15,14 @@ export const getAssesmentHistory = async (
 	const result = await response.json();
 	if (result.data === null) result.data = [];
 
-	return result.data;
+	const data = result.data.map((history: FraudHistoryType) => {
+		return {
+			...history,
+			id: history.key,
+		};
+	});
+
+	return data;
 };
 
 // Check Activated Assesment
@@ -123,6 +130,46 @@ export const getEvaluationAssesment = async (
 
 	const result = await response.json();
 	if (result.data === null) result.data = [];
+
+	return result.data;
+};
+
+// Get Detail Assesment with subbab
+// export const getDetailAssesmentWithSubBab = async (
+// 	token: string,
+// 	subBab: string,
+// ): Promise<DetailAssesment> => {
+// 	const response = await fetch(
+// 		`${process.env.NEXT_PUBLIC_BASE_URL}/api/assessment?sub_bab=${subBab}`,
+// 		{
+// 			headers: { Authorization: `Bearer ${token}` },
+// 		},
+// 	);
+
+// 	const result = await response.json();
+// 	if (result.data === null) result.data = {};
+
+// 	result.data.point.sort(
+// 		(a: CurrentSubBab, b: CurrentSubBab) => a.point - b.point,
+// 	);
+
+// 	return result.data;
+// };
+
+// Get Detail Assesment with subbab
+export const getDetailAssesment = async (
+	token: string,
+	key: string,
+): Promise<DetailAssesment> => {
+	const response = await fetch(
+		`${process.env.NEXT_PUBLIC_BASE_URL}/api/assessment/insight/${key}`,
+		{
+			headers: { Authorization: `Bearer ${token}` },
+		},
+	);
+
+	const result = await response.json();
+	if (result.data === null) result.data = {};
 
 	return result.data;
 };

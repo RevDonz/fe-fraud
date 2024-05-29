@@ -19,6 +19,7 @@ const TableGrade = ({ token }: { token: string }) => {
 			return data;
 		},
 	});
+	console.log(data);
 
 	const compareDates = (a: FraudHistoryType, b: FraudHistoryType) => {
 		const dateA = new Date(a.tanggal).getTime();
@@ -33,20 +34,20 @@ const TableGrade = ({ token }: { token: string }) => {
 
 	return (
 		<Tabs aria-label="Options" color="primary" variant="bordered" size="lg">
-			<Tab key="hasAssessed" title="Sudah Di nilai">
-				<Datatable
-					data={hasAssessed ?? []}
-					columns={columnsAssessed}
-					renderCell={renderCellHasAssessed}
-					isLoading={isLoading}
-					label="Table Fraud Assesment"
-				/>
-			</Tab>
 			<Tab key="notAssessed" title="Belum Di nilai">
 				<Datatable
 					data={notAssessed ?? []}
 					columns={columnsNotAssessed}
 					renderCell={renderCellNotAssessed}
+					isLoading={isLoading}
+					label="Table Fraud Assesment"
+				/>
+			</Tab>
+			<Tab key="hasAssessed" title="Sudah Di nilai">
+				<Datatable
+					data={hasAssessed ?? []}
+					columns={columnsAssessed}
+					renderCell={renderCellHasAssessed}
 					isLoading={isLoading}
 					label="Table Fraud Assesment"
 				/>

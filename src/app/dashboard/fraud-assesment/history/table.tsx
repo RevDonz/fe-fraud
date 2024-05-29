@@ -24,8 +24,6 @@ const TableHistroy = ({ token }: { token: string }) => {
 		return dateB - dateA;
 	};
 
-	console.log(data);
-
 	// Mengurutkan array berdasarkan tanggal
 	const sortedData = data?.sort(compareDates);
 

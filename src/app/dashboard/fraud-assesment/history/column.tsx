@@ -4,21 +4,28 @@ import { Button, Chip } from "@nextui-org/react";
 import Link from "next/link";
 
 export type FraudHistoryType = {
+	id: string;
 	id_institution: string;
 	id_admin: string;
-	id_reviewer: string;
+	id_reviewer_internal: string;
+	id_reviewer_external: string;
 	tanggal: string;
-	hasil: number;
-	selesai: true;
+	hasil_internal: number;
+	hasil_external: number;
+	selesai: boolean;
 	key: string;
-	nama_admin: string;
-	nama_reviewer: string;
-	id: string;
+	admin: string;
+	reviewer_internal: string;
+	reviewer_external: string;
 };
 
 export const columns = [
 	{
-		key: "nama_admin",
+		key: "key",
+		label: "ID ASSESMENT",
+	},
+	{
+		key: "admin",
 		label: "PENGISI ASSESMENT",
 	},
 	{
@@ -59,11 +66,28 @@ export const renderCellFraudHistory = (
 			return reviewer;
 		}
 
-		case "hasil": {
-			const hasil = cellValue !== 0 ? cellValue : "Belum dinilai";
+		case "hasil_internal": {
+			// const hasil = cellValue !== 0 ? cellValue : "Belum dinilai";
 			return (
-				<Chip color="primary" variant="bordered" radius="sm">
-					{hasil}
+				<Chip
+					color="primary"
+					variant={cellValue === 0 ? "bordered" : "flat"}
+					radius="sm"
+				>
+					{cellValue === 0 ? "Belum dinilai" : cellValue}
+				</Chip>
+			);
+		}
+
+		case "hasil_external": {
+			// const hasil = cellValue !== 0 ? cellValue : "Belum dinilai";
+			return (
+				<Chip
+					color="primary"
+					variant={cellValue === 0 ? "bordered" : "flat"}
+					radius="sm"
+				>
+					{cellValue === 0 ? "Belum dinilai" : cellValue}
 				</Chip>
 			);
 		}
