@@ -1,5 +1,8 @@
-import type { FraudHistoryType } from "@/app/dashboard/fraud-assesment/history/column";
-import type { CurrentSubBab, DetailAssesment } from "@/types/assesment";
+import type {
+	CurrentSubBab,
+	DetailAssesment,
+	FraudHistoryType,
+} from "@/types/assesment";
 
 // Get All Assesment History
 export const getAssesmentHistory = async (

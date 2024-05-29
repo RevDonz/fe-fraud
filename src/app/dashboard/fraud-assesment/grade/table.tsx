@@ -1,6 +1,7 @@
 "use client";
 import Datatable from "@/components/datatable";
 import { getEvaluationAssesment } from "@/lib/assesment";
+import type { FraudHistoryType } from "@/types/assesment";
 import { Tab, Tabs } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -8,7 +9,6 @@ import {
 	columnsNotAssessed,
 	renderCellHasAssessed,
 	renderCellNotAssessed,
-	type FraudHistoryType,
 } from "./column";
 
 const TableGrade = ({ token }: { token: string }) => {
@@ -19,7 +19,6 @@ const TableGrade = ({ token }: { token: string }) => {
 			return data;
 		},
 	});
-	console.log(data);
 
 	const compareDates = (a: FraudHistoryType, b: FraudHistoryType) => {
 		const dateA = new Date(a.tanggal).getTime();

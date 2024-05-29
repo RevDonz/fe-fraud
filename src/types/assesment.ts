@@ -45,3 +45,19 @@ export type DetailAssesment = {
 	assesment: Assesments;
 	point: AssesmentPoint;
 };
+
+export type FraudHistoryType = {
+	id_institution: string;
+	id_admin: string;
+	id_reviewer_internal: string;
+	id_reviewer_external: string;
+	tanggal: string;
+	hasil_internal: number;
+	hasil_external: number;
+	selesai: boolean;
+	key: string;
+	id: string;
+	admin: string;
+	reviewer_internal: string;
+	reviewer_external: string;
+};

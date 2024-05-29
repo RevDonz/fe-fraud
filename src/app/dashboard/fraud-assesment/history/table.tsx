@@ -2,12 +2,9 @@
 
 import Datatable from "@/components/datatable";
 import { getAssesmentHistory } from "@/lib/assesment";
+import type { FraudHistoryType } from "@/types/assesment";
 import { useQuery } from "@tanstack/react-query";
-import {
-	columns,
-	renderCellFraudHistory,
-	type FraudHistoryType,
-} from "./column";
+import { columns, renderCellFraudHistory } from "./column";
 
 const TableHistroy = ({ token }: { token: string }) => {
 	const { data, isPending } = useQuery({

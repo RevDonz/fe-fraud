@@ -1,23 +1,8 @@
 "use client";
 
+import type { FraudHistoryType } from "@/types/assesment";
 import { Button, Chip } from "@nextui-org/react";
 import Link from "next/link";
-
-export type FraudHistoryType = {
-	id: string;
-	id_institution: string;
-	id_admin: string;
-	id_reviewer_internal: string;
-	id_reviewer_external: string;
-	tanggal: string;
-	hasil_internal: number;
-	hasil_external: number;
-	selesai: boolean;
-	key: string;
-	admin: string;
-	reviewer_internal: string;
-	reviewer_external: string;
-};
 
 export const columns = [
 	{
