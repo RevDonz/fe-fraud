@@ -28,4 +28,5 @@ export type LoginHistoryType = {
 	email: string;
 	role: string;
 	tanggal: string;
+	event: string;
 };

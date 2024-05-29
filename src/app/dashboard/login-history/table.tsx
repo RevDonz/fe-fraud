@@ -39,6 +39,10 @@ const TableLoginHistory = ({ token }: { token: string }) => {
 			key: "tanggal",
 			label: "TANGGAL & WAKTU",
 		},
+		{
+			key: "event",
+			label: "AKTIFITAS",
+		},
 	];
 
 	const renderCellDataStaff = (
