@@ -31,10 +31,9 @@ const QuestionsList: React.FC<QuestionsListProps> = ({ token }) => {
 		return <LoadingAssesment />;
 	}
 
-	const unFinished =
-		finished && finished.length > 0
-			? ListSubBab.filter((item) => !finished.includes(item.toString()))
-			: [];
+	const unFinished = finished
+		? ListSubBab.filter((item) => !finished.includes(item.toString()))
+		: [];
 
 	return (
 		<div className="flex flex-col gap-5">

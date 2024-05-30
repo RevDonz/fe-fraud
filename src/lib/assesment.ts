@@ -68,7 +68,13 @@ export const getFinishedAssesment = async (token: string) => {
 	);
 
 	const result = await response.json();
-	if (result.data === null) result.data = [];
+	// if (result.data === null) result.data = [];
+	if (
+		result.data === null ||
+		(typeof result.data === "object" && Object.keys(result.data).length === 0)
+	) {
+		result.data = [];
+	}
 
 	return result.data;
 };

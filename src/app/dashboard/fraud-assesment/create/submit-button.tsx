@@ -662,9 +662,9 @@ export default function SubmitButton({
 							headers: { Authorization: `Bearer ${token}` },
 						},
 					);
-					if (!response.ok) {
-						throw new Error("Failed to submit data");
-					}
+					// if (!response.ok) {
+					// 	throw new Error("Failed to submit data");
+					// }
 					const result = await response.json();
 					console.log(result);
 
