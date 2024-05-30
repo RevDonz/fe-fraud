@@ -1,7 +1,6 @@
 import { getServerAuthSession } from "@/lib/auth";
 import TableHistroy from "./table";
 
-import ButtonLink from "@/components/button-link-assesment";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -10,17 +9,9 @@ export const metadata: Metadata = {
 		"Fraud Deterrence Propeller merupakan protokol pencegahan Fraud yang digunakan oleh setiap entitas, baik yang berorientasi profit maupun non-profit.",
 };
 
-const HistoryAssesmentPage = async () => {
+export default async function FraudAssesmentGrade() {
 	const session = await getServerAuthSession();
 	const token = session?.user.accessToken;
 
-	return (
-		<>
-			<ButtonLink />
-
-			<TableHistroy token={token as string} />
-		</>
-	);
-};
-
-export default HistoryAssesmentPage;
+	return <TableHistroy token={token as string} />;
+}

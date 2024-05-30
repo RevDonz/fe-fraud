@@ -46,6 +46,7 @@ export default function CreateAssesmentForm({
 						throw new Error("Failed to submit data");
 					}
 					const result = await response.json();
+
 					if (result.success) {
 						return result.data;
 					}
@@ -72,6 +73,7 @@ export default function CreateAssesmentForm({
 
 	const onSubmit = async (values: z.infer<typeof assesmentSchema>) => {
 		mutation.mutate(values);
+		console.log(values);
 	};
 
 	return (
@@ -161,14 +163,14 @@ export default function CreateAssesmentForm({
 					</div>
 				);
 			})}
-			<div className="flex justify-between items-center mt-5">
+			<div className="flex justify-end items-center mt-5">
 				<Button
 					color="primary"
 					variant="solid"
 					type="submit"
 					isLoading={mutation.isPending}
 				>
-					Submit
+					Simpan
 				</Button>
 			</div>
 		</form>

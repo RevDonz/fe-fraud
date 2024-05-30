@@ -1,24 +1,16 @@
 "use client";
 
+import type { FraudHistoryType } from "@/types/assesment";
 import { Button, Chip } from "@nextui-org/react";
 import Link from "next/link";
 
-export type FraudHistoryType = {
-	id_institution: string;
-	id_admin: string;
-	id_reviewer: string;
-	tanggal: string;
-	hasil: number;
-	selesai: true;
-	key: string;
-	nama_admin: string;
-	nama_reviewer: string;
-	id: string;
-};
-
 export const columns = [
 	{
-		key: "nama_admin",
+		key: "key",
+		label: "ID ASSESMENT",
+	},
+	{
+		key: "admin",
 		label: "PENGISI ASSESMENT",
 	},
 	{
@@ -34,8 +26,12 @@ export const columns = [
 		label: "STATUS",
 	},
 	{
-		key: "hasil",
-		label: "HASIL",
+		key: "hasil_internal",
+		label: "HASIL INTERNAL",
+	},
+	{
+		key: "hasil_external",
+		label: "HASIL EXTERNAL",
 	},
 	{
 		key: "aksi",
@@ -55,11 +51,28 @@ export const renderCellFraudHistory = (
 			return reviewer;
 		}
 
-		case "hasil": {
-			const hasil = cellValue !== 0 ? cellValue : "Belum dinilai";
+		case "hasil_internal": {
+			// const hasil = cellValue !== 0 ? cellValue : "Belum dinilai";
 			return (
-				<Chip color="primary" variant="bordered" radius="sm">
-					{hasil}
+				<Chip
+					color="primary"
+					variant={cellValue === 0 ? "bordered" : "flat"}
+					radius="sm"
+				>
+					{cellValue === 0 ? "Belum dinilai" : cellValue}
+				</Chip>
+			);
+		}
+
+		case "hasil_external": {
+			// const hasil = cellValue !== 0 ? cellValue : "Belum dinilai";
+			return (
+				<Chip
+					color="primary"
+					variant={cellValue === 0 ? "bordered" : "flat"}
+					radius="sm"
+				>
+					{cellValue === 0 ? "Belum dinilai" : cellValue}
 				</Chip>
 			);
 		}
@@ -83,7 +96,7 @@ export const renderCellFraudHistory = (
 					color="primary"
 					size="sm"
 					as={Link}
-					href={`/dashboard/fraud-assesment/${history.id}/detail`}
+					href={`/dashboard/fraud-assesment/detail/${history.key}`}
 					isDisabled={!history.selesai}
 				>
 					Lihat Detail

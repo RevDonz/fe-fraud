@@ -56,19 +56,52 @@ export function Datatable<TData extends GenericItem>({
 		},
 		[],
 	);
-	// const pages = useMemo(() => {
-	// 	return data.length ? Math.ceil(data.length / rowsPerPage) : 0;
-	// }, [data.length, rowsPerPage]);
 
 	const pages = Math.ceil(data.length / rowsPerPage);
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	const items = useMemo(() => {
 		const start = (page - 1) * rowsPerPage;
 		const end = start + rowsPerPage;
 
 		return data.slice(start, end);
-	}, [page, rowsPerPage]);
+	}, [page, data, rowsPerPage]);
+
+	const BottomContent = () => {
+		return (
+			<div className="flex w-full justify-between items-center">
+				<span className="text-default-400 text-small w-1/3">
+					Total: {data.length}
+				</span>
+				<Pagination
+					isCompact
+					showControls
+					showShadow
+					page={page}
+					total={pages}
+					onChange={setPage}
+				/>
+				<div className="flex items-center justify-end w-1/3 gap-3">
+					<p>Rows per page</p>
+					<Select
+						onChange={onRowsPerPageChange}
+						selectedKeys={[rowsPerPage]}
+						className="max-w-20"
+						size="sm"
+					>
+						<SelectItem key={"5"} value={5}>
+							5
+						</SelectItem>
+						<SelectItem key={"10"} value={10}>
+							10
+						</SelectItem>
+						<SelectItem key={"15"} value={15}>
+							15
+						</SelectItem>
+					</Select>
+				</div>
+			</div>
+		);
+	};
 
 	return (
 		<Table
@@ -77,40 +110,7 @@ export function Datatable<TData extends GenericItem>({
 			classNames={{
 				table: isLoading && "min-h-[205px]",
 			}}
-			bottomContent={
-				<div className="flex w-full justify-between items-center">
-					<span className="text-default-400 text-small w-1/3">
-						Total: {data.length}
-					</span>
-					<Pagination
-						isCompact
-						showControls
-						showShadow
-						page={page}
-						total={pages}
-						onChange={(page) => setPage(page)}
-					/>
-					<div className="flex items-center justify-end w-1/3 gap-3">
-						<p>Rows per page</p>
-						<Select
-							onChange={onRowsPerPageChange}
-							defaultSelectedKeys={["5"]}
-							className="max-w-20"
-							size="sm"
-						>
-							<SelectItem key={"5"} value={5}>
-								5
-							</SelectItem>
-							<SelectItem key={"10"} value={10}>
-								10
-							</SelectItem>
-							<SelectItem key={"15"} value={15}>
-								15
-							</SelectItem>
-						</Select>
-					</div>
-				</div>
-			}
+			bottomContent={<BottomContent />}
 		>
 			<TableHeader columns={columns}>
 				{(column) => (
@@ -120,7 +120,7 @@ export function Datatable<TData extends GenericItem>({
 				)}
 			</TableHeader>
 			<TableBody
-				items={data ?? []}
+				items={items}
 				loadingContent={<Spinner />}
 				loadingState={loadingState}
 				emptyContent={!isLoading && data.length < 1 && "Tidak ada data"}

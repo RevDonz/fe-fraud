@@ -1,44 +1,25 @@
-"use client";
-import {
-	Card,
-	CardBody,
-	CardHeader,
-	Table,
-	TableBody,
-	TableCell,
-	TableColumn,
-	TableHeader,
-	TableRow,
-	getKeyValue,
-} from "@nextui-org/react";
-import { DataLoginHistory, columns } from "./columns";
+import { getServerAuthSession } from "@/lib/auth";
+import { Card } from "@nextui-org/react";
+import type { Metadata } from "next";
+import TableLoginHistory from "./table";
 
-export default function LoginHistoryPage() {
+export const metadata: Metadata = {
+	title: "Data Staf | Fraud Deterrence Propeller",
+	description:
+		"Fraud Deterrence Propeller merupakan protokol pencegahan Fraud yang digunakan oleh setiap entitas, baik yang berorientasi profit maupun non-profit.",
+};
+
+export default async function LoginHistoryPage() {
+	const session = await getServerAuthSession();
+	const token = session?.user.accessToken;
 	return (
 		<div className="flex flex-col w-full max-w-screen-xl mx-auto px-6 py-10 gap-5">
-			<p className="text-2xl font-semibold">Riwayat Login</p>
+			<div className="flex items-center gap-5">
+				<p className="text-2xl font-semibold">Data Staff</p>
+			</div>
 			<Card className="p-3">
-				<CardBody>
-					<div className="grid grid-cols-6 gap-3"></div>
-				</CardBody>
+				<TableLoginHistory token={token as string} />
 			</Card>
-
-			<Table aria-label="Example table with dynamic content">
-				<TableHeader columns={columns}>
-					{(column) => (
-						<TableColumn key={column.key}>{column.label}</TableColumn>
-					)}
-				</TableHeader>
-				<TableBody items={DataLoginHistory}>
-					{(item) => (
-						<TableRow key={item.id}>
-							{(columnKey) => (
-								<TableCell>{getKeyValue(item, columnKey)}</TableCell>
-							)}
-						</TableRow>
-					)}
-				</TableBody>
-			</Table>
 		</div>
 	);
 }

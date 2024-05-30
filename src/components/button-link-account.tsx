@@ -18,14 +18,10 @@ export default function ButtonLink() {
 			</Button>
 			{/* <Link href={"/dashboard/fraud-assesment/history"}></Link> */}
 			<Button
-				variant={
-					pathname === "/dashboard/fraud-assesment/create"
-						? "solid"
-						: "bordered"
-				}
+				variant={pathname === "/dashboard/accounts/edit" ? "solid" : "bordered"}
 				color="primary"
 				as={Link}
-				href={"/dashboard/fraud-assesment/create"}
+				href={"/dashboard/accounts"}
 			>
 				Menunggu Konfirmasi
 			</Button>

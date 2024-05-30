@@ -1,117 +1,175 @@
-import { getServerSession, type AuthOptions } from "next-auth";
+import { addDays, isBefore } from "date-fns";
+import {
+	getServerSession,
+	type AuthOptions,
+	type DefaultSession,
+	type DefaultUser,
+} from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-import { addDays, isBefore } from "date-fns";
+declare module "next-auth" {
+	interface Session extends DefaultSession {
+		user: {
+			role: string;
+			limit_access: string;
+			admin_id: string;
+			accessToken: string;
+			refreshToken: string;
+			username: string;
+		} & DefaultSession["user"];
+	}
+
+	interface User extends DefaultUser {
+		username: string;
+		fullName: string;
+		email: string;
+		role: string;
+		accessToken: string;
+		refreshToken: string;
+	}
+}
+
+declare module "next-auth/jwt" {
+	interface JWT {
+		username: string;
+		role: string;
+		accessToken: string;
+		refreshToken: string;
+	}
+}
 
 export const authOptions: AuthOptions = {
 	providers: [
 		CredentialsProvider({
 			name: "Credentials",
 			credentials: {
-				username: { label: "username", type: "text" },
-				password: { label: "password", type: "password" },
+				username: { label: "Username", type: "text" },
+				password: { label: "Password", type: "password" },
 			},
 			async authorize(credentials) {
-				const res = await fetch(
-					`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth`,
-					{
-						method: "POST",
-						// body: JSON.stringify({
-						// 	email: credentials?.username,
-						// 	password: credentials?.password,
-						// }),
-						body: new URLSearchParams(credentials).toString(),
-						headers: { "Content-Type": "application/x-www-form-urlencoded" },
-					},
-				);
-				const parsedResponse = await res.json();
+				try {
+					const loginRes = await fetch(
+						`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth`,
+						{
+							method: "POST",
+							headers: {
+								"Content-Type": "application/x-www-form-urlencoded",
+							},
+							body: new URLSearchParams(credentials).toString(),
+						},
+					);
 
-				if (!res.ok) {
-					console.error(parsedResponse);
-					throw new Error(parsedResponse.message);
+					const loginData = await loginRes.json();
+					if (!loginRes.ok || !loginData?.success) {
+						throw new Error(loginData?.message ?? "Invalid credentials");
+					}
+
+					const { access_token: token, refresh_token: refreshToken } =
+						loginData.data;
+
+					if (!token) {
+						throw new Error("Failed to retrieve access token");
+					}
+
+					const userRes = await fetch(
+						`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth`,
+						{
+							method: "GET",
+							headers: {
+								Authorization: `Bearer ${token}`,
+								"Content-Type": "application/json",
+							},
+						},
+					);
+
+					const userData = await userRes.json();
+					if (!userRes.ok || !userData?.success) {
+						throw new Error(userData?.message ?? "Failed to fetch user data");
+					}
+
+					const { username, role, email, full_name: fullName } = userData.data;
+
+					return {
+						id: token,
+						username,
+						role,
+						email,
+						fullName,
+						accessToken: token,
+						refreshToken,
+					};
+				} catch (error) {
+					throw new Error("An error occurred during authentication");
 				}
-
-				const { access_token, refresh_token } = parsedResponse.data;
-
-				return {
-					id: access_token,
-					refreshToken: refresh_token,
-				};
 			},
 		}),
 	],
 	callbacks: {
-		jwt: async ({ token, user }) => {
+		async jwt({ token, user }) {
 			if (user) {
-				return {
-					...token,
-					...user,
-					expires_at: addDays(new Date(), 7),
-					berhasil: "",
-				};
+				token.accessToken = user.accessToken;
+				token.refreshToken = user.refreshToken;
+				token.role = user.role;
+				token.username = user.username;
+				token.name = user.fullName;
+				token.email = user.email;
+				token.expires_at = addDays(new Date(), 1);
+				return token;
 			}
 
 			if (token.expires_at && isBefore(new Date(), token.expires_at)) {
 				return token;
 			}
 
-			// 	const res = await fetch(`${env.SERVER_BASE_URL}/auth/refresh`, {
-			// 		method: "POST",
-			// 		body: JSON.stringify({
-			// 			refresh_token: token.refreshToken,
-			// 		}),
-			// 		headers: { "Content-Type": "application/json" },
-			// 	});
-			// 	const parsedResponse = await res.json();
-
-			// 	if (!res.ok) {
-			// 		console.error(parsedResponse);
-			// 		throw new Error(parsedResponse.message);
-			// 	}
-
-			return {
-				...token,
-				// id: parsedResponse.data.access_token,
-				// refreshToken: parsedResponse.data.refresh_token,
-				expires_at: addDays(new Date(), 7),
-			};
-		},
-		session: async ({ session, token }) => {
-			const fetchData = async () => {
+			try {
 				const res = await fetch(
 					`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth`,
 					{
-						headers: { Authorization: `Bearer ${token.id}` },
+						method: "PUT",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify({
+							refresh_token: token.refreshToken,
+						}),
 					},
 				);
-				const data = await res.json();
 
-				return data;
-			};
+				const refreshedTokens = await res.json();
 
-			try {
-				const { data } = await fetchData();
+				console.log(refreshedTokens);
 
-				session = {
-					...session,
-					user: {
-						id: data.key,
-						name: data.username,
-						email: data.email,
-						role: data.role,
-						accessToken: token.sub,
-						refreshToken: token.refreshToken,
-					},
+				if (!res.ok) {
+					throw refreshedTokens;
+				}
+
+				return {
+					...token,
+					accessToken: refreshedTokens.data.access_token,
+					accessTokenExpires: addDays(new Date(), 1),
+					refreshToken:
+						refreshedTokens.data.refresh_token ?? token.refreshToken,
 				};
 			} catch (error) {
-				console.log(`error session ${error}`);
-			}
+				console.error("Error refreshing access token", error);
 
+				return {
+					...token,
+					error: "RefreshAccessTokenError",
+				};
+			}
+		},
+		async session({ session, token }) {
+			session.user.accessToken = token.accessToken;
+			session.user.refreshToken = token.refreshToken;
+			session.user.role = token.role;
+			session.user.username = token.username;
 			return session;
 		},
 	},
 	session: {
 		strategy: "jwt",
+		maxAge: 24 * 60 * 60,
 	},
 	pages: {
 		signIn: "/auth/login",

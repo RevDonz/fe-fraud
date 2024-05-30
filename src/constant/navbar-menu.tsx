@@ -76,8 +76,8 @@ export const ListMenuNavbar: MenuList = {
 			url: "/dashboard",
 		},
 		{
-			name: "Fraud Assesment",
-			url: "/dashboard/fraud-assesment/history",
+			name: "Penilaian Fraud Assesment",
+			url: "/dashboard/fraud-assesment/grade",
 		},
 	],
 	superadmin: [

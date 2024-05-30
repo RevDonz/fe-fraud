@@ -14,8 +14,8 @@ import {
 	NavbarMenu,
 	NavbarMenuItem,
 	NavbarMenuToggle,
-	User,
 } from "@nextui-org/react";
+import { ChevronDown } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -95,7 +95,7 @@ const NavbarComponent = ({
 					/>
 				</Link>
 			</NavbarBrand>
-			<NavbarContent className="hidden sm:flex gap-4" justify="center">
+			<NavbarContent className="hidden sm:flex gap-10" justify="center">
 				{Menus.map((menu) => {
 					return (
 						<NavbarItem key={menu.name} isActive={menu.url === pathname}>
@@ -114,29 +114,20 @@ const NavbarComponent = ({
 				{role ? (
 					<Dropdown placement="bottom-end">
 						<DropdownTrigger>
-							{/* <Avatar
-								isBordered
-								as="button"
-								className="transition-transform"
-								src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
-								name={name}
-							/> */}
-							<User
-								as="button"
-								avatarProps={{
-									isBordered: true,
-									src: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
-								}}
-								className="transition-transform"
-								description={email}
-								name={`@${name}`}
-							/>
+							<Button
+								type="button"
+								variant="light"
+								endContent={<ChevronDown className="h-4 w-4" />}
+							>
+								{name}
+							</Button>
 						</DropdownTrigger>
 						<DropdownMenu aria-label="Profile Actions" variant="flat">
 							<DropdownItem
 								key="profile"
 								className="h-14 gap-2"
 								href="/dashboard"
+								description={email}
 							>
 								<p className="font-semibold">Signed in as {role}</p>
 							</DropdownItem>

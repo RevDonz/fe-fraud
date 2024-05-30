@@ -1,4 +1,4 @@
-import type { StaffType } from "@/app/dashboard/data-staff/columns";
+import type { StaffType } from "@/types/entity";
 
 // Get All Assesment History
 export const getAllStaff = async (token: string): Promise<StaffType[]> => {

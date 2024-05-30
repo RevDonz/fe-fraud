@@ -92,9 +92,9 @@ const LoginForm = () => {
 										)}
 									</button>
 								}
+								type={isVisible ? "text" : "password"}
 								label="Password"
 								placeholder="Enter your password"
-								type={isVisible ? "text" : "password"}
 								variant="bordered"
 								isInvalid={!!errors.password}
 								errorMessage={errors.password?.message}

@@ -27,7 +27,6 @@ export default function EditAssesmentForm({
 	const {
 		handleSubmit,
 		register,
-		setValue,
 		getValues,
 		formState: { errors },
 	} = useForm<z.infer<typeof assesmentSchema>>({
@@ -80,7 +79,7 @@ export default function EditAssesmentForm({
 		},
 		onError(error) {
 			toast.dismiss();
-			toast.success("Gagal submit assesment!");
+			toast.error("Gagal submit assesment!");
 			console.log("Error submit", error);
 		},
 	});
@@ -90,11 +89,24 @@ export default function EditAssesmentForm({
 		// console.log(values);
 	};
 
-	const { data, isLoading } = useQuery({
+	const { data, isPending } = useQuery({
 		queryKey: ["current-subbab-assesment", sub],
 		queryFn: async () => {
 			const data = await getAssesmentSubBab(token, sub.toString());
 			return data;
+		},
+	});
+
+	const mutationDelete = useMutation({
+		mutationFn: (filename: string) => {
+			return fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/file/${filename}`, {
+				method: "DELETE",
+				headers: { Authorization: `Bearer ${token}` },
+			});
+		},
+		onSuccess() {
+			queryClient.invalidateQueries({ queryKey: ["current-subbab-assesment"] });
+			toast.success("File berhasil dihapus");
 		},
 	});
 
@@ -129,7 +141,7 @@ export default function EditAssesmentForm({
 									{index + 1}. {questions.title}
 								</p>
 								<div className="flex justify-between items-center">
-									{isLoading ? (
+									{isPending ? (
 										<Skeleton className="h-4 w-full rounded-md" />
 									) : (
 										<RadioGroup
@@ -187,11 +199,10 @@ export default function EditAssesmentForm({
 											isIconOnly
 											color="danger"
 											size="sm"
-											onClick={() => {
-												setValue(name, null, {
-													shouldValidate: true,
-													shouldDirty: true,
-												});
+											onClick={async () => {
+												mutationDelete.mutate(
+													data?.[index].proof?.file_name as string,
+												);
 											}}
 										>
 											<Trash2 className="w-4 h-4" />
@@ -220,14 +231,14 @@ export default function EditAssesmentForm({
 					</div>
 				);
 			})}
-			<div className="flex justify-between items-center mt-5">
+			<div className="flex justify-end items-center mt-5">
 				<Button
 					color="primary"
 					variant="solid"
 					type="submit"
 					isLoading={mutation.isPending}
 				>
-					Submit
+					Simpan
 				</Button>
 			</div>
 		</form>
