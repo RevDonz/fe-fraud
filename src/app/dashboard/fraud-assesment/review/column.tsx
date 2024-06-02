@@ -6,11 +6,11 @@ import Link from "next/link";
 
 export const columnsAssessed = [
 	{
-		key: "nama_admin",
+		key: "admin",
 		label: "PENGISI ASSESMENT",
 	},
 	{
-		key: "nama_reviewer",
+		key: "reviewer_internal",
 		label: "REVIEWER",
 	},
 	{
@@ -18,7 +18,11 @@ export const columnsAssessed = [
 		label: "TANGGAL PENILAIAN",
 	},
 	{
-		key: "hasil",
+		key: "status",
+		label: "STATUS",
+	},
+	{
+		key: "hasil_internal",
 		label: "HASIL",
 	},
 	{
@@ -29,7 +33,7 @@ export const columnsAssessed = [
 
 export const columnsNotAssessed = [
 	{
-		key: "nama_admin",
+		key: "admin",
 		label: "PENGISI ASSESMENT",
 	},
 	{
@@ -54,7 +58,7 @@ export const renderCellHasAssessed = (
 			return reviewer;
 		}
 
-		case "hasil": {
+		case "hasil_internal": {
 			const hasil = cellValue !== 0 ? cellValue : "Belum dinilai";
 			return (
 				<Chip color="primary" variant="bordered" radius="sm">
@@ -63,18 +67,33 @@ export const renderCellHasAssessed = (
 			);
 		}
 
-		case "aksi":
+		case "status": {
+			const status =
+				history.id_reviewer_external !== null && history.hasil_internal !== 0;
+			return (
+				<Chip color={status ? "success" : "warning"} variant="flat" radius="sm">
+					{status ? "Sudah Selesai" : "Belum Selesai"}
+				</Chip>
+			);
+		}
+
+		case "aksi": {
+			const status =
+				history.id_reviewer_external !== null && history.hasil_internal !== 0;
+
 			return (
 				<Button
-					color="primary"
+					color={status ? "primary" : "warning"}
 					size="sm"
+					variant={status ? "solid" : "flat"}
 					as={Link}
-					href={`/dashboard/fraud-assesment/${history.id}/detail`}
+					href={`/dashboard/fraud-assesment/review/${history.key}`}
 					isDisabled={!history.selesai}
 				>
-					Lihat Detail
+					{status ? "Lihat Detail" : "Lanjut Penilaian"}
 				</Button>
 			);
+		}
 
 		default:
 			return cellValue;
@@ -99,7 +118,7 @@ export const renderCellNotAssessed = (
 					color="primary"
 					size="sm"
 					as={Link}
-					href={`/dashboard/fraud-assesment/${history.id}/detail`}
+					href={`/dashboard/fraud-assesment/review/${history.key}`}
 				>
 					Beri Nilai
 				</Button>

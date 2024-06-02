@@ -49,6 +49,11 @@ export type DetailAssesment = {
 	point: AssesmentPoint;
 };
 
+export type DetailAssesmentWithKey = {
+	assessment: Assesments;
+	point: CurrentSubBab[];
+};
+
 export interface FraudHistoryType {
 	id_institution: string;
 	id_admin: string;

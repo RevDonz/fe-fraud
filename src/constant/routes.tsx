@@ -32,7 +32,7 @@ export const Routes = [
 		role: ["admin", "staff"],
 	},
 	{
-		url: "/dashboard/fraud-assesment/grade",
+		url: "/dashboard/fraud-assesment/review",
 		role: ["reviewer"],
 	},
 	{

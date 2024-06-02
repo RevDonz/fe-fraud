@@ -1,6 +1,7 @@
 import type {
 	CurrentSubBab,
 	DetailAssesment,
+	DetailAssesmentWithKey,
 	FraudHistoryType,
 } from "@/types/assesment";
 
@@ -126,6 +127,30 @@ export const getAssesmentSubBab = async (
 	return result.data;
 };
 
+// Get SubBab Assesment By Key
+export const getAssesmentSubBabByKey = async (
+	token: string,
+	key: string,
+	subBab: string,
+): Promise<DetailAssesmentWithKey> => {
+	const response = await fetch(
+		`${process.env.NEXT_PUBLIC_BASE_URL}/api/assessment/${key}?sub_bab=${subBab}`,
+		{
+			headers: { Authorization: `Bearer ${token}` },
+		},
+	);
+
+	const result = await response.json();
+
+	if (result.data === null) result.data.point = [];
+
+	result.data.point.sort(
+		(a: CurrentSubBab, b: CurrentSubBab) => a.point - b.point,
+	);
+
+	return result.data;
+};
+
 // Get Assesment need to be Evaluation
 export const getEvaluationAssesment = async (
 	token: string,
@@ -142,28 +167,6 @@ export const getEvaluationAssesment = async (
 
 	return result.data;
 };
-
-// Get Detail Assesment with subbab
-// export const getDetailAssesmentWithSubBab = async (
-// 	token: string,
-// 	subBab: string,
-// ): Promise<DetailAssesment> => {
-// 	const response = await fetch(
-// 		`${process.env.NEXT_PUBLIC_BASE_URL}/api/assessment?sub_bab=${subBab}`,
-// 		{
-// 			headers: { Authorization: `Bearer ${token}` },
-// 		},
-// 	);
-
-// 	const result = await response.json();
-// 	if (result.data === null) result.data = {};
-
-// 	result.data.point.sort(
-// 		(a: CurrentSubBab, b: CurrentSubBab) => a.point - b.point,
-// 	);
-
-// 	return result.data;
-// };
 
 // Get Detail Assesment with subbab
 export const getDetailAssesment = async (

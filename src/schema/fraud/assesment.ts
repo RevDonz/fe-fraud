@@ -13,3 +13,9 @@ export const assesmentSchema = z.object({
 		}),
 	),
 });
+
+export const reviewAssesmentSchema = z.object({
+	id_assesment: z.string(),
+	sub_bab: z.coerce.number(),
+	skor: z.array(z.string()),
+});

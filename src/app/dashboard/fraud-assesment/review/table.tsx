@@ -1,6 +1,6 @@
 "use client";
 import Datatable from "@/components/datatable";
-import { getEvaluationAssesment } from "@/lib/assesment";
+import { getAssesmentHistory, getEvaluationAssesment } from "@/lib/assesment";
 import type { FraudHistoryType } from "@/types/assesment";
 import { Tab, Tabs } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
@@ -13,9 +13,17 @@ import {
 
 const TableGrade = ({ token }: { token: string }) => {
 	const { data, isPending } = useQuery({
-		queryKey: ["fraud-history"],
+		queryKey: ["fraud-history-not-assessed"],
 		queryFn: async () => {
 			const data = await getEvaluationAssesment(token);
+			return data;
+		},
+	});
+
+	const { data: dataAssessed, isPending: isAssessedPending } = useQuery({
+		queryKey: ["fraud-history-assessed"],
+		queryFn: async () => {
+			const data = await getAssesmentHistory(token);
 			return data;
 		},
 	});
@@ -27,26 +35,30 @@ const TableGrade = ({ token }: { token: string }) => {
 	};
 
 	// Mengurutkan array berdasarkan tanggal
-	const sortedData = data?.sort(compareDates);
-	const hasAssessed = sortedData?.filter((data) => data.selesai);
-	const notAssessed = sortedData?.filter((data) => !data.selesai);
+	const sortedDataNotAssessed = data?.sort(compareDates);
+	const sortedDataAssessed = dataAssessed
+		?.sort(compareDates)
+		.filter(
+			(data) =>
+				data.id_reviewer_internal !== "" && data.id_reviewer_internal !== null,
+		);
 
 	return (
 		<Tabs aria-label="Options" color="primary" variant="bordered" size="lg">
-			<Tab key="notAssessed" title="Belum Di nilai">
+			<Tab key="hasAssessed" title="Sudah Di nilai">
 				<Datatable
-					data={notAssessed ?? []}
-					columns={columnsNotAssessed}
-					renderCell={renderCellNotAssessed}
-					isLoading={isPending}
+					data={sortedDataAssessed ?? []}
+					columns={columnsAssessed}
+					renderCell={renderCellHasAssessed}
+					isLoading={isAssessedPending}
 					label="Table Fraud Assesment"
 				/>
 			</Tab>
-			<Tab key="hasAssessed" title="Sudah Di nilai">
+			<Tab key="notAssessed" title="Belum Di nilai">
 				<Datatable
-					data={hasAssessed ?? []}
-					columns={columnsAssessed}
-					renderCell={renderCellHasAssessed}
+					data={sortedDataNotAssessed ?? []}
+					columns={columnsNotAssessed}
+					renderCell={renderCellNotAssessed}
 					isLoading={isPending}
 					label="Table Fraud Assesment"
 				/>
