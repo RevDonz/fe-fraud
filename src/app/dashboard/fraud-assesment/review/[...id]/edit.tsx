@@ -4,22 +4,24 @@ import { getAssesmentSubBabByKey } from "@/lib/assesment";
 import { reviewAssesmentSchema } from "@/schema/fraud/assesment";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Divider, Link, Select, SelectItem } from "@nextui-org/react";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
 
-export default function ReviewAssesmentGrade({
+export default function EditAssesmentGrade({
 	bab,
 	subBab,
 	token,
 	assesmentKey,
 }: { bab: number; subBab: number; token: string; assesmentKey: string }) {
 	const router = useRouter();
+	const queryClient = useQueryClient();
 
 	const { data, isPending } = useQuery({
-		queryKey: ["current-subbab-assesment-key", subBab],
+		queryKey: ["current-subbab-assesment-key-edit", subBab],
 		queryFn: async () => {
 			const data = await getAssesmentSubBabByKey(
 				token,
@@ -30,8 +32,14 @@ export default function ReviewAssesmentGrade({
 		},
 	});
 
+	const defaultValue = isPending
+		? []
+		: data?.point.map((evaluation) => evaluation.skor.toString());
+
 	const {
 		handleSubmit,
+		setValue,
+		getValues,
 		control,
 		formState: { errors },
 	} = useForm<z.infer<typeof reviewAssesmentSchema>>({
@@ -39,7 +47,6 @@ export default function ReviewAssesmentGrade({
 		defaultValues: {
 			id_assessment: assesmentKey,
 			sub_bab: subBab.toString(),
-			skor: [],
 		},
 	});
 
@@ -75,14 +82,17 @@ export default function ReviewAssesmentGrade({
 			toast.loading("Loading...");
 		},
 		onSuccess() {
-			router.push(`/dashboard/fraud-assesment/review/${assesmentKey}`);
 			toast.dismiss();
 			toast.success("Berhasil");
+			queryClient.invalidateQueries({
+				queryKey: ["current-subbab-assesment-key-edit"],
+			});
+			router.push(`/dashboard/fraud-assesment/review/${assesmentKey}`);
 		},
 		onError(error) {
 			toast.dismiss();
-			toast.error("Gagal submit review!");
-			console.log("Error submit", error.message);
+			toast.error("Gagal edit review!");
+			console.log("Error edit", error.message);
 		},
 	});
 
@@ -93,6 +103,11 @@ export default function ReviewAssesmentGrade({
 		(sub) => sub.sub_bab === subBab,
 	);
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+	useEffect(() => {
+		if (!isPending) setValue("skor", defaultValue as string[]);
+	}, [isPending]);
+
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
 			{subTitle?.questions?.map((questions, index) => {
@@ -102,6 +117,7 @@ export default function ReviewAssesmentGrade({
 						: data?.point[index].answer === 0.5
 							? "Ada, tidak lengkap"
 							: "Tidak ada";
+
 				return (
 					<div key={`${index * 2}`}>
 						<div className="flex w-full justify-between my-3 items-center">
@@ -120,7 +136,7 @@ export default function ReviewAssesmentGrade({
 											{data.point[index].proof?.file_name}
 										</Link>
 									) : (
-										<p>-</p>
+										<span>-</span>
 									)}
 								</span>
 							</div>
@@ -136,6 +152,8 @@ export default function ReviewAssesmentGrade({
 											placeholder="Pilih nilai"
 											isInvalid={!!errors.skor?.[index]}
 											errorMessage={errors.skor?.[index]?.message}
+											defaultSelectedKeys={field.value}
+											selectedKeys={[field.value]}
 											{...field}
 										>
 											<SelectItem key={"1"} value={"1"}>
@@ -156,18 +174,7 @@ export default function ReviewAssesmentGrade({
 					</div>
 				);
 			})}
-			{/* <input
-				type="text"
-				className="hidden"
-				defaultValue={assesmentKey}
-				{...register("id_assessment")}
-			/>
-			<input
-				type="text"
-				className="hidden"
-				defaultValue={subBab}
-				{...register("sub_bab")}
-			/> */}
+
 			<div className="flex justify-end items-center mt-5">
 				<Button color="primary" variant="solid" type="submit">
 					Simpan

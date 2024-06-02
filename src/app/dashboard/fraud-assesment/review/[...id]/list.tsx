@@ -51,7 +51,7 @@ export default function ReviewAssesmentList({
 													size="sm"
 													color="warning"
 													className="text-white"
-													href={`/dashboard/fraud-assesment/review/${assesmentKey}/${question.bab}/${subquestion.sub_bab}`}
+													href={`/dashboard/fraud-assesment/review/${assesmentKey}/${question.bab}/${subquestion.sub_bab}/edit`}
 													as={Link}
 												>
 													Edit

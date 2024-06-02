@@ -15,7 +15,7 @@ export type CurrentSubBab = {
 	sub_bab: string;
 	point: number;
 	answer: number;
-	skor: number;
+	skor: string;
 	proof?: ProofType;
 };
 
