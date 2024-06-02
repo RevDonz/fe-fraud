@@ -99,32 +99,3 @@ export const renderCellHasAssessed = (
 			return cellValue;
 	}
 };
-
-export const renderCellNotAssessed = (
-	history: FraudHistoryType,
-	columnKey: React.Key,
-) => {
-	const cellValue = history[columnKey as keyof FraudHistoryType];
-
-	switch (columnKey) {
-		case "nama_reviewer": {
-			const reviewer = cellValue ? cellValue : "-";
-			return reviewer;
-		}
-
-		case "aksi":
-			return (
-				<Button
-					color="primary"
-					size="sm"
-					as={Link}
-					href={`/dashboard/fraud-assesment/review/${history.key}`}
-				>
-					Beri Nilai
-				</Button>
-			);
-
-		default:
-			return cellValue;
-	}
-};

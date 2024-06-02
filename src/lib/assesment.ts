@@ -185,3 +185,21 @@ export const getDetailAssesment = async (
 
 	return result.data;
 };
+
+// Start Assesment
+export const startEvaluationAssesment = async (
+	token: string,
+	key: string,
+): Promise<boolean> => {
+	const response = await fetch(
+		`${process.env.NEXT_PUBLIC_BASE_URL}/api/assessments/evaluation?id_assessment=${key}`,
+		{
+			method: "GET",
+			headers: { Authorization: `Bearer ${token}` },
+		},
+	);
+
+	const result = await response.json();
+
+	return result.success;
+};

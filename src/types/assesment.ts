@@ -69,3 +69,9 @@ export interface FraudHistoryType {
 	reviewer_internal: string;
 	reviewer_external: string;
 }
+
+export type EvaluationAssesmentType = {
+	id_assessment: string;
+	sub_bab: string;
+	skor: string[];
+};

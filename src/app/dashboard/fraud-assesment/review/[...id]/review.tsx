@@ -3,9 +3,11 @@ import { Questions } from "@/constant/assesment";
 import { getAssesmentSubBabByKey } from "@/lib/assesment";
 import { reviewAssesmentSchema } from "@/schema/fraud/assesment";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Divider, Link } from "@nextui-org/react";
-import { useQuery } from "@tanstack/react-query";
-import { useForm } from "react-hook-form";
+import { Button, Divider, Link, Select, SelectItem } from "@nextui-org/react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { Controller, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import type { z } from "zod";
 
 export default function ReviewAssesmentGrade({
@@ -14,6 +16,8 @@ export default function ReviewAssesmentGrade({
 	token,
 	assesmentKey,
 }: { bab: number; subBab: number; token: string; assesmentKey: string }) {
+	const router = useRouter();
+
 	const { data, isPending } = useQuery({
 		queryKey: ["current-subbab-assesment-key", subBab],
 		queryFn: async () => {
@@ -25,21 +29,62 @@ export default function ReviewAssesmentGrade({
 			return data;
 		},
 	});
-	console.log(data);
 
 	const {
 		handleSubmit,
+		control,
 		register,
-		getValues,
 		formState: { errors },
 	} = useForm<z.infer<typeof reviewAssesmentSchema>>({
 		resolver: zodResolver(reviewAssesmentSchema),
 	});
 
-	const onSubmit = async (values: z.infer<typeof reviewAssesmentSchema>) => {
-		console.log(values);
-	};
+	const mutation = useMutation({
+		mutationKey: ["submit-assesment"],
+		mutationFn: async (values: z.infer<typeof reviewAssesmentSchema>) => {
+			try {
+				const response = await fetch(
+					`${process.env.NEXT_PUBLIC_BASE_URL}/api/assessments/evaluation`,
+					{
+						method: "POST",
+						body: JSON.stringify(values),
+						headers: {
+							Authorization: `Bearer ${token}`,
+							"Content-Type": "application/json",
+						},
+					},
+				);
+				if (!response.ok) {
+					throw new Error("Failed to submit data");
+				}
 
+				const result = await response.json();
+
+				if (result.success) {
+					return result.data;
+				}
+			} catch (error) {
+				throw new Error("error");
+			}
+		},
+		onMutate() {
+			toast.loading("Loading...");
+		},
+		onSuccess() {
+			router.push(`/dashboard/fraud-assesment/review/${assesmentKey}`);
+			toast.dismiss();
+			toast.success("Berhasil");
+		},
+		onError(error) {
+			toast.dismiss();
+			toast.error("Gagal submit review!");
+			console.log("Error submit", error.message);
+		},
+	});
+
+	const onSubmit = async (values: z.infer<typeof reviewAssesmentSchema>) => {
+		mutation.mutate(values);
+	};
 	const subTitle = Questions.find((item) => item.bab === bab)?.subtitle.find(
 		(sub) => sub.sub_bab === subBab,
 	);
@@ -76,13 +121,49 @@ export default function ReviewAssesmentGrade({
 								</span>
 							</div>
 							<div className="flex flex-row gap-3 justify-end items-center w-1/4">
-								<p>asd</p>
+								<Controller
+									name={`skor.${index}`}
+									control={control}
+									render={({ field }) => (
+										<Select
+											aria-label="status"
+											disallowEmptySelection
+											variant="bordered"
+											placeholder="Pilih nilai"
+											isInvalid={!!errors.skor?.[index]}
+											errorMessage={errors.skor?.[index]?.message}
+											{...field}
+										>
+											<SelectItem key={"1"} value={"1"}>
+												Sudah Tepat
+											</SelectItem>
+											<SelectItem key={"0.5"} value={"0.5"}>
+												Kurang Tepat
+											</SelectItem>
+											<SelectItem key={"0"} value={"0"}>
+												Tidak Tepat
+											</SelectItem>
+										</Select>
+									)}
+								/>
 							</div>
 						</div>
 						<Divider />
 					</div>
 				);
 			})}
+			<input
+				type="text"
+				className="hidden"
+				defaultValue={assesmentKey}
+				{...register("id_assessment")}
+			/>
+			<input
+				type="text"
+				className="hidden"
+				defaultValue={subBab}
+				{...register("sub_bab")}
+			/>
 			<div className="flex justify-end items-center mt-5">
 				<Button color="primary" variant="solid" type="submit">
 					Simpan

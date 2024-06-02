@@ -2,16 +2,21 @@
 import Datatable from "@/components/datatable";
 import { getAssesmentHistory, getEvaluationAssesment } from "@/lib/assesment";
 import type { FraudHistoryType } from "@/types/assesment";
-import { Tab, Tabs } from "@nextui-org/react";
+import { Tab, Tabs, useDisclosure } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import {
 	columnsAssessed,
 	columnsNotAssessed,
 	renderCellHasAssessed,
-	renderCellNotAssessed,
 } from "./column";
+import ModalEvaluation from "./modal-fraud-evaluation";
 
 const TableGrade = ({ token }: { token: string }) => {
+	const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+	const [isChecked, setIsChecked] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
+
 	const { data, isPending } = useQuery({
 		queryKey: ["fraud-history-not-assessed"],
 		queryFn: async () => {
@@ -34,7 +39,6 @@ const TableGrade = ({ token }: { token: string }) => {
 		return dateB - dateA;
 	};
 
-	// Mengurutkan array berdasarkan tanggal
 	const sortedDataNotAssessed = data?.sort(compareDates);
 	const sortedDataAssessed = dataAssessed
 		?.sort(compareDates)
@@ -42,6 +46,26 @@ const TableGrade = ({ token }: { token: string }) => {
 			(data) =>
 				data.id_reviewer_internal !== "" && data.id_reviewer_internal !== null,
 		);
+
+	const renderCellNotAssessed = (
+		history: FraudHistoryType,
+		columnKey: React.Key,
+	) => {
+		const cellValue = history[columnKey as keyof FraudHistoryType];
+
+		switch (columnKey) {
+			case "nama_reviewer": {
+				const reviewer = cellValue ? cellValue : "-";
+				return reviewer;
+			}
+
+			case "aksi":
+				return <ModalEvaluation token={token} assesmentKey={history.key} />;
+
+			default:
+				return cellValue;
+		}
+	};
 
 	return (
 		<Tabs aria-label="Options" color="primary" variant="bordered" size="lg">
