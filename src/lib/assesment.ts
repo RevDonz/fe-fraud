@@ -203,3 +203,30 @@ export const startEvaluationAssesment = async (
 
 	return result.success;
 };
+
+// Submit Evaluation
+export const submitEvaluation = async (token: string, id: string) => {
+	try {
+		const response = await fetch(
+			`${process.env.NEXT_PUBLIC_BASE_URL}/api/assessments/finish?id_assessment=${id}`,
+			{
+				method: "GET",
+				headers: { Authorization: `Bearer ${token}` },
+			},
+		);
+
+		if (!response.ok) {
+			throw new Error("Failed to submit data");
+		}
+
+		const result = await response.json();
+
+		if (result.success) return result.data;
+
+		return result;
+	} catch (error) {
+		console.log(error);
+
+		throw new Error("error");
+	}
+};

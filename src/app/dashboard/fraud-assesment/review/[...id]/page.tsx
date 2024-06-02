@@ -4,6 +4,7 @@ import { Divider } from "@nextui-org/react";
 import EditAssesmentGrade from "./edit";
 import ReviewAssesmentList from "./list";
 import ReviewAssesmentGrade from "./review";
+import SubmitEvaluation from "./submit";
 
 export default async function ReviewPage({
 	params,
@@ -51,7 +52,10 @@ export default async function ReviewPage({
 					/>
 				</div>
 			) : (
-				<ReviewAssesmentList token={token} assesmentKey={key} />
+				<>
+					<ReviewAssesmentList token={token} assesmentKey={key} />
+					<SubmitEvaluation token={token} assessmentKey={key} />
+				</>
 			)}
 		</div>
 	);
