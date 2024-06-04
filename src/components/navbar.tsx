@@ -61,7 +61,7 @@ const NavbarComponent = ({
 
 	return (
 		<Navbar
-			maxWidth="xl"
+			maxWidth="2xl"
 			isBordered
 			onMenuOpenChange={setIsMenuOpen}
 			classNames={{

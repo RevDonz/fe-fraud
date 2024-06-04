@@ -13,24 +13,24 @@ const LandingPage = async () => {
 		<div className="flex flex-col w-full">
 			<div className="bg-[#f7f7f7]" id="home">
 				<div
-					className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-5 content-center justify-items-stretch hero-container px-6 max-w-screen-xl mx-auto"
+					className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-5 content-center justify-items-stretch hero-container px-6 max-w-screen-2xl mx-auto"
 					id="hero"
 				>
 					<div className="flex flex-col justify-center gap-5">
-						<p className="text-primary-500 font-semibold text-3xl">
+						<p className="text-primary-500 font-semibold text-5xl">
 							Pantau Laporan Keuangan Entitas Anda
 						</p>
-						<p>
+						<p className="text-xl text-justify">
 							FDP Merupakan protokol pencegahan Fraud yang digunakan oleh setiap
 							entitas, baik yang berorientasi profit maupun non-profit.
 						</p>
-						<p>
+						<p className="text-xl text-justify">
 							Dalam protokol tersebut terdapat beberapa dimensi dan indikator
 							pencegahan fraud yang wajib dilakukan entitas dan tersedia di
 							entitas, anda dapat mengukur tingkat maturity pencegahan fraud di
 							lingkungan anda, dengan mempergunakan FDP.
 						</p>
-						<p>
+						<p className="text-xl text-justify">
 							FDP Juga menyediakan layanan pendeteksi kecurangan pada Laporan
 							Keuangan menggunakan Beneish M-Score Calculator.
 						</p>
