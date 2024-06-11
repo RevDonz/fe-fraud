@@ -39,13 +39,12 @@ const TableGrade = ({ token }: { token: string }) => {
 		return dateB - dateA;
 	};
 
-	const sortedDataNotAssessed = data?.sort(compareDates);
+	const sortedDataNotAssessed = dataAssessed
+		?.sort(compareDates)
+		.filter((data) => data.id_reviewer_internal === null);
 	const sortedDataAssessed = dataAssessed
 		?.sort(compareDates)
-		.filter(
-			(data) =>
-				data.id_reviewer_internal !== "" && data.id_reviewer_internal !== null,
-		);
+		.filter((data) => data.id_reviewer_internal !== null);
 
 	const renderCellNotAssessed = (
 		history: FraudHistoryType,

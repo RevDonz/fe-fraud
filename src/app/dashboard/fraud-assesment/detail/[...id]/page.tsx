@@ -16,7 +16,12 @@ export default async function DetailAssesment({
 	return (
 		<div>
 			{bab && subBab ? (
-				<DetailAssesmentPage bab={bab} subBab={subBab} token={token} />
+				<DetailAssesmentPage
+					bab={bab}
+					subBab={subBab}
+					token={token}
+					assesmentKey={key}
+				/>
 			) : (
 				<DetailAssesmentList token={token} assesmentKey={key} />
 			)}

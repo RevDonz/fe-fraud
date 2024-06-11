@@ -8,12 +8,12 @@ export const metadata: Metadata = {
 		"Fraud Deterrence Propeller merupakan protokol pencegahan Fraud yang digunakan oleh setiap entitas, baik yang berorientasi profit maupun non-profit.",
 };
 
-const LandingPage = async () => {
+export default function LandingPage() {
 	return (
 		<div className="flex flex-col w-full">
 			<div className="bg-[#f7f7f7]" id="home">
 				<div
-					className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-5 content-center justify-items-stretch hero-container px-6 max-w-screen-2xl mx-auto"
+					className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-5 content-center justify-items-stretch hero-container px-4 max-w-screen-xl mx-auto"
 					id="hero"
 				>
 					<div className="flex flex-col justify-center gap-5">
@@ -152,51 +152,4 @@ const LandingPage = async () => {
 			</div>
 		</div>
 	);
-};
-
-export default LandingPage;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}

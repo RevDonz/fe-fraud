@@ -10,12 +10,14 @@ import {
 	ModalHeader,
 	useDisclosure,
 } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const ModalAssesment = ({ token }: { token: string }) => {
 	const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 	const [isChecked, setIsChecked] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+	const router = useRouter();
 
 	const handleStart = async () => {
 		setIsLoading(true);
@@ -23,6 +25,7 @@ const ModalAssesment = ({ token }: { token: string }) => {
 		if (res) {
 			setIsLoading(false);
 			onClose();
+			router.refresh();
 		}
 	};
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
