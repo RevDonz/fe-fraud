@@ -45,7 +45,7 @@ export interface AssesmentPoint {
 }
 
 export type DetailAssesment = {
-	assessment: Assesments;
+	assessment: FraudHistoryType;
 	point: AssesmentPoint;
 };
 

@@ -81,11 +81,25 @@ export default function DetailAssesmentList({
 				<TableBody>
 					<TableRow key="1">
 						<TableCell>{data?.assessment.admin}</TableCell>
-						<TableCell>{data?.assessment.reviewer_internal}</TableCell>
-						<TableCell>{data?.assessment.tanggal}</TableCell>
-						<TableCell>{data?.assessment.hasil}</TableCell>
 						<TableCell>
-							<Button type="button">Unduh</Button>
+							{data?.assessment.reviewer_internal === ""
+								? "Belum dinilai"
+								: data?.assessment.reviewer_internal}
+						</TableCell>
+						<TableCell>{data?.assessment.tanggal}</TableCell>
+						<TableCell>
+							{data?.assessment.hasil_internal === null
+								? "Belum dinilai"
+								: data?.assessment.hasil_internal}
+						</TableCell>
+						<TableCell>
+							<Button
+								type="button"
+                color="primary"
+								isDisabled={data?.assessment.hasil_internal === null}
+							>
+								Unduh Laporan
+							</Button>
 						</TableCell>
 					</TableRow>
 				</TableBody>
