@@ -12,11 +12,13 @@ import {
 	TableHeader,
 	TableRow,
 	getKeyValue,
+	type SortDescriptor,
 } from "@nextui-org/react";
 import { useCallback, useMemo, useState } from "react";
 type Column = {
 	key: string;
 	label: string;
+	sortable: boolean;
 };
 interface GenericItem {
 	id: string;
@@ -36,6 +38,7 @@ interface DataTableProps<TData> {
 	label?: string;
 	renderCell?: (row: TData, columnKey: React.Key) => React.ReactNode;
 	isLoading?: boolean;
+	rowPage?: number;
 }
 
 export function Datatable<TData extends GenericItem>({
@@ -43,11 +46,15 @@ export function Datatable<TData extends GenericItem>({
 	columns,
 	label = "Table",
 	isLoading,
+	rowPage = 5,
 	renderCell,
 }: DataTableProps<TData>) {
 	const [page, setPage] = useState(1);
-	const [rowsPerPage, setRowsPerPage] = useState(5);
+	const [rowsPerPage, setRowsPerPage] = useState(rowPage);
 	const loadingState: LoadingState = isLoading ? "loading" : "idle";
+	const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
+		direction: "ascending",
+	});
 
 	const onRowsPerPageChange = useCallback(
 		(e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -57,14 +64,23 @@ export function Datatable<TData extends GenericItem>({
 		[],
 	);
 
-	const pages = Math.ceil(data.length / rowsPerPage);
+	const sortedData = useMemo(() => {
+		if (!sortDescriptor.column) return data;
+		return [...data].sort((a: TData, b: TData) => {
+			const first = a[sortDescriptor.column as keyof TData] as number;
+			const second = b[sortDescriptor.column as keyof TData] as number;
+			const cmp = first < second ? -1 : first > second ? 1 : 0;
+			return sortDescriptor.direction === "descending" ? -cmp : cmp;
+		});
+	}, [sortDescriptor, data]);
+
+	const pages = Math.ceil(sortedData.length / rowsPerPage);
 
 	const items = useMemo(() => {
 		const start = (page - 1) * rowsPerPage;
 		const end = start + rowsPerPage;
-
-		return data.slice(start, end);
-	}, [page, data, rowsPerPage]);
+		return sortedData.slice(start, end);
+	}, [page, sortedData, rowsPerPage]);
 
 	const BottomContent = () => {
 		return (
@@ -111,10 +127,16 @@ export function Datatable<TData extends GenericItem>({
 				table: isLoading && "min-h-[205px]",
 			}}
 			bottomContent={<BottomContent />}
+			sortDescriptor={sortDescriptor}
+			onSortChange={setSortDescriptor}
 		>
 			<TableHeader columns={columns}>
 				{(column) => (
-					<TableColumn align="end" key={column.key}>
+					<TableColumn
+						align="end"
+						key={column.key}
+						allowsSorting={column.sortable}
+					>
 						{column.label}
 					</TableColumn>
 				)}

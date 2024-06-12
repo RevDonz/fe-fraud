@@ -25,18 +25,22 @@ const TableStaff = ({ token }: { token: string }) => {
 	const columns = [
 		{
 			key: "full_name",
+			sortable: true,
 			label: "NAMA AKUN",
 		},
 		{
 			key: "email",
+			sortable: false,
 			label: "EMAIL",
 		},
 		{
 			key: "role",
+			sortable: true,
 			label: "ROLE",
 		},
 		{
 			key: "status",
+			sortable: false,
 			label: "AKSI",
 		},
 	];

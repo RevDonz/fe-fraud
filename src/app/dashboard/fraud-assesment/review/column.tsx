@@ -7,26 +7,32 @@ import Link from "next/link";
 export const columnsAssessed = [
 	{
 		key: "admin",
+		sortable: false,
 		label: "PENGISI ASSESMENT",
 	},
 	{
 		key: "reviewer_internal",
+		sortable: false,
 		label: "REVIEWER",
 	},
 	{
 		key: "tanggal",
+		sortable: false,
 		label: "TANGGAL PENILAIAN",
 	},
 	{
 		key: "status",
+		sortable: false,
 		label: "STATUS",
 	},
 	{
 		key: "hasil_internal",
+		sortable: false,
 		label: "HASIL",
 	},
 	{
 		key: "aksi",
+		sortable: false,
 		label: "AKSI",
 	},
 ];
@@ -34,14 +40,17 @@ export const columnsAssessed = [
 export const columnsNotAssessed = [
 	{
 		key: "admin",
+		sortable: false,
 		label: "PENGISI ASSESMENT",
 	},
 	{
 		key: "tanggal",
+		sortable: false,
 		label: "TANGGAL PENGISIAN",
 	},
 	{
 		key: "aksi",
+		sortable: false,
 		label: "AKSI",
 	},
 ];

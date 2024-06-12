@@ -15,7 +15,7 @@ export default async function LoginHistoryPage() {
 	return (
 		<div className="flex flex-col w-full max-w-screen-xl mx-auto px-6 py-10 gap-5">
 			<div className="flex items-center gap-5">
-				<p className="text-2xl font-semibold">Data Staff</p>
+				<p className="text-2xl font-semibold">Riwayat Aktivitas Pengguna</p>
 			</div>
 			<Card className="p-3">
 				<TableLoginHistory token={token as string} />

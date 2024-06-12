@@ -8,33 +8,41 @@ export const columns = [
 	{
 		key: "key",
 		label: "ID ASSESMENT",
+		sortable: false,
 	},
 	{
 		key: "admin",
+		sortable: false,
 		label: "PENGISI ASSESMENT",
 	},
 	{
 		key: "nama_reviewer",
+		sortable: false,
 		label: "REVIEWER",
 	},
 	{
 		key: "tanggal",
+		sortable: true,
 		label: "TANGGAL PEMBUATAN",
 	},
 	{
 		key: "status",
+		sortable: true,
 		label: "STATUS",
 	},
 	{
 		key: "hasil_internal",
+		sortable: false,
 		label: "HASIL INTERNAL",
 	},
 	{
 		key: "hasil_external",
+		sortable: false,
 		label: "HASIL EXTERNAL",
 	},
 	{
 		key: "aksi",
+		sortable: false,
 		label: "AKSI",
 	},
 ];
@@ -54,13 +62,25 @@ export const renderCellFraudHistory = (
 		case "hasil_internal": {
 			// const hasil = cellValue !== 0 ? cellValue : "Belum dinilai";
 			return (
-				<Chip
-					color="primary"
-					variant={cellValue === null ? "bordered" : "flat"}
-					radius="sm"
-				>
-					{cellValue === null ? "Belum dinilai" : cellValue}
-				</Chip>
+				<div className="w-full">
+					<Chip
+						color={
+							cellValue === null
+								? "primary"
+								: Number(cellValue) > 75
+									? "success"
+									: Number(cellValue) > 50
+										? "warning"
+										: "danger"
+						}
+						variant={cellValue === null ? "bordered" : "flat"}
+						radius="sm"
+					>
+						<p className="w-24 text-center">
+							{cellValue === null ? "Belum dinilai" : cellValue}
+						</p>
+					</Chip>
+				</div>
 			);
 		}
 
@@ -78,7 +98,7 @@ export const renderCellFraudHistory = (
 		}
 
 		case "status": {
-			const status = history.selesai ? "Selesai" : "Belum Selesai";
+			const status = history.selesai ? "Sudah Selesai" : "Belum Selesai";
 			return (
 				<Chip
 					color={history.selesai ? "success" : "warning"}
