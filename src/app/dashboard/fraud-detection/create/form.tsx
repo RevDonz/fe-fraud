@@ -2,6 +2,7 @@
 import { getEntity } from "@/lib/entity";
 import { Divider } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
+import CurrencyInput from "react-currency-input-field";
 
 export default function FormDetection({ token }: { token: string }) {
 	const { data, isPending } = useQuery({
@@ -140,16 +141,10 @@ export default function FormDetection({ token }: { token: string }) {
 						>
 							<div className="px-3 py-2 border-r">{row.variable}</div>
 							<div className="border-r">
-								<input
-									type="number"
-									className="px-3 py-2 w-full focus:outline-none text-right"
-								/>
+                <CurrencyInput className="px-3 py-2 w-full focus:outline-none text-right" />
 							</div>
 							<div className="">
-								<input
-									type="number"
-									className="px-3 py-2 w-full focus:outline-none text-right"
-								/>
+                <CurrencyInput className="px-3 py-2 w-full focus:outline-none text-right" />
 							</div>
 						</div>
 					);
