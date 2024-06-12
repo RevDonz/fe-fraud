@@ -56,10 +56,10 @@ export const renderCellFraudHistory = (
 			return (
 				<Chip
 					color="primary"
-					variant={cellValue === 0 ? "bordered" : "flat"}
+					variant={cellValue === null ? "bordered" : "flat"}
 					radius="sm"
 				>
-					{cellValue === 0 ? "Belum dinilai" : cellValue}
+					{cellValue === null ? "Belum dinilai" : cellValue}
 				</Chip>
 			);
 		}
@@ -69,10 +69,10 @@ export const renderCellFraudHistory = (
 			return (
 				<Chip
 					color="primary"
-					variant={cellValue === 0 ? "bordered" : "flat"}
+					variant={cellValue === null ? "bordered" : "flat"}
 					radius="sm"
 				>
-					{cellValue === 0 ? "Belum dinilai" : cellValue}
+					{cellValue === null ? "Belum dinilai" : cellValue}
 				</Chip>
 			);
 		}

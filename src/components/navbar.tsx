@@ -61,7 +61,7 @@ const NavbarComponent = ({
 
 	return (
 		<Navbar
-			maxWidth="xl"
+			maxWidth="2xl"
 			isBordered
 			onMenuOpenChange={setIsMenuOpen}
 			classNames={{
@@ -124,15 +124,24 @@ const NavbarComponent = ({
 						</DropdownTrigger>
 						<DropdownMenu aria-label="Profile Actions" variant="flat">
 							<DropdownItem
-								key="profile"
+								key="dashboard"
 								className="h-14 gap-2"
 								href="/dashboard"
+								textValue="dashboard"
 								description={email}
 							>
 								<p className="font-semibold">Signed in as {role}</p>
 							</DropdownItem>
-							<DropdownItem key="settings">My Settings</DropdownItem>
-							<DropdownItem key="logout" color="danger" onClick={handleSignOut}>
+
+							<DropdownItem key="settings" textValue="setting">
+								My Settings
+							</DropdownItem>
+							<DropdownItem
+								key="logout"
+								color="danger"
+								onClick={handleSignOut}
+								textValue="logout"
+							>
 								Log Out
 							</DropdownItem>
 						</DropdownMenu>

@@ -28,9 +28,14 @@ export default async function FillQuestionPage({
 
 	return (
 		<div className="p-3">
-			<p className="font-semibold mb-3">
-				{subBab} {title?.title}: {subTitle?.title}
-			</p>
+			<div className="flex justify-between items-center mb-3">
+				<p className="font-semibold">
+					{subBab} {title?.title}: {subTitle?.title}
+				</p>
+				<p className="text-danger">
+					File yang diunggah tidak boleh melebihi 2MB.
+				</p>
+			</div>
 			<Divider />
 			<CreateAssesmentForm
 				subTitle={subTitle as SubBab}

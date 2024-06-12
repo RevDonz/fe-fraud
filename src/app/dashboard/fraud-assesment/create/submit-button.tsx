@@ -670,9 +670,10 @@ export default function SubmitButton({
 
 					if (result.success) {
 						results.push(result.data);
-					} else {
-						throw new Error("API call unsuccessful");
-					}
+          }
+					// } else {
+					// 	throw new Error("API call unsuccessful");
+					// }
 				}
 			}
 

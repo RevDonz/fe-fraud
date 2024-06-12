@@ -15,7 +15,7 @@ export type CurrentSubBab = {
 	sub_bab: string;
 	point: number;
 	answer: number;
-	skor: number;
+	skor: string;
 	proof?: ProofType;
 };
 
@@ -45,8 +45,13 @@ export interface AssesmentPoint {
 }
 
 export type DetailAssesment = {
-	assessment: Assesments;
+	assessment: FraudHistoryType;
 	point: AssesmentPoint;
+};
+
+export type DetailAssesmentWithKey = {
+	assessment: Assesments;
+	point: CurrentSubBab[];
 };
 
 export interface FraudHistoryType {
@@ -64,3 +69,9 @@ export interface FraudHistoryType {
 	reviewer_internal: string;
 	reviewer_external: string;
 }
+
+export type EvaluationAssesmentType = {
+	id_assessment: string;
+	sub_bab: string;
+	skor: string[];
+};

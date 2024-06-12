@@ -1,6 +1,6 @@
 "use client";
 import { Questions } from "@/constant/assesment";
-import { getAssesmentSubBab } from "@/lib/assesment";
+import { getAssesmentSubBabByKey } from "@/lib/assesment";
 import { Divider, Link, Radio, RadioGroup, Skeleton } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
 
@@ -8,15 +8,20 @@ export default function DetailAssesmentPage({
 	bab,
 	subBab,
 	token,
-}: { bab: number; subBab: number; token: string }) {
+	assesmentKey,
+}: { bab: number; subBab: number; token: string; assesmentKey: string }) {
 	const subTitle = Questions.find((item) => item.bab === bab)?.subtitle.find(
 		(sub) => sub.sub_bab === subBab,
 	);
 
 	const { data, isPending } = useQuery({
-		queryKey: ["detail-subbab-assesment", subBab],
+		queryKey: ["current-subbab-assesment-key", subBab],
 		queryFn: async () => {
-			const data = await getAssesmentSubBab(token, subBab.toString());
+			const data = await getAssesmentSubBabByKey(
+				token,
+				assesmentKey,
+				subBab.toString(),
+			);
 			return data;
 		},
 	});
@@ -37,7 +42,7 @@ export default function DetailAssesmentPage({
 									) : (
 										<RadioGroup
 											orientation="horizontal"
-											value={data?.[index].answer.toString()}
+											value={data?.point[index].answer.toString()}
 										>
 											<Radio type="radio" value="1">
 												Ada, dan sudah lengkap
@@ -56,13 +61,13 @@ export default function DetailAssesmentPage({
 								<div className="flex flex-col gap-3 w-full">
 									<div className="flex flex-col gap-3">
 										<p>Bukti</p>
-										{data?.[index].proof !== null ? (
+										{data?.point[index].proof !== null ? (
 											<Link
 												size="sm"
-												href={`http://devta-1-j8022502.deta.app/api/actualfile/${data?.[index].proof?.file_name}`}
+												href={`${process.env.NEXT_PUBLIC_BASE_URL}/api/actualfile/${data?.point[index].proof?.file_name}`}
 												target="_blank"
 											>
-												{data?.[index].proof?.file_name}
+												{data?.point[index].proof?.file_name}
 											</Link>
 										) : (
 											<p>-</p>

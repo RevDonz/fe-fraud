@@ -13,3 +13,9 @@ export const assesmentSchema = z.object({
 		}),
 	),
 });
+
+export const reviewAssesmentSchema = z.object({
+	id_assessment: z.string(),
+	sub_bab: z.coerce.string(),
+	skor: z.array(z.string({ required_error: "Nilai tidak boleh kosong" })),
+});
