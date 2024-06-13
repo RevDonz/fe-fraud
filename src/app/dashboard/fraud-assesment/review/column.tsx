@@ -28,7 +28,7 @@ export const columnsAssessed = [
 	{
 		key: "hasil_internal",
 		sortable: false,
-		label: "HASIL",
+		label: "HASIL INTERNAL",
 	},
 	{
 		key: "aksi",
@@ -68,11 +68,32 @@ export const renderCellHasAssessed = (
 		}
 
 		case "hasil_internal": {
-			const hasil = cellValue !== 0 ? cellValue : "Belum dinilai";
 			return (
-				<Chip color="primary" variant="bordered" radius="sm">
-					{hasil}
-				</Chip>
+				<div className="w-full">
+					<Chip
+						color={
+							cellValue === null
+								? "primary"
+								: Number(cellValue) > 75
+									? "success"
+									: Number(cellValue) > 50
+										? "warning"
+										: "danger"
+						}
+						variant={cellValue === null ? "bordered" : "flat"}
+						radius="sm"
+					>
+						<p className="w-24 text-center">
+							{cellValue === null
+								? "Belum dinilai"
+								: Number(cellValue) > 75
+									? `Good / ${cellValue}`
+									: Number(cellValue) > 50
+										? `Normal / ${cellValue}`
+										: `Bad / ${cellValue}`}
+						</p>
+					</Chip>
+				</div>
 			);
 		}
 
