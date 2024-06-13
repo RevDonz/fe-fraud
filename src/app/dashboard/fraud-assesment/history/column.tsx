@@ -60,7 +60,6 @@ export const renderCellFraudHistory = (
 		}
 
 		case "hasil_internal": {
-			// const hasil = cellValue !== 0 ? cellValue : "Belum dinilai";
 			return (
 				<div className="w-full">
 					<Chip
@@ -77,7 +76,13 @@ export const renderCellFraudHistory = (
 						radius="sm"
 					>
 						<p className="w-24 text-center">
-							{cellValue === null ? "Belum dinilai" : cellValue}
+							{cellValue === null
+								? "Belum dinilai"
+								: Number(cellValue) > 75
+									? `Good / ${cellValue}`
+									: Number(cellValue) > 50
+										? `Normal / ${cellValue}`
+										: `Bad / ${cellValue}`}
 						</p>
 					</Chip>
 				</div>
@@ -85,7 +90,6 @@ export const renderCellFraudHistory = (
 		}
 
 		case "hasil_external": {
-			// const hasil = cellValue !== 0 ? cellValue : "Belum dinilai";
 			return (
 				<Chip
 					color="primary"

@@ -29,7 +29,6 @@ type Column = {
 };
 interface GenericItem {
 	id: string;
-	[key: string]: string | number;
 }
 
 type LoadingState =
@@ -40,13 +39,10 @@ type LoadingState =
 	| "idle"
 	| "filtering";
 
-type filterOption = {
-	column: string;
-	options: {
-		name: string;
-		uid: string;
-	}[];
-};
+interface FilterOptions<T> {
+	column: keyof T;
+	options: Array<{ uid: string; name: string }>;
+}
 
 interface DataTableProps<TData> {
 	data: TData[];
@@ -55,10 +51,10 @@ interface DataTableProps<TData> {
 	renderCell?: (row: TData, columnKey: React.Key) => React.ReactNode;
 	isLoading?: boolean;
 	rowPage?: number;
-	filterOptions?: filterOption;
+	filterOptions?: FilterOptions<TData>;
 }
 
-export function Datatable<TData extends GenericItem>({
+export function Datatable<TData extends GenericItem, TOption>({
 	data,
 	columns,
 	label = "Table",
@@ -85,20 +81,15 @@ export function Datatable<TData extends GenericItem>({
 	);
 
 	const filteredItems = useMemo(() => {
-		let filteredUsers = [...data];
-
-		if (
-			selectedFilter !== "all" &&
-			Array.from(selectedFilter).length !== filterOptions?.options.length
-		) {
-			filteredUsers = filteredUsers.filter((user) =>
-				Array.from(selectedFilter).includes(
-					user[filterOptions?.column as string],
-				),
-			);
+		if (!filterOptions || selectedFilter === "all") {
+			return data;
 		}
 
-		return filteredUsers;
+		const selectedFilterSet = new Set(selectedFilter as unknown as string[]);
+
+		return data.filter((item) =>
+			selectedFilterSet.has(String(item[filterOptions.column])),
+		);
 	}, [data, selectedFilter, filterOptions]);
 
 	const pages = Math.ceil(filteredItems.length / rowsPerPage);
