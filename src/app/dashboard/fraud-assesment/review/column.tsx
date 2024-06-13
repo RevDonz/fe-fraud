@@ -98,29 +98,36 @@ export const renderCellHasAssessed = (
 		}
 
 		case "status": {
-			const status =
-				history.id_reviewer_external !== null && history.hasil_internal !== 0;
+			const selesai =
+				history.id_reviewer_internal !== null &&
+				history.hasil_internal !== null;
 			return (
-				<Chip color={status ? "success" : "warning"} variant="flat" radius="sm">
-					{status ? "Sudah Selesai" : "Belum Selesai"}
+				<Chip
+					color={selesai ? "success" : "warning"}
+					variant="flat"
+					radius="sm"
+				>
+					{selesai ? "Sudah Selesai" : "Belum Selesai"}
 				</Chip>
 			);
 		}
 
 		case "aksi": {
-			const status =
-				history.id_reviewer_external !== null && history.hasil_internal !== 0;
+			const selesai =
+				history.id_reviewer_internal !== null &&
+				history.hasil_internal !== null;
 
 			return (
 				<Button
-					color={status ? "primary" : "warning"}
+					color={selesai ? "primary" : "warning"}
 					size="sm"
-					variant={status ? "solid" : "flat"}
+					variant={selesai ? "solid" : "flat"}
 					as={Link}
 					href={`/dashboard/fraud-assesment/review/${history.key}`}
 					isDisabled={!history.selesai}
+					className="w-32"
 				>
-					{status ? "Lihat Detail" : "Lanjut Penilaian"}
+					{selesai ? "Lihat Detail" : "Lanjut Penilaian"}
 				</Button>
 			);
 		}
