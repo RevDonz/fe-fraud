@@ -1,6 +1,11 @@
 "use client";
 
 import {
+	Button,
+	Dropdown,
+	DropdownItem,
+	DropdownMenu,
+	DropdownTrigger,
 	Pagination,
 	Select,
 	SelectItem,
@@ -12,8 +17,10 @@ import {
 	TableHeader,
 	TableRow,
 	getKeyValue,
+	type Selection,
 	type SortDescriptor,
 } from "@nextui-org/react";
+import { ChevronDownIcon } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
 type Column = {
 	key: string;
@@ -22,6 +29,7 @@ type Column = {
 };
 interface GenericItem {
 	id: string;
+	[key: string]: string | number;
 }
 
 type LoadingState =
@@ -32,6 +40,14 @@ type LoadingState =
 	| "idle"
 	| "filtering";
 
+type filterOption = {
+	column: string;
+	options: {
+		name: string;
+		uid: string;
+	}[];
+};
+
 interface DataTableProps<TData> {
 	data: TData[];
 	columns: Column[];
@@ -39,6 +55,7 @@ interface DataTableProps<TData> {
 	renderCell?: (row: TData, columnKey: React.Key) => React.ReactNode;
 	isLoading?: boolean;
 	rowPage?: number;
+	filterOptions?: filterOption;
 }
 
 export function Datatable<TData extends GenericItem>({
@@ -48,6 +65,7 @@ export function Datatable<TData extends GenericItem>({
 	isLoading,
 	rowPage = 5,
 	renderCell,
+	filterOptions,
 }: DataTableProps<TData>) {
 	const [page, setPage] = useState(1);
 	const [rowsPerPage, setRowsPerPage] = useState(rowPage);
@@ -55,6 +73,8 @@ export function Datatable<TData extends GenericItem>({
 	const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
 		direction: "ascending",
 	});
+
+	const [selectedFilter, setSelectedFilter] = useState<Selection>("all");
 
 	const onRowsPerPageChange = useCallback(
 		(e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -64,23 +84,72 @@ export function Datatable<TData extends GenericItem>({
 		[],
 	);
 
+	const filteredItems = useMemo(() => {
+		let filteredUsers = [...data];
+
+		if (
+			selectedFilter !== "all" &&
+			Array.from(selectedFilter).length !== filterOptions?.options.length
+		) {
+			filteredUsers = filteredUsers.filter((user) =>
+				Array.from(selectedFilter).includes(
+					user[filterOptions?.column as string],
+				),
+			);
+		}
+
+		return filteredUsers;
+	}, [data, selectedFilter, filterOptions]);
+
+	const pages = Math.ceil(filteredItems.length / rowsPerPage);
+
+	const items = useMemo(() => {
+		const start = (page - 1) * rowsPerPage;
+		const end = start + rowsPerPage;
+		return filteredItems.slice(start, end);
+	}, [page, filteredItems, rowsPerPage]);
+
 	const sortedData = useMemo(() => {
-		if (!sortDescriptor.column) return data;
-		return [...data].sort((a: TData, b: TData) => {
+		if (!sortDescriptor.column) return items;
+		return [...items].sort((a: TData, b: TData) => {
 			const first = a[sortDescriptor.column as keyof TData] as number;
 			const second = b[sortDescriptor.column as keyof TData] as number;
 			const cmp = first < second ? -1 : first > second ? 1 : 0;
 			return sortDescriptor.direction === "descending" ? -cmp : cmp;
 		});
-	}, [sortDescriptor, data]);
+	}, [sortDescriptor, items]);
 
-	const pages = Math.ceil(sortedData.length / rowsPerPage);
-
-	const items = useMemo(() => {
-		const start = (page - 1) * rowsPerPage;
-		const end = start + rowsPerPage;
-		return sortedData.slice(start, end);
-	}, [page, sortedData, rowsPerPage]);
+	const TopContent = () => {
+		if (filterOptions)
+			return (
+				<div className="flex w-full justify-between items-center">
+					<Dropdown>
+						<DropdownTrigger className="hidden sm:flex">
+							<Button
+								endContent={<ChevronDownIcon className="text-small" />}
+								variant="flat"
+							>
+								Status
+							</Button>
+						</DropdownTrigger>
+						<DropdownMenu
+							disallowEmptySelection
+							aria-label="Table Columns"
+							closeOnSelect={false}
+							selectedKeys={selectedFilter}
+							selectionMode="multiple"
+							onSelectionChange={setSelectedFilter}
+						>
+							{(filterOptions?.options ?? []).map((role) => (
+								<DropdownItem key={role.uid} className="capitalize">
+									{role.name}
+								</DropdownItem>
+							))}
+						</DropdownMenu>
+					</Dropdown>
+				</div>
+			);
+	};
 
 	const BottomContent = () => {
 		return (
@@ -126,6 +195,7 @@ export function Datatable<TData extends GenericItem>({
 			classNames={{
 				table: isLoading && "min-h-[205px]",
 			}}
+			topContent={<TopContent />}
 			bottomContent={<BottomContent />}
 			sortDescriptor={sortDescriptor}
 			onSortChange={setSortDescriptor}
@@ -142,7 +212,7 @@ export function Datatable<TData extends GenericItem>({
 				)}
 			</TableHeader>
 			<TableBody
-				items={items}
+				items={sortedData}
 				loadingContent={<Spinner />}
 				loadingState={loadingState}
 				emptyContent={!isLoading && data.length < 1 && "Tidak ada data"}
