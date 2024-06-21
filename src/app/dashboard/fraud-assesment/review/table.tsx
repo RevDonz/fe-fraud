@@ -28,10 +28,19 @@ const TableGrade = ({ token }: { token: string }) => {
 
 	const sortedDataNotAssessed = dataAssessed
 		?.sort(compareDates)
-		.filter((data) => data.id_reviewer_internal === null);
+		.filter(
+			(data) =>
+				data.id_reviewer_internal === null || data.id_reviewer_internal === "",
+		);
+
 	const sortedDataAssessed = dataAssessed
 		?.sort(compareDates)
-		.filter((data) => data.id_reviewer_internal !== null);
+		.filter(
+			(data) =>
+				data.id_reviewer_internal !== null &&
+				data.id_reviewer_internal !== "" &&
+				data.selesai,
+		);
 
 	const renderCellNotAssessed = (
 		history: FraudHistoryType,

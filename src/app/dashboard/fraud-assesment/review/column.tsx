@@ -6,6 +6,11 @@ import Link from "next/link";
 
 export const columnsAssessed = [
 	{
+		key: "key",
+		sortable: false,
+		label: "ID ASSESMENT",
+	},
+	{
 		key: "admin",
 		sortable: false,
 		label: "PENGISI ASSESMENT",
@@ -38,6 +43,11 @@ export const columnsAssessed = [
 ];
 
 export const columnsNotAssessed = [
+	{
+		key: "key",
+		sortable: false,
+		label: "ID ASSESMENT",
+	},
 	{
 		key: "admin",
 		sortable: false,
