@@ -95,7 +95,7 @@ export default function DetailAssesmentList({
 						<TableCell>
 							<Button
 								type="button"
-                color="primary"
+								color="primary"
 								isDisabled={data?.assessment.hasil_internal === null}
 							>
 								Unduh Laporan

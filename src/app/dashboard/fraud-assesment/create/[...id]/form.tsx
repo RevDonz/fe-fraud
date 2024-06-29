@@ -27,12 +27,17 @@ export default function CreateAssesmentForm({
 	const mutation = useMutation({
 		mutationKey: ["submit-assesment"],
 		mutationFn: async (values: z.infer<typeof assesmentSchema>) => {
-			const formData = new FormData();
-			const promises = values.assesment.map(async (assesment) => {
-				try {
+			try {
+				const formData = new FormData();
+				const results = [];
+
+				for (let i = 0; i < values.assesment.length; i++) {
+					const assesment = values.assesment[i];
+
 					if (typeof assesment.file !== "undefined") {
 						formData.append("file", assesment.file);
 					}
+
 					const response = await fetch(
 						`${process.env.NEXT_PUBLIC_BASE_URL}/api/point?bab=${assesment.bab}&sub_bab=${assesment.sub_bab}&point=${assesment.point}&answer=${assesment.answer}`,
 						{
@@ -42,27 +47,32 @@ export default function CreateAssesmentForm({
 							headers: { Authorization: `Bearer ${token}` },
 						},
 					);
+
 					if (!response.ok) {
 						throw new Error("Failed to submit data");
 					}
+
 					const result = await response.json();
 
 					if (result.success) {
-						return result.data;
+						results.push(result.data);
+					} else {
+						throw new Error("Failed to submit data");
 					}
-				} catch (error) {
-					throw new Error("error");
 				}
-			});
-			return Promise.all(promises);
+
+				return results;
+			} catch (error) {
+				throw new Error("Failed to submit data");
+			}
 		},
 		onMutate() {
 			toast.loading("Loading...");
 		},
-		onSuccess() {
-			router.push("/dashboard/fraud-assesment/create");
+		onSuccess(data) {
 			toast.dismiss();
 			toast.success("Berhasil");
+			router.push("/dashboard/fraud-assesment/create");
 		},
 		onError(error) {
 			toast.dismiss();
@@ -73,7 +83,6 @@ export default function CreateAssesmentForm({
 
 	const onSubmit = async (values: z.infer<typeof assesmentSchema>) => {
 		mutation.mutate(values);
-		console.log(values);
 	};
 
 	return (

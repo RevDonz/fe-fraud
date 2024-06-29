@@ -44,7 +44,7 @@ export const ListMenuNavbar: MenuList = {
 			url: "/dashboard/data-staff",
 		},
 		{
-			name: "Riwayat Login",
+			name: "Riwayat Aktivitas",
 			url: "/dashboard/login-history",
 		},
 	],
@@ -59,14 +59,10 @@ export const ListMenuNavbar: MenuList = {
 		},
 		{
 			name: "Fraud Detection",
-			url: "/dashboard/report",
+			url: "/dashboard/fraud-detection/history",
 		},
 		{
-			name: "Data Staff",
-			url: "/dashboard/data-staff",
-		},
-		{
-			name: "Riwayat Login",
+			name: "Riwayat Aktivitas",
 			url: "/dashboard/login-history",
 		},
 	],

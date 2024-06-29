@@ -22,11 +22,11 @@ const TableHistroy = ({ token }: { token: string }) => {
 	};
 
 	// Mengurutkan array berdasarkan tanggal
-	// const sortedData = data?.sort(compareDates);
+	const sortedData = data?.sort(compareDates);
 
 	return (
 		<Datatable
-			data={data ?? []}
+			data={sortedData ?? []}
 			columns={columns}
 			renderCell={renderCellFraudHistory}
 			isLoading={isPending}

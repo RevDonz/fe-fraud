@@ -14,34 +14,37 @@ const TableLoginHistory = ({ token }: { token: string }) => {
 		},
 	});
 
-	const dataLoginHistoryWithId = data
-		?.map((loginHistory: LoginHistoryType, index: number) => {
+	const dataLoginHistoryWithId = data?.map(
+		(loginHistory: LoginHistoryType, index: number) => {
 			return { ...loginHistory, id: `${index + 1}` };
-		})
-		.sort((a: LoginHistoryType, b: LoginHistoryType) => {
-			return new Date(b.tanggal).getTime() - new Date(a.tanggal).getTime();
-		});
+		},
+	);
 
 	const columns = [
 		{
 			key: "nama",
 			label: "NAMA",
+			sortable: true,
 		},
 		{
 			key: "email",
 			label: "EMAIL",
+			sortable: false,
 		},
 		{
 			key: "role",
 			label: "ROLE",
+			sortable: true,
 		},
 		{
 			key: "tanggal",
 			label: "TANGGAL & WAKTU",
+			sortable: true,
 		},
 		{
 			key: "event",
-			label: "AKTIFITAS",
+			label: "AKTIVITAS",
+			sortable: true,
 		},
 	];
 
@@ -67,6 +70,15 @@ const TableLoginHistory = ({ token }: { token: string }) => {
 			renderCell={renderCellDataStaff}
 			isLoading={isPending}
 			label="Table Data Staff"
+			rowPage={10}
+			filterOptions={{
+				column: "role",
+				options: [
+					{ name: "Admin", uid: "admin" },
+					{ name: "Staff", uid: "staff" },
+					{ name: "Reviewer", uid: "reviewer" },
+				],
+			}}
 		/>
 	);
 };

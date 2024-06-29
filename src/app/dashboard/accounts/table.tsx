@@ -30,18 +30,22 @@ export const DataTableAccounts = ({ token }: { token: string }) => {
 	const columns = [
 		{
 			key: "name",
+			sortable: true,
 			label: "NAMA AKUN",
 		},
 		{
 			key: "id",
+			sortable: false,
 			label: "ID",
 		},
 		{
 			key: "email",
+			sortable: false,
 			label: "EMAIL",
 		},
 		{
 			key: "is_active",
+			sortable: false,
 			label: "STATUS",
 		},
 	];

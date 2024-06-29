@@ -38,55 +38,65 @@ export default function EditAssesmentForm({
 	const mutation = useMutation({
 		mutationKey: ["submit-assesment"],
 		mutationFn: async (values: z.infer<typeof assesmentSchema>) => {
-			const formData = new FormData();
-			const promises = values.assesment.map(async (assesment) => {
-				try {
-					if (typeof assesment.file !== "undefined") {
-						formData.append("file", assesment.file);
+			try {
+				const formData = new FormData();
+				const results = [];
+
+				for (let i = 0; i < values.assesment.length; i++) {
+					const assessment = values.assesment[i];
+
+					if (typeof assessment.file !== "undefined") {
+						formData.append("file", assessment.file);
 					}
+
 					const response = await fetch(
-						`${process.env.NEXT_PUBLIC_BASE_URL}/api/point?bab=${assesment.bab}&sub_bab=${assesment.sub_bab}&point=${assesment.point}&answer=${assesment.answer}`,
+						`${process.env.NEXT_PUBLIC_BASE_URL}/api/point?bab=${assessment.bab}&sub_bab=${assessment.sub_bab}&point=${assessment.point}&answer=${assessment.answer}`,
 						{
 							method: "PATCH",
 							body:
-								assesment.file !== undefined && assesment.file !== null
+								assessment.file !== undefined && assessment.file !== null
 									? formData
 									: null,
 							headers: { Authorization: `Bearer ${token}` },
 						},
 					);
+
 					if (!response.ok) {
 						throw new Error("Failed to submit data");
 					}
+
 					const result = await response.json();
+
 					if (result.success) {
-						return result.data;
+						results.push(result.data);
+					} else {
+						throw new Error("Failed to submit data");
 					}
-				} catch (error) {
-					throw new Error("error");
 				}
-			});
-			return Promise.all(promises);
+
+				return results;
+			} catch (error) {
+				throw new Error("Error during mutation");
+			}
 		},
 		onMutate() {
 			toast.loading("Loading...");
 		},
-		onSuccess() {
-			queryClient.invalidateQueries({ queryKey: ["current-subbab-assesment"] });
-			router.push("/dashboard/fraud-assesment/create");
+		onSuccess(data) {
 			toast.dismiss();
 			toast.success("Berhasil");
+			queryClient.invalidateQueries({ queryKey: ["current-subbab-assesment"] });
+			router.push("/dashboard/fraud-assesment/create");
 		},
 		onError(error) {
 			toast.dismiss();
 			toast.error("Gagal submit assesment!");
-			console.log("Error submit", error);
+			console.error("Error submit", error);
 		},
 	});
 
 	const onSubmit = async (values: z.infer<typeof assesmentSchema>) => {
 		mutation.mutate(values);
-		// console.log(values);
 	};
 
 	const { data, isPending } = useQuery({

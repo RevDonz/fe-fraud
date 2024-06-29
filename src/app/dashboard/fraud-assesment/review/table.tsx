@@ -1,10 +1,9 @@
 "use client";
 import Datatable from "@/components/datatable";
-import { getAssesmentHistory, getEvaluationAssesment } from "@/lib/assesment";
+import { getAssesmentHistory } from "@/lib/assesment";
 import type { FraudHistoryType } from "@/types/assesment";
-import { Tab, Tabs, useDisclosure } from "@nextui-org/react";
+import { Tab, Tabs } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
 import {
 	columnsAssessed,
 	columnsNotAssessed,
@@ -13,18 +12,6 @@ import {
 import ModalEvaluation from "./modal-fraud-evaluation";
 
 const TableGrade = ({ token }: { token: string }) => {
-	const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
-	const [isChecked, setIsChecked] = useState(false);
-	const [isLoading, setIsLoading] = useState(false);
-
-	const { data, isPending } = useQuery({
-		queryKey: ["fraud-history-not-assessed"],
-		queryFn: async () => {
-			const data = await getEvaluationAssesment(token);
-			return data;
-		},
-	});
-
 	const { data: dataAssessed, isPending: isAssessedPending } = useQuery({
 		queryKey: ["fraud-history-assessed"],
 		queryFn: async () => {
@@ -41,10 +28,19 @@ const TableGrade = ({ token }: { token: string }) => {
 
 	const sortedDataNotAssessed = dataAssessed
 		?.sort(compareDates)
-		.filter((data) => data.id_reviewer_internal === null);
+		.filter(
+			(data) =>
+				data.id_reviewer_internal === null || data.id_reviewer_internal === "",
+		);
+
 	const sortedDataAssessed = dataAssessed
 		?.sort(compareDates)
-		.filter((data) => data.id_reviewer_internal !== null);
+		.filter(
+			(data) =>
+				data.id_reviewer_internal !== null &&
+				data.id_reviewer_internal !== "" &&
+				data.selesai,
+		);
 
 	const renderCellNotAssessed = (
 		history: FraudHistoryType,
@@ -82,7 +78,7 @@ const TableGrade = ({ token }: { token: string }) => {
 					data={sortedDataNotAssessed ?? []}
 					columns={columnsNotAssessed}
 					renderCell={renderCellNotAssessed}
-					isLoading={isPending}
+					isLoading={isAssessedPending}
 					label="Table Fraud Assesment"
 				/>
 			</Tab>
