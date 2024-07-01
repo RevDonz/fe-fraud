@@ -1,7 +1,14 @@
 "use client";
 import { Questions } from "@/constant/assesment";
 import { getAssesmentSubBabByKey } from "@/lib/assesment";
-import { Divider, Link, Radio, RadioGroup, Skeleton } from "@nextui-org/react";
+import {
+	Chip,
+	Divider,
+	Link,
+	Radio,
+	RadioGroup,
+	Skeleton,
+} from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
 
 export default function DetailAssesmentPage({
@@ -10,6 +17,7 @@ export default function DetailAssesmentPage({
 	token,
 	assesmentKey,
 }: { bab: number; subBab: number; token: string; assesmentKey: string }) {
+	const title = Questions.find((item) => item.bab === bab);
 	const subTitle = Questions.find((item) => item.bab === bab)?.subtitle.find(
 		(sub) => sub.sub_bab === subBab,
 	);
@@ -27,7 +35,23 @@ export default function DetailAssesmentPage({
 	});
 
 	return (
-		<div>
+		<div className="p-3">
+			<div className="flex justify-between items-center mb-3">
+				<p className="font-semibold">
+					{subBab} {title?.title}: {subTitle?.title}
+				</p>
+				<div className="flex gap-3">
+					<p>Nilai :</p>
+					<Chip color={"success"} variant={"flat"} radius="sm">
+						<p className="w-24 text-center">
+							{/* {data?.point && !isPending
+								? data?.point[subTitle?.sub_bab.toString()]
+								: ""} */}
+						</p>
+					</Chip>
+				</div>
+			</div>
+			<Divider />
 			{subTitle?.questions?.map((questions, index) => {
 				return (
 					<div key={`${index * 2}`}>

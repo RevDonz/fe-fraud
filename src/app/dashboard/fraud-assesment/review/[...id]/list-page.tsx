@@ -18,12 +18,16 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { Check } from "lucide-react";
 import Link from "next/link";
-import LoadingReviewAssesment from "./loadingReview";
+import { useRef } from "react";
+import ReactToPrint from "react-to-print";
+import LoadingReviewAssesment from "./loading-component";
 
 export default function ReviewAssesmentList({
 	token,
 	assesmentKey,
 }: { token: string; assesmentKey: string }) {
+	const componentRef = useRef(null);
+
 	const { data, isPending } = useQuery({
 		queryKey: ["review-fraud-list-assesment", assesmentKey],
 		queryFn: async () => {
@@ -68,13 +72,22 @@ export default function ReviewAssesmentList({
 									: data?.assessment.hasil_internal}
 							</TableCell>
 							<TableCell>
-								<Button
-									type="button"
-									color="primary"
-									isDisabled={data?.assessment.hasil_internal === null}
-								>
-									Unduh Laporan
-								</Button>
+								<ReactToPrint
+									trigger={() => (
+										<Button
+											color="primary"
+											isDisabled={data?.assessment.hasil_internal === null}
+										>
+											Unduh Laporan
+										</Button>
+									)}
+									content={() => componentRef.current}
+								/>
+								<div className="hidden">
+									<div ref={componentRef}>
+										<p>asd</p>
+									</div>
+								</div>
 							</TableCell>
 						</TableRow>
 					</TableBody>

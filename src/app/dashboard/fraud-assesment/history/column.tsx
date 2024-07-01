@@ -35,11 +35,11 @@ export const columns = [
 		sortable: false,
 		label: "HASIL INTERNAL",
 	},
-	{
-		key: "hasil_external",
-		sortable: false,
-		label: "HASIL EXTERNAL",
-	},
+	// {
+	// 	key: "hasil_external",
+	// 	sortable: false,
+	// 	label: "HASIL EXTERNAL",
+	// },
 	{
 		key: "aksi",
 		sortable: false,
@@ -89,17 +89,17 @@ export const renderCellFraudHistory = (
 			);
 		}
 
-		case "hasil_external": {
-			return (
-				<Chip
-					color="primary"
-					variant={cellValue === null ? "bordered" : "flat"}
-					radius="sm"
-				>
-					{cellValue === null ? "Belum dinilai" : cellValue}
-				</Chip>
-			);
-		}
+		// case "hasil_external": {
+		// 	return (
+		// 		<Chip
+		// 			color="primary"
+		// 			variant={cellValue === null ? "bordered" : "flat"}
+		// 			radius="sm"
+		// 		>
+		// 			{cellValue === null ? "Belum dinilai" : cellValue}
+		// 		</Chip>
+		// 	);
+		// }
 
 		case "status": {
 			const status = history.selesai ? "Sudah Selesai" : "Belum Selesai";

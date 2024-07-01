@@ -1,11 +1,11 @@
 import { Questions } from "@/constant/assesment";
 import { getServerAuthSession } from "@/lib/auth";
 import { Divider } from "@nextui-org/react";
-import DetailReviewAssesmentPage from "./detail";
-import EditAssesmentGrade from "./edit";
-import ReviewAssesmentList from "./list";
-import ReviewAssesmentGrade from "./review";
-import SubmitEvaluation from "./submit";
+import DetailReviewAssesmentPage from "./detail-page";
+import EditAssesmentGrade from "./edit-page";
+import ReviewAssesmentList from "./list-page";
+import ReviewAssesmentGrade from "./review-page";
+import SubmitEvaluation from "./submit-component";
 
 export default async function ReviewPage({
 	params,

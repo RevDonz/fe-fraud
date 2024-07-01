@@ -23,7 +23,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import LoadingDetailAssesment from "./loadingDetail";
+import LoadingDetailAssesment from "./loading-component";
 
 export default function DetailAssesmentList({
 	token,

@@ -71,14 +71,26 @@ const TableLoginHistory = ({ token }: { token: string }) => {
 			isLoading={isPending}
 			label="Table Data Staff"
 			rowPage={10}
-			filterOptions={{
-				column: "role",
-				options: [
-					{ name: "Admin", uid: "admin" },
-					{ name: "Staff", uid: "staff" },
-					{ name: "Reviewer", uid: "reviewer" },
-				],
-			}}
+			filterOptions={[
+				{
+					column: "role",
+					label: "Role",
+					options: [
+						{ name: "Admin", uid: "admin" },
+						{ name: "Staff", uid: "staff" },
+						{ name: "Reviewer", uid: "reviewer" },
+					],
+				},
+				{
+					column: "event",
+					label: "Aktivitas",
+					options: [
+						{ name: "Logged In", uid: "Logged In" },
+						{ name: "Submit Point", uid: "Submit Point" },
+						{ name: "Submitted Assessment", uid: "Submitted Assessment" },
+					],
+				},
+			]}
 		/>
 	);
 };
