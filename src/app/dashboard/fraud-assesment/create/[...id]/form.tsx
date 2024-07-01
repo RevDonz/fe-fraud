@@ -115,34 +115,32 @@ export default function CreateAssesmentForm({
 								<p>
 									{index + 1}. {questions.title}
 								</p>
-								<div className="flex justify-between items-center">
-									<RadioGroup
-										orientation="horizontal"
+								<RadioGroup
+									orientation="horizontal"
+									{...register(`assesment.${index}.answer`)}
+								>
+									<Radio
+										type="radio"
+										value="1"
 										{...register(`assesment.${index}.answer`)}
 									>
-										<Radio
-											type="radio"
-											value="1"
-											{...register(`assesment.${index}.answer`)}
-										>
-											Ada, dan sudah lengkap
-										</Radio>
-										<Radio
-											type="radio"
-											value="2"
-											{...register(`assesment.${index}.answer`)}
-										>
-											Ada, belum lengkap
-										</Radio>
-										<Radio
-											type="radio"
-											value="3"
-											{...register(`assesment.${index}.answer`)}
-										>
-											Belum ada
-										</Radio>
-									</RadioGroup>
-								</div>
+										Ada, dan sudah lengkap
+									</Radio>
+									<Radio
+										type="radio"
+										value="2"
+										{...register(`assesment.${index}.answer`)}
+									>
+										Ada, belum lengkap
+									</Radio>
+									<Radio
+										type="radio"
+										value="3"
+										{...register(`assesment.${index}.answer`)}
+									>
+										Belum ada
+									</Radio>
+								</RadioGroup>
 
 								{errors.assesment?.[index]?.answer?.message ? (
 									<p className="text-sm text-danger">

@@ -1,14 +1,7 @@
 "use client";
 import { Questions } from "@/constant/assesment";
 import { getAssesmentSubBabByKey } from "@/lib/assesment";
-import {
-	Chip,
-	Divider,
-	Link,
-	Radio,
-	RadioGroup,
-	Skeleton,
-} from "@nextui-org/react";
+import { Divider, Link, Skeleton } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
 
 export default function DetailAssesmentPage({
@@ -40,19 +33,15 @@ export default function DetailAssesmentPage({
 				<p className="font-semibold">
 					{subBab} {title?.title}: {subTitle?.title}
 				</p>
-				<div className="flex gap-3">
-					<p>Nilai :</p>
-					<Chip color={"success"} variant={"flat"} radius="sm">
-						<p className="w-24 text-center">
-							{/* {data?.point && !isPending
-								? data?.point[subTitle?.sub_bab.toString()]
-								: ""} */}
-						</p>
-					</Chip>
-				</div>
 			</div>
 			<Divider />
 			{subTitle?.questions?.map((questions, index) => {
+				const answer =
+					data?.point[index].answer === 1
+						? "Ada, dan sudah lengkap"
+						: data?.point[index].answer === 2
+							? "		Ada, belum lengkap"
+							: "		Belum ada";
 				return (
 					<div key={`${index * 2}`}>
 						<div className="flex w-full justify-between my-3 items-center">
@@ -60,31 +49,18 @@ export default function DetailAssesmentPage({
 								<p>
 									{index + 1}. {questions.title}
 								</p>
-								<div className="flex justify-between items-center">
+								<div className="flex justify-between items-center mr-5">
 									{isPending ? (
 										<Skeleton className="h-4 w-full rounded-md" />
 									) : (
-										<RadioGroup
-											orientation="horizontal"
-											value={data?.point[index].answer.toString()}
-										>
-											<Radio type="radio" value="1">
-												Ada, dan sudah lengkap
-											</Radio>
-											<Radio type="radio" value="2">
-												Ada, belum lengkap
-											</Radio>
-											<Radio type="radio" value="3">
-												Belum ada
-											</Radio>
-										</RadioGroup>
+										<p className="font-medium">Jawaban : {answer}</p>
 									)}
 								</div>
 							</div>
 							<div className="flex flex-row gap-3 justify-end items-center w-1/4">
 								<div className="flex flex-col gap-3 w-full">
 									<div className="flex flex-col gap-3">
-										<p>Bukti</p>
+										<p>Bukti : </p>
 										{data?.point[index].proof !== null ? (
 											<Link
 												size="sm"
@@ -94,7 +70,7 @@ export default function DetailAssesmentPage({
 												{data?.point[index].proof?.file_name}
 											</Link>
 										) : (
-											<p>-</p>
+											<p className="text-danger">-</p>
 										)}
 									</div>
 								</div>
