@@ -27,6 +27,125 @@ export default function SubmitEvaluation({
 		});
 	};
 
+	function getRandomScore() {
+		return (Math.floor(Math.random() * 3) + 1).toString();
+	}
+
+	const dummy = [
+		{
+			id_assessment: assessmentKey,
+			sub_bab: "1.1",
+			skor: ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+		},
+		{
+			id_assessment: assessmentKey,
+			sub_bab: "1.2",
+			skor: ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+		},
+		{
+			id_assessment: assessmentKey,
+			sub_bab: "2.1",
+			skor: ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+		},
+		{
+			id_assessment: assessmentKey,
+			sub_bab: "2.2",
+			skor: ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+		},
+		{
+			id_assessment: assessmentKey,
+			sub_bab: "3.1",
+			skor: ["1", "1", "1", "1", "1", "1", "1", "1"],
+		},
+		{
+			id_assessment: assessmentKey,
+			sub_bab: "3.2",
+			skor: ["1", "1", "1", "1", "1", "1", "1"],
+		},
+		{
+			id_assessment: assessmentKey,
+			sub_bab: "4.1",
+			skor: ["1", "1", "1", "1", "1", "1", "1"],
+		},
+		{
+			id_assessment: assessmentKey,
+			sub_bab: "4.2",
+			skor: ["1", "1", "1", "1", "1", "1", "1", "1"],
+		},
+		{
+			id_assessment: assessmentKey,
+			sub_bab: "5.1",
+			skor: [
+				"1",
+				"1",
+				"1",
+				"1",
+				"1",
+				"1",
+				"1",
+				"1",
+				"1",
+				"1",
+				"1",
+				"1",
+				"1",
+				"1",
+				"1",
+			],
+		},
+		{
+			id_assessment: assessmentKey,
+			sub_bab: "6.1",
+			skor: [
+				"1",
+				"1",
+				"1",
+				"1",
+				"1",
+				"1",
+				"1",
+				"1",
+				"1",
+				"1",
+				"1",
+				"1",
+				"1",
+				"1",
+				"1",
+			],
+		},
+	];
+
+	const automation = async () => {
+		try {
+			const results = [];
+			for (const assessment of dummy) {
+				const response = await fetch(
+					`${process.env.NEXT_PUBLIC_BASE_URL}/api/assessments/evaluation`,
+					{
+						method: "POST",
+						body: JSON.stringify(assessment),
+						headers: {
+							Authorization: `Bearer ${token}`,
+							"Content-Type": "application/json",
+						},
+					},
+				);
+
+				const result = await response.json();
+				console.log(result);
+
+				if (result.success) {
+					results.push(result.data);
+				}
+			}
+
+			console.log(results);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
 		<div className="flex flex-col mt-5 gap-5">
 			<p className="text-danger text-justify">
@@ -47,6 +166,9 @@ export default function SubmitEvaluation({
 					isDisabled={!isSelected}
 				>
 					Submit
+				</Button>
+				<Button type="button" onClick={automation}>
+					Automation Review
 				</Button>
 			</div>
 		</div>
