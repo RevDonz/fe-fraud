@@ -21,6 +21,7 @@ import Link from "next/link";
 import { useRef } from "react";
 import ReactToPrint from "react-to-print";
 import LoadingReviewAssesment from "./loading-component";
+import SubmitEvaluation from "./submit";
 
 export default function ReviewAssesmentList({
 	token,
@@ -43,8 +44,9 @@ export default function ReviewAssesmentList({
 
 	if (isPending) return <LoadingReviewAssesment />;
 
-	const unFinished = ListSubBab.filter((subbab) => data?.point[subbab] === 0);
-	const finished = ListSubBab.filter((subbab) => data?.point[subbab] !== 0);
+	
+	const unFinished = ListSubBab.filter((subbab) => data?.point[subbab] === null);
+	const finished = ListSubBab.filter((subbab) => data?.point[subbab] !== null);
 
 	return (
 		<div className="flex flex-col gap-5">
@@ -184,6 +186,8 @@ export default function ReviewAssesmentList({
 					</Card>
 				))}
 			</div>
+
+			{!selesai && <SubmitEvaluation token={token} assessmentKey={assesmentKey} />}
 		</div>
 	);
 }

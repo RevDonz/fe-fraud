@@ -33,7 +33,7 @@ export default function DetailAssesmentList({
 	const router = useRouter();
 
 	const { data, isPending } = useQuery({
-		queryKey: ["fraud-detail-assesment"],
+		queryKey: ["fraud-detail-assesment", assesmentKey],
 		queryFn: async () => {
 			const data = await getDetailAssesment(token, assesmentKey);
 
@@ -86,7 +86,11 @@ export default function DetailAssesmentList({
 								? "Belum dinilai"
 								: data?.assessment.reviewer_internal}
 						</TableCell>
-						<TableCell>{data?.assessment.tanggal}</TableCell>
+						<TableCell>
+							{data?.assessment.tanggal_nilai !== null
+								? data?.assessment.tanggal_nilai
+								: "Belum dinilai"}
+						</TableCell>
 						<TableCell>
 							{data?.assessment.hasil_internal === null
 								? "Belum dinilai"

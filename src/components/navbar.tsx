@@ -133,9 +133,6 @@ const NavbarComponent = ({
 								<p className="font-semibold">Signed in as {role}</p>
 							</DropdownItem>
 
-							{/* <DropdownItem key="settings" textValue="setting">
-								My Settings
-							</DropdownItem> */}
 							<DropdownItem
 								key="logout"
 								color="danger"

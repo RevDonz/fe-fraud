@@ -5,7 +5,7 @@ import DetailReviewAssesmentPage from "./detail-page";
 import EditAssesmentGrade from "./edit-page";
 import ReviewAssesmentList from "./list-page";
 import ReviewAssesmentGrade from "./review-page";
-import SubmitEvaluation from "./submit-component";
+import SubmitEvaluation from "./submit";
 
 export default async function ReviewPage({
 	params,
@@ -69,7 +69,6 @@ export default async function ReviewPage({
 			) : (
 				<>
 					<ReviewAssesmentList token={token} assesmentKey={key} />
-					<SubmitEvaluation token={token} assessmentKey={key} />
 				</>
 			)}
 		</div>

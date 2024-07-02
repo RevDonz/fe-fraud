@@ -60,6 +60,7 @@ export interface FraudHistoryType {
 	id_reviewer_internal: string;
 	id_reviewer_external: string;
 	tanggal: string;
+	tanggal_nilai: string;
 	hasil_internal: number;
 	hasil_external: number;
 	selesai: boolean;

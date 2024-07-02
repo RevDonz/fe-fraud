@@ -21,7 +21,7 @@ export const columnsAssessed = [
 		label: "REVIEWER",
 	},
 	{
-		key: "tanggal",
+		key: "tanggal_nilai",
 		sortable: false,
 		label: "TANGGAL PENILAIAN",
 	},
@@ -104,6 +104,16 @@ export const renderCellHasAssessed = (
 						</p>
 					</Chip>
 				</div>
+			);
+		}
+
+		case "tanggal_nilai": {
+			return (
+				<p>
+					{history.tanggal_nilai !== null
+						? history.tanggal_nilai
+						: "Belum dinilai"}
+				</p>
 			);
 		}
 
