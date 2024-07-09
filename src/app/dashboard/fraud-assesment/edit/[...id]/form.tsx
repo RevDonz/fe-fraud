@@ -168,14 +168,14 @@ export default function EditAssesmentForm({
 											</Radio>
 											<Radio
 												type="radio"
-												value="2"
+												value="0.5"
 												{...register(`assesment.${index}.answer`)}
 											>
 												Ada, belum lengkap
 											</Radio>
 											<Radio
 												type="radio"
-												value="3"
+												value="0"
 												{...register(`assesment.${index}.answer`)}
 											>
 												Belum ada

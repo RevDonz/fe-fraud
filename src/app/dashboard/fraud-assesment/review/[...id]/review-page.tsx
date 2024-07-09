@@ -138,11 +138,11 @@ export default function ReviewAssesmentGrade({
 											errorMessage={errors.skor?.[index]?.message}
 											{...field}
 										>
-											<SelectItem key={"1"} value={"1"}>
+											<SelectItem
+												key={`${data?.point[index].answer}`}
+												value={data?.point[index].answer}
+											>
 												Sudah Tepat
-											</SelectItem>
-											<SelectItem key={"0.5"} value={"0.5"}>
-												Kurang Tepat
 											</SelectItem>
 											<SelectItem key={"0"} value={"0"}>
 												Tidak Tepat

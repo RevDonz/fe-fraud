@@ -256,10 +256,13 @@ export default function FormDetection({ token }: { token: string }) {
 							>
 								<div className="px-3 py-2 border-r">{row.index}</div>
 								<div className="border-r">
-									<input type="number" className="w-full focus:outline-none" />
+									<CurrencyInput className="px-3 py-2 w-full focus:outline-none text-right" />
 								</div>
 								<div className="border-r">
-									<input type="number" className="w-full focus:outline-none" />
+									<CurrencyInput className="px-3 py-2 w-full focus:outline-none text-right" />
+								</div>
+								<div>
+									<CurrencyInput className="px-3 py-2 w-full focus:outline-none text-right" />
 								</div>
 							</div>
 						);

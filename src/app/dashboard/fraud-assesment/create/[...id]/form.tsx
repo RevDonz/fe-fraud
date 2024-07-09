@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Divider, Radio, RadioGroup } from "@nextui-org/react";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
@@ -19,10 +20,12 @@ export default function CreateAssesmentForm({
 		handleSubmit,
 		register,
 		formState: { errors },
+		setError,
 	} = useForm<z.infer<typeof assesmentSchema>>({
 		resolver: zodResolver(assesmentSchema),
 	});
 	const router = useRouter();
+	const [fileErrors, setFileErrors] = useState<string[]>([]);
 
 	const mutation = useMutation({
 		mutationKey: ["submit-assesment"],
@@ -82,6 +85,10 @@ export default function CreateAssesmentForm({
 	});
 
 	const onSubmit = async (values: z.infer<typeof assesmentSchema>) => {
+		if (fileErrors.length > 0) {
+			toast.error("Periksa kembali file yang diunggah.");
+			return;
+		}
 		mutation.mutate(values);
 	};
 
@@ -128,14 +135,14 @@ export default function CreateAssesmentForm({
 									</Radio>
 									<Radio
 										type="radio"
-										value="2"
+										value="0.5"
 										{...register(`assesment.${index}.answer`)}
 									>
 										Ada, belum lengkap
 									</Radio>
 									<Radio
 										type="radio"
-										value="3"
+										value="0"
 										{...register(`assesment.${index}.answer`)}
 									>
 										Belum ada
@@ -156,10 +163,25 @@ export default function CreateAssesmentForm({
 									type="file"
 									accept=".pdf"
 									onChange={(e) => {
-										if (e.target.files && e.target.files.length > 0) {
-											onChange({
-												target: { value: e.target.files[0], name: name },
-											});
+										const file = e.target.files?.[0];
+										if (file) {
+											if (file.size > 2 * 1024 * 1024) {
+												setError(`assesment.${index}.file`, {
+													type: "manual",
+													message: "File tidak boleh lebih dari 2MB",
+												});
+												setFileErrors((prev) => [
+													...prev,
+													`assesment.${index}.file`,
+												]);
+											} else {
+												setFileErrors((prev) =>
+													prev.filter(
+														(err) => err !== `assesment.${index}.file`,
+													),
+												);
+												onChange({ target: { value: file, name: name } });
+											}
 										}
 									}}
 									className="border file:hidden px-2 py-1 rounded-md text-sm"

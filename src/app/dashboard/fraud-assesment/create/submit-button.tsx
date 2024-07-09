@@ -27,7 +27,7 @@ export default function SubmitButton({
 		});
 	};
 
-	const dummy = [
+	const dummy1 = [
 		[
 			{
 				bab: 1,
@@ -650,10 +650,633 @@ export default function SubmitButton({
 		],
 	];
 
+	const dummy = [
+		[
+			{
+				bab: 1,
+				sub_bab: 1.1,
+				point: 1,
+				answer: 1,
+			},
+			{
+				bab: 1,
+				sub_bab: 1.1,
+				point: 2,
+				answer: 1,
+			},
+			{
+				bab: 1,
+				sub_bab: 1.1,
+				point: 3,
+				answer: 0,
+			},
+			{
+				bab: 1,
+				sub_bab: 1.1,
+				point: 4,
+				answer: 0,
+			},
+			{
+				bab: 1,
+				sub_bab: 1.1,
+				point: 5,
+				answer: 0.5,
+			},
+			{
+				bab: 1,
+				sub_bab: 1.1,
+				point: 6,
+				answer: 0,
+			},
+			{
+				bab: 1,
+				sub_bab: 1.1,
+				point: 7,
+				answer: 0.5,
+			},
+			{
+				bab: 1,
+				sub_bab: 1.1,
+				point: 8,
+				answer: 1,
+			},
+			{
+				bab: 1,
+				sub_bab: 1.1,
+				point: 9,
+				answer: 1,
+			},
+			{
+				bab: 1,
+				sub_bab: 1.1,
+				point: 10,
+				answer: 0,
+			},
+		],
+		[
+			{
+				bab: 1,
+				sub_bab: 1.2,
+				point: 1,
+				answer: 1,
+			},
+			{
+				bab: 1,
+				sub_bab: 1.2,
+				point: 2,
+				answer: 0,
+			},
+			{
+				bab: 1,
+				sub_bab: 1.2,
+				point: 3,
+				answer: 0.5,
+			},
+			{
+				bab: 1,
+				sub_bab: 1.2,
+				point: 4,
+				answer: 1,
+			},
+			{
+				bab: 1,
+				sub_bab: 1.2,
+				point: 5,
+				answer: 0,
+			},
+			{
+				bab: 1,
+				sub_bab: 1.2,
+				point: 6,
+				answer: 1,
+			},
+			{
+				bab: 1,
+				sub_bab: 1.2,
+				point: 7,
+				answer: 0.5,
+			},
+			{
+				bab: 1,
+				sub_bab: 1.2,
+				point: 8,
+				answer: 1,
+			},
+			{
+				bab: 1,
+				sub_bab: 1.2,
+				point: 9,
+				answer: 1,
+			},
+			{
+				bab: 1,
+				sub_bab: 1.2,
+				point: 10,
+				answer: 1,
+			},
+		],
+		[
+			{
+				bab: 2,
+				sub_bab: 2.1,
+				point: 1,
+				answer: 0,
+			},
+			{
+				bab: 2,
+				sub_bab: 2.1,
+				point: 2,
+				answer: 0.5,
+			},
+			{
+				bab: 2,
+				sub_bab: 2.1,
+				point: 3,
+				answer: 0,
+			},
+			{
+				bab: 2,
+				sub_bab: 2.1,
+				point: 4,
+				answer: 1,
+			},
+			{
+				bab: 2,
+				sub_bab: 2.1,
+				point: 5,
+				answer: 0.5,
+			},
+			{
+				bab: 2,
+				sub_bab: 2.1,
+				point: 6,
+				answer: 1,
+			},
+			{
+				bab: 2,
+				sub_bab: 2.1,
+				point: 7,
+				answer: 0,
+			},
+			{
+				bab: 2,
+				sub_bab: 2.1,
+				point: 8,
+				answer: 0,
+			},
+			{
+				bab: 2,
+				sub_bab: 2.1,
+				point: 9,
+				answer: 0,
+			},
+			{
+				bab: 2,
+				sub_bab: 2.1,
+				point: 10,
+				answer: 0,
+			},
+		],
+		[
+			{
+				bab: 2,
+				sub_bab: 2.2,
+				point: 1,
+				answer: 0,
+			},
+			{
+				bab: 2,
+				sub_bab: 2.2,
+				point: 2,
+				answer: 1,
+			},
+			{
+				bab: 2,
+				sub_bab: 2.2,
+				point: 3,
+				answer: 0,
+			},
+			{
+				bab: 2,
+				sub_bab: 2.2,
+				point: 4,
+				answer: 1,
+			},
+			{
+				bab: 2,
+				sub_bab: 2.2,
+				point: 5,
+				answer: 0,
+			},
+			{
+				bab: 2,
+				sub_bab: 2.2,
+				point: 6,
+				answer: 0,
+			},
+			{
+				bab: 2,
+				sub_bab: 2.2,
+				point: 7,
+				answer: 0,
+			},
+			{
+				bab: 2,
+				sub_bab: 2.2,
+				point: 8,
+				answer: 1,
+			},
+			{
+				bab: 2,
+				sub_bab: 2.2,
+				point: 9,
+				answer: 0,
+			},
+			{
+				bab: 2,
+				sub_bab: 2.2,
+				point: 10,
+				answer: 0.5,
+			},
+		],
+		[
+			{
+				bab: 3,
+				sub_bab: 3.1,
+				point: 1,
+				answer: 0,
+			},
+			{
+				bab: 3,
+				sub_bab: 3.1,
+				point: 2,
+				answer: 0,
+			},
+			{
+				bab: 3,
+				sub_bab: 3.1,
+				point: 3,
+				answer: 0.5,
+			},
+			{
+				bab: 3,
+				sub_bab: 3.1,
+				point: 4,
+				answer: 0.5,
+			},
+			{
+				bab: 3,
+				sub_bab: 3.1,
+				point: 5,
+				answer: 0,
+			},
+			{
+				bab: 3,
+				sub_bab: 3.1,
+				point: 6,
+				answer: 0,
+			},
+			{
+				bab: 3,
+				sub_bab: 3.1,
+				point: 7,
+				answer: 1,
+			},
+			{
+				bab: 3,
+				sub_bab: 3.1,
+				point: 8,
+				answer: 0,
+			},
+		],
+		[
+			{
+				bab: 3,
+				sub_bab: 3.2,
+				point: 1,
+				answer: 0,
+			},
+			{
+				bab: 3,
+				sub_bab: 3.2,
+				point: 2,
+				answer: 1,
+			},
+			{
+				bab: 3,
+				sub_bab: 3.2,
+				point: 3,
+				answer: 1,
+			},
+			{
+				bab: 3,
+				sub_bab: 3.2,
+				point: 4,
+				answer: 0.5,
+			},
+			{
+				bab: 3,
+				sub_bab: 3.2,
+				point: 5,
+				answer: 0,
+			},
+			{
+				bab: 3,
+				sub_bab: 3.2,
+				point: 6,
+				answer: 0,
+			},
+			{
+				bab: 3,
+				sub_bab: 3.2,
+				point: 7,
+				answer: 0.5,
+			},
+		],
+		[
+			{
+				bab: 4,
+				sub_bab: 4.1,
+				point: 1,
+				answer: 1,
+			},
+			{
+				bab: 4,
+				sub_bab: 4.1,
+				point: 2,
+				answer: 0,
+			},
+			{
+				bab: 4,
+				sub_bab: 4.1,
+				point: 3,
+				answer: 0.5,
+			},
+			{
+				bab: 4,
+				sub_bab: 4.1,
+				point: 4,
+				answer: 0,
+			},
+			{
+				bab: 4,
+				sub_bab: 4.1,
+				point: 5,
+				answer: 0.5,
+			},
+			{
+				bab: 4,
+				sub_bab: 4.1,
+				point: 6,
+				answer: 0,
+			},
+			{
+				bab: 4,
+				sub_bab: 4.1,
+				point: 7,
+				answer: 1,
+			},
+		],
+		[
+			{
+				bab: 4,
+				sub_bab: 4.2,
+				point: 1,
+				answer: 0.5,
+			},
+			{
+				bab: 4,
+				sub_bab: 4.2,
+				point: 2,
+				answer: 0,
+			},
+			{
+				bab: 4,
+				sub_bab: 4.2,
+				point: 3,
+				answer: 1,
+			},
+			{
+				bab: 4,
+				sub_bab: 4.2,
+				point: 4,
+				answer: 0.5,
+			},
+			{
+				bab: 4,
+				sub_bab: 4.2,
+				point: 5,
+				answer: 0,
+			},
+			{
+				bab: 4,
+				sub_bab: 4.2,
+				point: 6,
+				answer: 0.5,
+			},
+			{
+				bab: 4,
+				sub_bab: 4.2,
+				point: 7,
+				answer: 1,
+			},
+			{
+				bab: 4,
+				sub_bab: 4.2,
+				point: 8,
+				answer: 1,
+			},
+		],
+		[
+			{
+				bab: 5,
+				sub_bab: 5.1,
+				point: 1,
+				answer: 0.5,
+			},
+			{
+				bab: 5,
+				sub_bab: 5.1,
+				point: 2,
+				answer: 0.5,
+			},
+			{
+				bab: 5,
+				sub_bab: 5.1,
+				point: 3,
+				answer: 0,
+			},
+			{
+				bab: 5,
+				sub_bab: 5.1,
+				point: 4,
+				answer: 1,
+			},
+			{
+				bab: 5,
+				sub_bab: 5.1,
+				point: 5,
+				answer: 1,
+			},
+			{
+				bab: 5,
+				sub_bab: 5.1,
+				point: 6,
+				answer: 0.5,
+			},
+			{
+				bab: 5,
+				sub_bab: 5.1,
+				point: 7,
+				answer: 1,
+			},
+			{
+				bab: 5,
+				sub_bab: 5.1,
+				point: 8,
+				answer: 1,
+			},
+			{
+				bab: 5,
+				sub_bab: 5.1,
+				point: 9,
+				answer: 0,
+			},
+			{
+				bab: 5,
+				sub_bab: 5.1,
+				point: 10,
+				answer: 0.5,
+			},
+			{
+				bab: 5,
+				sub_bab: 5.1,
+				point: 11,
+				answer: 0.5,
+			},
+			{
+				bab: 5,
+				sub_bab: 5.1,
+				point: 12,
+				answer: 1,
+			},
+			{
+				bab: 5,
+				sub_bab: 5.1,
+				point: 13,
+				answer: 1,
+			},
+			{
+				bab: 5,
+				sub_bab: 5.1,
+				point: 14,
+				answer: 0.5,
+			},
+			{
+				bab: 5,
+				sub_bab: 5.1,
+				point: 15,
+				answer: 0,
+			},
+		],
+		[
+			{
+				bab: 6,
+				sub_bab: 6.1,
+				point: 1,
+				answer: 0,
+			},
+			{
+				bab: 6,
+				sub_bab: 6.1,
+				point: 2,
+				answer: 1,
+			},
+			{
+				bab: 6,
+				sub_bab: 6.1,
+				point: 3,
+				answer: 1,
+			},
+			{
+				bab: 6,
+				sub_bab: 6.1,
+				point: 4,
+				answer: 1,
+			},
+			{
+				bab: 6,
+				sub_bab: 6.1,
+				point: 5,
+				answer: 1,
+			},
+			{
+				bab: 6,
+				sub_bab: 6.1,
+				point: 6,
+				answer: 1,
+			},
+			{
+				bab: 6,
+				sub_bab: 6.1,
+				point: 7,
+				answer: 0,
+			},
+			{
+				bab: 6,
+				sub_bab: 6.1,
+				point: 8,
+				answer: 0,
+			},
+			{
+				bab: 6,
+				sub_bab: 6.1,
+				point: 9,
+				answer: 0,
+			},
+			{
+				bab: 6,
+				sub_bab: 6.1,
+				point: 10,
+				answer: 0,
+			},
+			{
+				bab: 6,
+				sub_bab: 6.1,
+				point: 11,
+				answer: 0,
+			},
+			{
+				bab: 6,
+				sub_bab: 6.1,
+				point: 12,
+				answer: 1,
+			},
+			{
+				bab: 6,
+				sub_bab: 6.1,
+				point: 13,
+				answer: 0,
+			},
+			{
+				bab: 6,
+				sub_bab: 6.1,
+				point: 14,
+				answer: 1,
+			},
+			{
+				bab: 6,
+				sub_bab: 6.1,
+				point: 15,
+				answer: 0,
+			},
+		],
+	];
+
 	const automation = async () => {
 		try {
 			const results = [];
-			for (const assessments of dummy) {
+			for (const assessments of dummy1) {
 				for (const assessment of assessments) {
 					const response = await fetch(
 						`${process.env.NEXT_PUBLIC_BASE_URL}/api/point?bab=${assessment.bab}&sub_bab=${assessment.sub_bab}&point=${assessment.point}&answer=${assessment.answer}`,

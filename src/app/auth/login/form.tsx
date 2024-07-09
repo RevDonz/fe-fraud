@@ -37,6 +37,8 @@ const LoginForm = () => {
 				redirect: false,
 			});
 
+			toast.dismiss();
+
 			toast.promise(result, {
 				loading: "Loading...",
 				success: () => {
@@ -45,12 +47,12 @@ const LoginForm = () => {
 					return "Login Berhasil!";
 				},
 				error: (result) => {
-					console.error(result.error);
-					return "Invalid credentials";
+					console.error(`Error toast: ${result}`);
+					return result;
 				},
 			});
 		} catch (error) {
-			console.log(error);
+			console.log(`Error catch: ${error}`);
 		}
 	};
 	return (
