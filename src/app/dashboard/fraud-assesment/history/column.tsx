@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export const columns = [
 	{
-		key: "key",
+		key: "data_key",
 		label: "ID ASSESMENT",
 		sortable: false,
 	},
@@ -21,7 +21,7 @@ export const columns = [
 		label: "REVIEWER",
 	},
 	{
-		key: "tanggal",
+		key: "tanggal_mulai",
 		sortable: true,
 		label: "TANGGAL PEMBUATAN",
 	},
@@ -102,10 +102,10 @@ export const renderCellFraudHistory = (
 		// }
 
 		case "status": {
-			const status = history.selesai ? "Sudah Selesai" : "Belum Selesai";
+			const status = history.is_done ? "Sudah Selesai" : "Belum Selesai";
 			return (
 				<Chip
-					color={history.selesai ? "success" : "warning"}
+					color={history.is_done ? "success" : "warning"}
 					variant="flat"
 					radius="sm"
 				>
@@ -120,8 +120,8 @@ export const renderCellFraudHistory = (
 					color="primary"
 					size="sm"
 					as={Link}
-					href={`/dashboard/fraud-assesment/detail/${history.key}`}
-					isDisabled={!history.selesai}
+					href={`/dashboard/fraud-assesment/detail/${history.data_key}`}
+					isDisabled={!history.is_done}
 				>
 					Lihat Detail
 				</Button>

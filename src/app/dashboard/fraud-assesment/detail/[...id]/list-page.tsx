@@ -46,7 +46,7 @@ export default function DetailAssesmentList({
 	return (
 		<div className="flex flex-col gap-5">
 			<Modal
-				isOpen={!data?.assessment.selesai}
+				isOpen={!data?.assessment.is_done}
 				onOpenChange={onOpenChange}
 				isDismissable={false}
 				hideCloseButton

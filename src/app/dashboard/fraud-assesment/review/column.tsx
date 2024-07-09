@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export const columnsAssessed = [
 	{
-		key: "key",
+		key: "data_key",
 		sortable: false,
 		label: "ID ASSESMENT",
 	},
@@ -44,7 +44,7 @@ export const columnsAssessed = [
 
 export const columnsNotAssessed = [
 	{
-		key: "key",
+		key: "data_key",
 		sortable: false,
 		label: "ID ASSESMENT",
 	},
@@ -54,7 +54,7 @@ export const columnsNotAssessed = [
 		label: "PENGISI ASSESMENT",
 	},
 	{
-		key: "tanggal",
+		key: "tanggal_mulai",
 		sortable: false,
 		label: "TANGGAL PENGISIAN",
 	},
@@ -143,8 +143,8 @@ export const renderCellHasAssessed = (
 					size="sm"
 					variant={selesai ? "solid" : "flat"}
 					as={Link}
-					href={`/dashboard/fraud-assesment/review/${history.key}`}
-					isDisabled={!history.selesai}
+					href={`/dashboard/fraud-assesment/review/${history.data_key}`}
+					isDisabled={!history.is_done}
 					className="w-32"
 				>
 					{selesai ? "Lihat Detail" : "Lanjut Penilaian"}

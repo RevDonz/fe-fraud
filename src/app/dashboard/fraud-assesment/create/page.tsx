@@ -19,7 +19,7 @@ export default async function FillAssesmentPage() {
 
 	const isAttempAssesment = await checkAssesment(token as string);
 
-	const assesment = fraudHistory.filter((assesment) => !assesment.selesai);
+	const assesment = fraudHistory.filter((assesment) => !assesment.is_done);
 
 	return (
 		<>
@@ -29,7 +29,7 @@ export default async function FillAssesmentPage() {
 			<div className="flex flex-col gap-5">
 				<QuestionsList token={token} />
 				<SubmitButton
-					id={isAttempAssesment && assesment[0].key}
+					id={isAttempAssesment && assesment[0].data_key}
 					token={token}
 				/>
 			</div>

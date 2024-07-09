@@ -1,7 +1,7 @@
 "use client";
-
+import { PrintComponent } from "@/components/detail-to-print";
 import { ListSubBab, Questions } from "@/constant/assesment";
-import { getDetailAssesment } from "@/lib/assesment";
+import { getAssesmentSubBabByKey, getDetailAssesment } from "@/lib/assesment";
 import {
 	Button,
 	Card,
@@ -15,11 +15,11 @@ import {
 	TableHeader,
 	TableRow,
 } from "@nextui-org/react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Check } from "lucide-react";
 import Link from "next/link";
 import { useRef } from "react";
-import ReactToPrint from "react-to-print";
+import { useReactToPrint } from "react-to-print";
 import LoadingReviewAssesment from "./loading-component";
 import SubmitEvaluation from "./submit";
 
@@ -31,11 +31,44 @@ export default function ReviewAssesmentList({
 
 	const { data, isPending } = useQuery({
 		queryKey: ["review-fraud-list-assesment", assesmentKey],
-		queryFn: async () => {
-			const data = await getDetailAssesment(token, assesmentKey);
+		queryFn: async () => await getDetailAssesment(token, assesmentKey),
+	});
 
-			return data;
+	const {
+		data: dataPrint,
+		mutate,
+		isPending: isPrintPending,
+	} = useMutation({
+		mutationKey: ["review-fraud-list-assesment", assesmentKey],
+		mutationFn: async () => {
+			const results = [];
+
+			for (let index = 0; index < ListSubBab.length; index++) {
+				const subBab = ListSubBab[index];
+
+				const response = await getAssesmentSubBabByKey(
+					token,
+					assesmentKey,
+					subBab.toString(),
+				);
+
+				if (response) {
+					results.push(response);
+				} else {
+					throw new Error("Failed to get data");
+				}
+			}
+
+			return results;
 		},
+		onSuccess: (data) => {
+			console.log(data);
+			dataToPrint();
+		},
+	});
+
+	const dataToPrint = useReactToPrint({
+		content: () => componentRef.current,
 	});
 
 	const selesai =
@@ -44,8 +77,9 @@ export default function ReviewAssesmentList({
 
 	if (isPending) return <LoadingReviewAssesment />;
 
-	
-	const unFinished = ListSubBab.filter((subbab) => data?.point[subbab] === null);
+	const unFinished = ListSubBab.filter(
+		(subbab) => data?.point[subbab] === null,
+	);
 	const finished = ListSubBab.filter((subbab) => data?.point[subbab] !== null);
 
 	return (
@@ -67,28 +101,29 @@ export default function ReviewAssesmentList({
 									? "Belum dinilai"
 									: data?.assessment.reviewer_internal}
 							</TableCell>
-							<TableCell>{data?.assessment.tanggal}</TableCell>
+							<TableCell>{data?.assessment.tanggal_mulai}</TableCell>
 							<TableCell>
 								{data?.assessment.hasil_internal === null
 									? "Belum dinilai"
 									: data?.assessment.hasil_internal}
 							</TableCell>
 							<TableCell>
-								<ReactToPrint
-									trigger={() => (
-										<Button
-											color="primary"
-											isDisabled={data?.assessment.hasil_internal === null}
-										>
-											Unduh Laporan
-										</Button>
-									)}
-									content={() => componentRef.current}
-								/>
+								<Button
+									color="primary"
+									isDisabled={data?.assessment.hasil_internal === null}
+									isLoading={isPrintPending}
+									onClick={() => mutate()}
+								>
+									Unduh Laporan
+								</Button>
+
 								<div className="hidden">
-									<div ref={componentRef}>
-										<p>asd</p>
-									</div>
+									<PrintComponent
+										ref={componentRef}
+										assesmentKey={assesmentKey}
+										token={token}
+										data={dataPrint}
+									/>
 								</div>
 							</TableCell>
 						</TableRow>
@@ -187,7 +222,9 @@ export default function ReviewAssesmentList({
 				))}
 			</div>
 
-			{!selesai && <SubmitEvaluation token={token} assessmentKey={assesmentKey} />}
+			{!selesai && (
+				<SubmitEvaluation token={token} assessmentKey={assesmentKey} />
+			)}
 		</div>
 	);
 }

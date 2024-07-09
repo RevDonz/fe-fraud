@@ -3,7 +3,7 @@ export type EntityType = {
 	address: string;
 	phone: string;
 	email: string;
-	key: string;
+	data_key: string;
 };
 
 export type AdminType = {
@@ -19,7 +19,7 @@ export type StaffType = {
 	role: string;
 	status: boolean;
 	id: string;
-	key: string;
+	data_key: string;
 };
 
 export type LoginHistoryType = {
