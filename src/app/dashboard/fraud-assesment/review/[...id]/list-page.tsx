@@ -112,18 +112,15 @@ export default function ReviewAssesmentList({
 									color="primary"
 									isDisabled={data?.assessment.hasil_internal === null}
 									isLoading={isPrintPending}
-									onClick={() => mutate()}
+									onClick={() => dataToPrint()}
 								>
 									Unduh Laporan
 								</Button>
 
 								<div className="hidden">
-									<PrintComponent
-										ref={componentRef}
-										assesmentKey={assesmentKey}
-										token={token}
-										data={dataPrint}
-									/>
+									<div ref={componentRef}>
+										<PrintComponent assesmentKey={assesmentKey} token={token} />
+									</div>
 								</div>
 							</TableCell>
 						</TableRow>

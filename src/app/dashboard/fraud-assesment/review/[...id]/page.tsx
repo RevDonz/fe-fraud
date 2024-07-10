@@ -41,10 +41,6 @@ export default async function ReviewPage({
 				</div>
 			) : bab && subBab && isDetail ? (
 				<div className="p-3">
-					<p className="font-semibold mb-3">
-						{subBab} {title?.title}: {subTitle?.title}
-					</p>
-					<Divider />
 					<DetailReviewAssesmentPage
 						bab={bab}
 						subBab={subBab}

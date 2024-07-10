@@ -39,7 +39,6 @@ export default function EditAssesmentGrade({
 	const {
 		handleSubmit,
 		setValue,
-		getValues,
 		control,
 		formState: { errors },
 	} = useForm<z.infer<typeof reviewAssesmentSchema>>({

@@ -39,7 +39,7 @@ export default function DetailAssesmentPage({
 				const answer =
 					data?.point[index].answer === 1
 						? "Ada, dan sudah lengkap"
-						: data?.point[index].answer === 2
+						: data?.point[index].answer === 0.5
 							? "		Ada, belum lengkap"
 							: "		Belum ada";
 				return (
