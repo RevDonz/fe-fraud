@@ -25,21 +25,6 @@ export type ProofType = {
 	file_name: string;
 };
 
-export type Assesments = {
-	id_institution: string;
-	id_admin: string;
-	id_reviewer?: string;
-	tanggal: string;
-	hasil: number;
-	selesai: boolean;
-	key: string;
-	nama_admin: string;
-	admin: string;
-	nama_reviewer: string;
-	reviewer_internal: string;
-	reviewer_external: string;
-};
-
 export interface AssesmentPoint {
 	[key: string]: number;
 }
@@ -50,7 +35,7 @@ export type DetailAssesment = {
 };
 
 export type DetailAssesmentWithKey = {
-	assessment: Assesments;
+	assessment: FraudHistoryType;
 	point: CurrentSubBab[];
 };
 
