@@ -19,7 +19,7 @@ export default function ReviewAssesmentGrade({
 	const router = useRouter();
 
 	const { data, isPending } = useQuery({
-		queryKey: ["current-subbab-assesment-key", subBab],
+		queryKey: ["current-subbab-assesment-key", assesmentKey, subBab],
 		queryFn: async () => {
 			const data = await getAssesmentSubBabByKey(
 				token,
@@ -87,7 +87,9 @@ export default function ReviewAssesmentGrade({
 	});
 
 	const onSubmit = async (values: z.infer<typeof reviewAssesmentSchema>) => {
+		values.skor = values.skor.map((skor) => (skor === "5" ? "0" : skor));
 		mutation.mutate(values);
+		// console.log(values);
 	};
 	const subTitle = Questions.find((item) => item.bab === bab)?.subtitle.find(
 		(sub) => sub.sub_bab === subBab,
@@ -136,17 +138,18 @@ export default function ReviewAssesmentGrade({
 											placeholder="Pilih nilai"
 											isInvalid={!!errors.skor?.[index]}
 											errorMessage={errors.skor?.[index]?.message}
-											{...field}
+											value={field.value}
+											onChange={field.onChange}
+											// {...field}
 										>
-											<SelectItem
-												key={`${data?.point[index].answer}`}
+											{/* <SelectItem
+												key={"answer"}
 												value={data?.point[index].answer}
-											>
+											> */}
+											<SelectItem key={`${data?.point[index].answer}`}>
 												Sudah Tepat
 											</SelectItem>
-											<SelectItem key={"0"} value={"0"}>
-												Tidak Tepat
-											</SelectItem>
+											<SelectItem key={5}>Tidak Tepat</SelectItem>
 										</Select>
 									)}
 								/>

@@ -30,7 +30,9 @@ const TableGrade = ({ token }: { token: string }) => {
 		?.sort(compareDates)
 		.filter(
 			(data) =>
-				data.id_reviewer_internal === null || data.id_reviewer_internal === "",
+				(data.id_reviewer_internal === null ||
+					data.id_reviewer_internal === "") &&
+				data.is_done,
 		);
 
 	const sortedDataAssessed = dataAssessed

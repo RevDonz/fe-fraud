@@ -42,7 +42,7 @@ export default function CreateAssesmentForm({
 					}
 
 					const response = await fetch(
-						`${process.env.NEXT_PUBLIC_BASE_URL}/api/point?bab=${assesment.bab}&sub_bab=${assesment.sub_bab}&point=${assesment.point}&answer=${assesment.answer}`,
+						`${process.env.NEXT_PUBLIC_BASE_URL}/api/point?bab=${assesment.bab}&sub_bab=${assesment.sub_bab}&point=${assesment.point}&answer=${Number(assesment.answer)}`,
 						{
 							method: "POST",
 							body:
@@ -51,16 +51,10 @@ export default function CreateAssesmentForm({
 						},
 					);
 
-					if (!response.ok) {
-						throw new Error("Failed to submit data");
-					}
-
 					const result = await response.json();
 
 					if (result.success) {
 						results.push(result.data);
-					} else {
-						throw new Error("Failed to submit data");
 					}
 				}
 

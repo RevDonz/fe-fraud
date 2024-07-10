@@ -76,7 +76,7 @@ export const ListMenuNavbar: MenuList = {
 			url: "/dashboard/fraud-assesment/review",
 		},
 	],
-	superadmin: [
+	super_admin: [
 		{
 			name: "Dashboard",
 			url: "/dashboard",
