@@ -146,35 +146,18 @@ export default function FormDetection({ token }: { token: string }) {
 			<Divider />
 			<div className="flex flex-col gap-5 py-5">
 				<p className="font-medium">Upload Laporan Keuangan</p>
-				<div className="grid grid-cols-2 gap-5">
-					<div className="flex flex-col gap-1">
-						<p className="text-sm">Tahun Pertama :</p>
-						<input
-							placeholder="Enter your username"
-							type="file"
-							accept=".pdf"
-							className="file:hidden px-3 py-2 rounded-xl text-sm border-2 hover:border-gray-400"
-							onChange={(e) => {
-								if (e.target.files && e.target.files.length > 0) {
-									console.log(e.target.files[0]);
-								}
-							}}
-						/>
-					</div>
-					<div className="flex flex-col gap-1">
-						<p className="text-sm">Tahun Kedua :</p>
-						<input
-							placeholder="Enter your username"
-							type="file"
-							accept=".pdf"
-							className="file:hidden px-3 py-2 rounded-xl text-sm border-2 hover:border-gray-400"
-							onChange={(e) => {
-								if (e.target.files && e.target.files.length > 0) {
-									console.log(e.target.files[0]);
-								}
-							}}
-						/>
-					</div>
+				<div className="">
+					<input
+						placeholder="Enter your username"
+						type="file"
+						accept=".pdf"
+						className="file:hidden px-3 py-2 rounded-xl text-sm border-2 hover:border-gray-400"
+						onChange={(e) => {
+							if (e.target.files && e.target.files.length > 0) {
+								console.log(e.target.files[0]);
+							}
+						}}
+					/>
 				</div>
 			</div>
 			<Divider />
@@ -237,6 +220,7 @@ export default function FormDetection({ token }: { token: string }) {
 											<CurrencyInput
 												className="px-3 py-2 w-full focus:outline-none text-right"
 												value={field.value}
+												allowNegativeValue={false}
 												onValueChange={(value) => {
 													field.onChange(Number(value));
 												}}
@@ -251,6 +235,7 @@ export default function FormDetection({ token }: { token: string }) {
 										render={({ field }) => (
 											<CurrencyInput
 												className="px-3 py-2 w-full focus:outline-none text-right"
+												allowNegativeValue={false}
 												value={field.value}
 												onValueChange={(value) => {
 													field.onChange(Number(value));
