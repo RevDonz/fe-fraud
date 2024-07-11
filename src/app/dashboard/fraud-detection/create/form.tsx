@@ -1,6 +1,7 @@
 "use client";
 import { DataTableRow, FinancialRatiosIndexes } from "@/constant/detection";
 import { getEntity } from "@/lib/entity";
+import { cn } from "@/lib/utils";
 import { detectionSchema } from "@/schema/fraud/detection";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Checkbox, Divider } from "@nextui-org/react";
@@ -95,7 +96,11 @@ export default function FormDetection({ token }: { token: string }) {
 
 	type FraudDetectionType = z.infer<typeof detectionSchema>;
 
-	const mutation = useMutation({
+	const {
+		mutate,
+		data: dataDetection,
+		isSuccess,
+	} = useMutation({
 		mutationKey: ["submit-assesment"],
 		mutationFn: async (values: z.infer<typeof detectionSchema>) => {
 			const response = await fetch(
@@ -134,7 +139,7 @@ export default function FormDetection({ token }: { token: string }) {
 	});
 
 	const onSubmit = async (values: z.infer<typeof detectionSchema>) => {
-		mutation.mutate(values);
+		mutate(values);
 	};
 
 	return (
@@ -235,14 +240,8 @@ export default function FormDetection({ token }: { token: string }) {
 				</div>
 				<div className="py-5">
 					<div className="grid grid-cols-4 border rounded-tl-lg rounded-tr-lg">
-						<div className="bg-default-100 px-3 py-2 text-sm font-medium text-foreground-500 rounded-tl-lg">
+						<div className="bg-default-100 col-span-3 px-3 py-2 text-sm font-medium text-foreground-500 rounded-tl-lg">
 							Financial Ratios Indexes
-						</div>
-						<div className="bg-default-100 px-3 py-2 text-sm font-medium text-foreground-500">
-							YEAR 2
-						</div>
-						<div className="bg-default-100 px-3 py-2 text-sm font-medium text-foreground-500">
-							YEAR 1
 						</div>
 						<div className="bg-default-100 px-3 py-2 text-sm font-medium text-foreground-500 rounded-tr-lg">
 							INDEX
@@ -254,15 +253,12 @@ export default function FormDetection({ token }: { token: string }) {
 								className="grid grid-cols-4 gap-1 border-x border-b"
 								key={row.index}
 							>
-								<div className="px-3 py-2 border-r">{row.index}</div>
-								<div className="border-r">
-									<CurrencyInput className="px-3 py-2 w-full focus:outline-none text-right" />
-								</div>
-								<div className="border-r">
-									<CurrencyInput className="px-3 py-2 w-full focus:outline-none text-right" />
-								</div>
+								<div className="px-3 py-2 border-r col-span-3">{row.index}</div>
 								<div>
-									<CurrencyInput className="px-3 py-2 w-full focus:outline-none text-right" />
+									<CurrencyInput
+										className="px-3 py-2 w-full focus:outline-none"
+										value={dataDetection?.data?.[row.key]}
+									/>
 								</div>
 							</div>
 						);
@@ -271,33 +267,74 @@ export default function FormDetection({ token }: { token: string }) {
 						<div className="bg-default-100 px-3 py-2 text-sm font-medium text-foreground-700 rounded-bl-lg col-span-3">
 							Beneish M Score
 						</div>
-						<div className="bg-green-500 px-3 py-2 text-sm font-medium text-foreground-100 rounded-br-lg">
-							-2.00
+						<div
+							className={cn(
+								"px-3 py-2 text-sm font-medium text-foreground-100 rounded-br-lg",
+								dataDetection?.data?.beneish_m < -2.22
+									? "bg-green-500"
+									: dataDetection?.data?.beneish_m > -2.22
+										? "bg-danger"
+										: "bg-default-100",
+							)}
+						>
+							{dataDetection?.data?.beneish_m}
 						</div>
 					</div>
 				</div>
-				<div className="flex flex-col mt-5 gap-5">
-					<p className="text-danger text-justify">
-						Dengan ini menyatakan bahwa saya telah mengisi assesment ini dengan
-						itikad baik dan sepenuh hati. Saya berkomitmen untuk memberikan
-						jawaban yang sejelas dan seakurat mungkin, tanpa menggunakan bantuan
-						pihak lain atau materi yang tidak diizinkan. Kejujuran saya dalam
-						mengisi laporan ini adalah landasan untuk pengembangan diri saya.
-					</p>
-					<div className="flex flex-row items-center justify-between">
-						<Checkbox isSelected={isSelected} onValueChange={setIsSelected}>
-							Saya setuju dengan pernyataan diatas
-						</Checkbox>
-						<Button
-							color="success"
-							className="text-white"
-							isDisabled={!isSelected}
-							type="submit"
-						>
-							Submit
-						</Button>
+				{isSuccess ? (
+					<div className="flex flex-col my-5 gap-5">
+						<div className="flex gap-3 items-center">
+							<p>Hasil:</p>
+							<Button
+								size="sm"
+								color={
+									dataDetection?.data?.beneish_m < -2.22 ? "success" : "danger"
+								}
+								className="text-white"
+							>
+								{dataDetection?.data?.beneish_m < -2.22
+									? "PT. FDP Tidak Terindikasi Kecurangan Pada Laporan Keuangan."
+									: "PT. FDP Terindikasi Kecurangan Pada Laporan Keuangan."}
+							</Button>
+						</div>
+						<div className="flex flex-col">
+							<p>
+								{
+									"Skor Beneish M < -2,22: Entitas tidak terindikasi kecurangan pada laporan keuangan."
+								}
+							</p>
+							<p>
+								{
+									"Skor Beneish M > -2,22: Entitas mungkin telah memanipulasi laporan keuangan."
+								}
+							</p>
+						</div>
 					</div>
-				</div>
+				) : (
+					<div className="flex flex-col mt-5 gap-5">
+						<p className="text-danger text-justify">
+							Dengan ini menyatakan bahwa saya telah mengisi assesment ini
+							dengan itikad baik dan sepenuh hati. Saya berkomitmen untuk
+							memberikan jawaban yang sejelas dan seakurat mungkin, tanpa
+							menggunakan bantuan pihak lain atau materi yang tidak diizinkan.
+							Kejujuran saya dalam mengisi laporan ini adalah landasan untuk
+							pengembangan diri saya.
+						</p>
+						<div className="flex flex-row items-center justify-between">
+							<Checkbox isSelected={isSelected} onValueChange={setIsSelected}>
+								Saya setuju dengan pernyataan diatas
+							</Checkbox>
+							<Button
+								color="success"
+								className="text-white"
+								isDisabled={!isSelected}
+								type="submit"
+							>
+								Submit
+							</Button>
+						</div>
+					</div>
+				)}
 			</form>
 		</div>
 	);

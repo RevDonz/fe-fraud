@@ -20,26 +20,34 @@ export const DataTableRow = [
 export const FinancialRatiosIndexes = [
 	{
 		index: "Day Sales in Receivables Index (DSRI)",
+		key: "dsri",
 	},
 	{
 		index: "Gross Margin Index (GMI)",
+		key: "gmi",
 	},
 	{
 		index: "Asset Quality Index (AQI)",
+		key: "aqi",
 	},
 	{
 		index: "Sales Growth Index (SGI)",
+		key: "sgi",
 	},
 	{
 		index: "Depreciation Index (DEPI)",
+		key: "depi",
 	},
 	{
 		index: "Selling, General, & Admin. Expenses Index (SGAI)",
+		key: "sgai",
 	},
 	{
 		index: "Leverage Index (LVGI)",
+		key: "lvgi",
 	},
 	{
 		index: "Total Accruals to Total Assets (TATA)",
+		key: "tata",
 	},
 ];
