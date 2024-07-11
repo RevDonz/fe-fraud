@@ -6,7 +6,6 @@ import { detectionSchema } from "@/schema/fraud/detection";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Checkbox, Divider } from "@nextui-org/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import CurrencyInput from "react-currency-input-field";
 import { Controller, useForm } from "react-hook-form";
@@ -22,7 +21,6 @@ export default function FormDetection({ token }: { token: string }) {
 		},
 	});
 	const [isSelected, setIsSelected] = useState(false);
-	const router = useRouter();
 
 	const {
 		handleSubmit,
@@ -139,7 +137,8 @@ export default function FormDetection({ token }: { token: string }) {
 	});
 
 	const onSubmit = async (values: z.infer<typeof detectionSchema>) => {
-		mutate(values);
+		// mutate(values);
+		console.log(values);
 	};
 
 	return (
@@ -185,13 +184,43 @@ export default function FormDetection({ token }: { token: string }) {
 				<div className="py-5">
 					<div className="grid grid-cols-3 border rounded-tl-lg rounded-tr-lg">
 						<div className="bg-default-100 px-3 py-2 text-sm font-medium text-foreground-500 rounded-tl-lg">
-							( IN MILLION )
+							<input
+								className="px-3 py-2 bg-transparent focus:outline-none w-full text-base"
+								value={"( IN MILLION )"}
+								readOnly
+							/>
 						</div>
 						<div className="bg-default-100 px-3 py-2 text-sm font-medium text-foreground-500">
-							YEAR 2 (Rupiah)
+							<Controller
+								name={"tahun_2"}
+								control={control}
+								render={({ field }) => (
+									<input
+										className={cn(
+											"px-3 py-2 bg-transparent focus:outline-none text-right w-full text-base",
+											errors.tahun_2 && "placeholder:text-danger",
+										)}
+										placeholder="Masukkan tahun ke-2"
+										{...field}
+									/>
+								)}
+							/>
 						</div>
 						<div className="bg-default-100 px-3 py-2 text-sm font-medium text-foreground-500 rounded-tr-lg">
-							YEAR 1 (Rupiah)
+							<Controller
+								name={"tahun_1"}
+								control={control}
+								render={({ field }) => (
+									<input
+										className={cn(
+											"px-3 py-2 bg-transparent focus:outline-none text-right w-full text-base",
+											errors.tahun_1 && "placeholder:text-danger",
+										)}
+										placeholder="Masukkan tahun ke-1"
+										{...field}
+									/>
+								)}
+							/>
 						</div>
 					</div>
 					{DataTableRow.map((row) => {
