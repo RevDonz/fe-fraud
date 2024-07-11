@@ -137,8 +137,7 @@ export default function FormDetection({ token }: { token: string }) {
 	});
 
 	const onSubmit = async (values: z.infer<typeof detectionSchema>) => {
-		// mutate(values);
-		console.log(values);
+		mutate(values);
 	};
 
 	return (
