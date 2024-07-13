@@ -68,13 +68,13 @@ export default function DetailReviewAssesmentPage({
 											<p className="font-medium">Jawaban : {answer}</p>
 											<div className="font-medium flex">
 												<p>Bukti : </p>
-												{data?.point[index].proof !== null ? (
+												{data?.point[index].id_proof !== null ? (
 													<Link
 														size="sm"
-														href={`${process.env.NEXT_PUBLIC_BASE_URL}/api/actualfile/${data?.point[index].proof?.file_name}`}
+														href={`${process.env.NEXT_PUBLIC_BASE_URL}/api/actualfile/${data?.point[index].id_proof?.file_name}`}
 														target="_blank"
 													>
-														{data?.point[index].proof?.file_name}
+														{data?.point[index].id_proof?.file_name}
 													</Link>
 												) : (
 													<p>-</p>

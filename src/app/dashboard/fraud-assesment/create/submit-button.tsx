@@ -1276,7 +1276,7 @@ export default function SubmitButton({
 	const automation = async () => {
 		try {
 			const results = [];
-			for (const assessments of dummy1) {
+			for (const assessments of dummy) {
 				for (const assessment of assessments) {
 					const response = await fetch(
 						`${process.env.NEXT_PUBLIC_BASE_URL}/api/point?bab=${assessment.bab}&sub_bab=${assessment.sub_bab}&point=${assessment.point}&answer=${assessment.answer}`,

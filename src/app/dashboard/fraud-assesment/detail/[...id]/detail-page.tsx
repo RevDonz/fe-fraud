@@ -61,13 +61,13 @@ export default function DetailAssesmentPage({
 								<div className="flex flex-col gap-3 w-full">
 									<div className="flex flex-col gap-3">
 										<p>Bukti : </p>
-										{data?.point[index].proof !== null ? (
+										{data?.point[index].id_proof !== null ? (
 											<Link
 												size="sm"
-												href={`${process.env.NEXT_PUBLIC_BASE_URL}/api/actualfile/${data?.point[index].proof?.file_name}`}
+												href={`${process.env.NEXT_PUBLIC_BASE_URL}/api/actualfile/${data?.point[index].id_proof?.file_name}`}
 												target="_blank"
 											>
-												{data?.point[index].proof?.file_name}
+												{data?.point[index].id_proof?.file_name}
 											</Link>
 										) : (
 											<p className="text-danger">-</p>

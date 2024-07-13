@@ -80,11 +80,10 @@ export default function CreateAssesmentForm({
 
 	const onSubmit = async (values: z.infer<typeof assesmentSchema>) => {
 		if (fileErrors.length > 0) {
-			// toast.error(errors.assesment[0]?.file?.message.);
-			toast.error("Periksa kembali file yang diunggah.");
-			return;
+			return toast.error("Periksa kembali file yang diunggah.");
 		}
 		mutation.mutate(values);
+		// console.log(values);
 	};
 
 	return (
