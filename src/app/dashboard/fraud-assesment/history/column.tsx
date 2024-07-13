@@ -35,11 +35,11 @@ export const columns = [
 		sortable: false,
 		label: "HASIL INTERNAL",
 	},
-	// {
-	// 	key: "hasil_external",
-	// 	sortable: false,
-	// 	label: "HASIL EXTERNAL",
-	// },
+	{
+		key: "hasil_external",
+		sortable: false,
+		label: "HASIL EXTERNAL",
+	},
 	{
 		key: "aksi",
 		sortable: false,
@@ -88,18 +88,35 @@ export const renderCellFraudHistory = (
 				</div>
 			);
 		}
-
-		// case "hasil_external": {
-		// 	return (
-		// 		<Chip
-		// 			color="primary"
-		// 			variant={cellValue === null ? "bordered" : "flat"}
-		// 			radius="sm"
-		// 		>
-		// 			{cellValue === null ? "Belum dinilai" : cellValue}
-		// 		</Chip>
-		// 	);
-		// }
+		case "hasil_external": {
+			return (
+				<div className="w-full">
+					<Chip
+						color={
+							cellValue === null
+								? "primary"
+								: Number(cellValue) > 75
+									? "success"
+									: Number(cellValue) > 50
+										? "warning"
+										: "danger"
+						}
+						variant={cellValue === null ? "bordered" : "flat"}
+						radius="sm"
+					>
+						<p className="w-24 text-center">
+							{cellValue === null
+								? "Belum dinilai"
+								: Number(cellValue) > 75
+									? `Good / ${cellValue}`
+									: Number(cellValue) > 50
+										? `Normal / ${cellValue}`
+										: `Bad / ${cellValue}`}
+						</p>
+					</Chip>
+				</div>
+			);
+		}
 
 		case "status": {
 			const status = history.is_done ? "Sudah Selesai" : "Belum Selesai";
