@@ -193,16 +193,16 @@ export default function EditAssesmentForm({
 								)}
 							</div>
 							<div className="flex flex-row gap-3 justify-end items-center w-1/4">
-								{data?.[index].proof !== null && getValues(name) !== null ? (
+								{data?.[index].id_proof !== null && getValues(name) !== null ? (
 									<div className="flex items-end gap-3 w-full justify-between">
 										<div className="flex flex-col gap-3">
 											<p>Upload bukti</p>
 											<Link
 												size="sm"
-												href={`${process.env.NEXT_PUBLIC_BASE_URL}/api/actualfile/${data?.[index].proof?.file_name}`}
+												href={`${process.env.NEXT_PUBLIC_BASE_URL}/api/actualfile/${data?.[index].id_proof?.file_name}`}
 												target="_blank"
 											>
-												{data?.[index].proof?.file_name}
+												{data?.[index].id_proof?.file_name}
 											</Link>
 										</div>
 										<Button
@@ -211,7 +211,7 @@ export default function EditAssesmentForm({
 											size="sm"
 											onClick={async () => {
 												mutationDelete.mutate(
-													data?.[index].proof?.file_name as string,
+													data?.[index].id_proof?.file_name as string,
 												);
 											}}
 										>
