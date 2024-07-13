@@ -4,7 +4,7 @@ import Datatable from "@/components/datatable";
 import { getAllAdmin } from "@/lib/accounts";
 import type { AdminType, EntityType } from "@/types/entity";
 import type { ChipProps } from "@nextui-org/react";
-import { Select, SelectItem } from "@nextui-org/react";
+import { Select, SelectItem, Tab, Tabs } from "@nextui-org/react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 const statusColorMap: Record<string, ChipProps["color"]> = {
@@ -26,6 +26,9 @@ export const DataTableAccounts = ({ token }: { token: string }) => {
 			}
 		},
 	});
+
+	const activeAccounts = data?.filter((admin) => admin.is_active);
+	const nonActiveAccounts = data?.filter((admin) => !admin.is_active);
 
 	const columns = [
 		{
@@ -103,12 +106,25 @@ export const DataTableAccounts = ({ token }: { token: string }) => {
 	if (error) return <p>error bang</p>;
 
 	return (
-		<Datatable
-			data={data ?? []}
-			columns={columns}
-			renderCell={renderCellAccounts}
-			isLoading={isPending}
-			label="Table Account Admin"
-		/>
+		<Tabs aria-label="Options" color="primary" variant="bordered" size="lg">
+			<Tab key="active" title="Semua Akun">
+				<Datatable
+					data={activeAccounts ?? []}
+					columns={columns}
+					renderCell={renderCellAccounts}
+					isLoading={isPending}
+					label="Table Account Admin"
+				/>
+			</Tab>
+			<Tab key="nonactive" title="Menunggu Konfirmasi">
+				<Datatable
+					data={nonActiveAccounts ?? []}
+					columns={columns}
+					renderCell={renderCellAccounts}
+					isLoading={isPending}
+					label="Table Account Admin"
+				/>
+			</Tab>
+		</Tabs>
 	);
 };
