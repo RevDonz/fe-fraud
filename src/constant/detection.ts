@@ -12,7 +12,6 @@ export const DataTableRow = [
 	{ label: "Property, Plants, & Equipment", name: "ppe" },
 	{ label: "Securities", name: "securities" },
 	{ label: "Total Assets", name: "total_asset" },
-	{ label: "Current Liabilities", name: "current_liabilities" },
 	{ label: "Total Long-term Debt", name: "total_ltd" },
 	{ label: "Cash Flow from Operations", name: "cash_flow_operate" },
 ];
