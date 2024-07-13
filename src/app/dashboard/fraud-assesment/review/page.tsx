@@ -1,7 +1,7 @@
 import { getServerAuthSession } from "@/lib/auth";
-import TableHistroy from "./table";
 
 import type { Metadata } from "next";
+import TableGrade from "./table";
 
 export const metadata: Metadata = {
 	title: "Fraud Assesment - History | Fraud Deterrence Propeller",
@@ -13,5 +13,5 @@ export default async function FraudAssesmentGrade() {
 	const session = await getServerAuthSession();
 	const token = session?.user.accessToken;
 
-	return <TableHistroy token={token as string} />;
+	return <TableGrade token={token as string} />;
 }

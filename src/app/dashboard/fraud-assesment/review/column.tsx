@@ -65,6 +65,39 @@ export const columnsNotAssessed = [
 	},
 ];
 
+export const columnsNotAssessedExternal = [
+	{
+		key: "data_key",
+		sortable: false,
+		label: "ID ASSESMENT",
+	},
+	{
+		key: "admin",
+		sortable: false,
+		label: "PENGISI ASSESMENT",
+	},
+	{
+		key: "tanggal_mulai",
+		sortable: false,
+		label: "TANGGAL PENGISIAN",
+	},
+	// {
+	// 	key: "tanggal_nilai",
+	// 	sortable: false,
+	// 	label: "TANGGAL PENILAIAN INTERNAL",
+	// },
+	{
+		key: "hasil_internal",
+		sortable: false,
+		label: "HASIL INTERNAL",
+	},
+	{
+		key: "aksi",
+		sortable: false,
+		label: "AKSI",
+	},
+];
+
 export const renderCellHasAssessed = (
 	history: FraudHistoryType,
 	columnKey: React.Key,
