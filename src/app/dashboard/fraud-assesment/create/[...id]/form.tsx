@@ -80,8 +80,8 @@ export default function CreateAssesmentForm({
 
 	const onSubmit = async (values: z.infer<typeof assesmentSchema>) => {
 		if (fileErrors.length > 0) {
-			// toast.error(errors.assesment[0]?.file?.message);
-			// toast.error("Periksa kembali file yang diunggah.");
+			// toast.error(errors.assesment[0]?.file?.message.);
+			toast.error("Periksa kembali file yang diunggah.");
 			return;
 		}
 		mutation.mutate(values);
@@ -181,6 +181,13 @@ export default function CreateAssesmentForm({
 									}}
 									className="border file:hidden px-2 py-1 rounded-md text-sm"
 								/>
+								{errors.assesment?.[index]?.file?.message ? (
+									<p className="text-sm text-danger">
+										{errors.assesment?.[index]?.file?.message.toString()}
+									</p>
+								) : (
+									""
+								)}
 							</div>
 						</div>
 						<Divider />

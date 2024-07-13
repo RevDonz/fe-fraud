@@ -31,3 +31,7 @@ export const detectionSchema = z.object({
 	tahun_2: z.number().int(),
 	id_institution: z.string(),
 });
+
+export const uploadFileSchema = z.object({
+	file: z.any(),
+});

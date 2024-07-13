@@ -2,97 +2,83 @@
 import { DataTableRow, FinancialRatiosIndexes } from "@/constant/detection";
 import { getEntity } from "@/lib/entity";
 import { cn } from "@/lib/utils";
-import { detectionSchema } from "@/schema/fraud/detection";
+import { detectionSchema, uploadFileSchema } from "@/schema/fraud/detection";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Checkbox, Divider } from "@nextui-org/react";
+import {
+	Button,
+	Checkbox,
+	Divider,
+	Modal,
+	ModalBody,
+	ModalContent,
+	ModalFooter,
+	ModalHeader,
+	useDisclosure,
+} from "@nextui-org/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import CurrencyInput from "react-currency-input-field";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
+type FraudDetectionType = z.infer<typeof detectionSchema>;
+type UploadFileType = z.infer<typeof uploadFileSchema>;
 
 export default function FormDetection({ token }: { token: string }) {
-	const { data, isPending } = useQuery({
+	const [isSelected, setIsSelected] = useState(false);
+	const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+
+	const { data } = useQuery({
 		queryKey: ["entity-fraud-detection"],
 		queryFn: async () => {
 			const data = await getEntity(token);
 			return data;
 		},
 	});
-	const [isSelected, setIsSelected] = useState(false);
+
+	const { register, getValues } = useForm<z.infer<typeof uploadFileSchema>>({
+		resolver: zodResolver(uploadFileSchema),
+	});
 
 	const {
 		handleSubmit,
 		control,
 		formState: { errors },
+		setValue,
 	} = useForm<z.infer<typeof detectionSchema>>({
 		resolver: zodResolver(detectionSchema),
-		// defaultValues: {
-		// 	revenue_1: undefined,
-		// 	cogs_1: undefined,
-		// 	sgae_1: undefined,
-		// 	depreciation_1: undefined,
-		// 	net_continuous_1: undefined,
-		// 	account_receivables_1: undefined,
-		// 	current_assets_1: undefined,
-		// 	ppe_1: undefined,
-		// 	securities_1: undefined,
-		// 	total_asset_1: undefined,
-		// 	current_liabilities_1: undefined,
-		// 	total_ltd_1: undefined,
-		// 	cash_flow_operate_1: undefined,
-		// 	revenue_2: undefined,
-		// 	cogs_2: undefined,
-		// 	sgae_2: undefined,
-		// 	depreciation_2: undefined,
-		// 	net_continuous_2: undefined,
-		// 	account_receivables_2: undefined,
-		// 	current_assets_2: undefined,
-		// 	ppe_2: undefined,
-		// 	securities_2: undefined,
-		// 	total_asset_2: undefined,
-		// 	current_liabilities_2: undefined,
-		// 	total_ltd_2: undefined,
-		// 	cash_flow_operate_2: undefined,
-		// 	tahun_1: 2012,
-		// 	tahun_2: 2013,
-		// 	id_institution: "gc8uupscjs0e",
-		// },
-		defaultValues: {
-			revenue_1: 2824529865,
-			cogs_1: 1637778233,
-			sgae_1: 978404721,
-			depreciation_1: 145556996,
-			net_continuous_1: 48164343,
-			account_receivables_1: 153909929,
-			current_assets_1: 955934379,
-			ppe_1: 1520837177,
-			securities_1: 11703633,
-			total_asset_1: 2085215,
-			current_liabilities_1: 919187828,
-			total_ltd_1: 602268672,
-			cash_flow_operate_1: 292733763,
-			revenue_2: 3698268848,
-			cogs_2: 2017661985,
-			sgae_2: 1286510421,
-			depreciation_2: 199692257,
-			net_continuous_2: 159960247,
-			account_receivables_2: 211364131,
-			current_assets_2: 1192611390,
-			ppe_2: 1520837177,
-			securities_2: 14959054,
-			total_asset_2: 2582866504,
-			current_liabilities_2: 1086055919,
-			total_ltd_2: 631821538,
-			cash_flow_operate_2: 487884312,
-			tahun_1: 2012,
-			tahun_2: 2013,
-			id_institution: "gc8uupscjs0e",
-		},
 	});
 
-	type FraudDetectionType = z.infer<typeof detectionSchema>;
+	const { isPending: isUploadPending, mutate: mutateUploadFile } = useMutation({
+		mutationKey: ["upliad-file-detection"],
+		mutationFn: async (values: z.infer<typeof uploadFileSchema>) => {
+			const formData = new FormData();
+			formData.append("file", values.file);
+
+			const response = await fetch(
+				`${process.env.NEXT_PUBLIC_BASE_URL}/api/excel`,
+				{
+					method: "POST",
+					body: typeof values.file !== "undefined" ? formData : undefined,
+					headers: { Authorization: `Bearer ${token}` },
+				},
+			);
+			const result = await response.json();
+
+			if (result.success) {
+				for (const key in result.data) {
+					if (Object.prototype.hasOwnProperty.call(result.data, key)) {
+						setValue(
+							key as keyof z.infer<typeof detectionSchema>,
+							result.data[key],
+						);
+					}
+				}
+
+				onClose();
+			}
+		},
+	});
 
 	const {
 		mutate,
@@ -140,25 +126,76 @@ export default function FormDetection({ token }: { token: string }) {
 		mutate(values);
 	};
 
+	const { onChange, name } = register("file");
+
 	return (
 		<div>
 			<p className="text-xl font-medium py-5">{data?.name}</p>
 			<Divider />
 			<div className="flex flex-col gap-5 py-5">
 				<p className="font-medium">Upload Laporan Keuangan</p>
-				<div className="">
+
+				<div className="flex gap-3">
 					<input
 						placeholder="Enter your username"
 						type="file"
-						accept=".pdf"
+						accept=".xlsx"
 						className="file:hidden px-3 py-2 rounded-xl text-sm border-2 hover:border-gray-400"
 						onChange={(e) => {
 							if (e.target.files && e.target.files.length > 0) {
-								console.log(e.target.files[0]);
+								const file = e.target.files?.[0];
+								onChange({
+									target: { value: file, name: name },
+								});
 							}
 						}}
 					/>
+					<Button color="primary" onClick={onOpen} type="button">
+						Upload
+					</Button>
 				</div>
+				<Modal
+					isOpen={isOpen}
+					onOpenChange={onOpenChange}
+					hideCloseButton
+					size="xl"
+					backdrop="blur"
+				>
+					<ModalContent>
+						<ModalHeader className="flex flex-col gap-1">
+							Perhatian!
+						</ModalHeader>
+						<ModalBody>
+							<p>
+								Sebelum melanjutkan, pastikan file yang akan Anda unggah sudah
+								benar, dan sesuai dengan format file yang sudah di sediakan.
+								Jika belum sesuai, silahkan untuk unggah file yang sudah di
+								sesuaikan.
+							</p>
+						</ModalBody>
+						<ModalFooter>
+							<Button
+								color="danger"
+								variant="light"
+								onPress={onClose}
+								type="button"
+							>
+								Batal
+							</Button>
+							<Button
+								color="primary"
+								type="button"
+								onClick={() =>
+									mutateUploadFile({
+										file: getValues("file"),
+									})
+								}
+							>
+								Unggah File
+							</Button>
+						</ModalFooter>
+					</ModalContent>
+				</Modal>
 			</div>
 			<Divider />
 
@@ -183,6 +220,7 @@ export default function FormDetection({ token }: { token: string }) {
 											errors.tahun_2 && "placeholder:text-danger",
 										)}
 										placeholder="Masukkan tahun ke-2"
+										maxLength={4}
 										{...field}
 									/>
 								)}
@@ -199,6 +237,7 @@ export default function FormDetection({ token }: { token: string }) {
 											errors.tahun_1 && "placeholder:text-danger",
 										)}
 										placeholder="Masukkan tahun ke-1"
+										maxLength={4}
 										{...field}
 									/>
 								)}
@@ -218,12 +257,20 @@ export default function FormDetection({ token }: { token: string }) {
 										control={control}
 										render={({ field }) => (
 											<CurrencyInput
-												className="px-3 py-2 w-full focus:outline-none text-right"
+												className={cn(
+													"px-3 py-2 w-full focus:outline-none text-right",
+													errors[`${row.name}_1` as keyof FraudDetectionType] &&
+														"placeholder:text-danger",
+												)}
 												value={field.value}
 												allowNegativeValue={false}
 												onValueChange={(value) => {
 													field.onChange(Number(value));
 												}}
+												placeholder={
+													errors[`${row.name}_1` as keyof FraudDetectionType] &&
+													`${`${row.label}_1` as keyof FraudDetectionType} Belum diisi`
+												}
 											/>
 										)}
 									/>
@@ -234,12 +281,20 @@ export default function FormDetection({ token }: { token: string }) {
 										control={control}
 										render={({ field }) => (
 											<CurrencyInput
-												className="px-3 py-2 w-full focus:outline-none text-right"
+												className={cn(
+													"px-3 py-2 w-full focus:outline-none text-right",
+													errors[`${row.name}_2` as keyof FraudDetectionType] &&
+														"placeholder:text-danger",
+												)}
 												allowNegativeValue={false}
 												value={field.value}
 												onValueChange={(value) => {
 													field.onChange(Number(value));
 												}}
+												placeholder={
+													errors[`${row.name}_2` as keyof FraudDetectionType] &&
+													`${`${row.label}_2` as keyof FraudDetectionType} Belum diisi`
+												}
 											/>
 										)}
 									/>
