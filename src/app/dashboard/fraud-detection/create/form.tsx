@@ -253,30 +253,6 @@ export default function FormDetection({ token }: { token: string }) {
 								<div className="px-3 py-2 border-r">{row.label}</div>
 								<div className="border-r">
 									<Controller
-										name={`${row.name}_1` as keyof FraudDetectionType}
-										control={control}
-										render={({ field }) => (
-											<CurrencyInput
-												className={cn(
-													"px-3 py-2 w-full focus:outline-none text-right",
-													errors[`${row.name}_1` as keyof FraudDetectionType] &&
-														"placeholder:text-danger",
-												)}
-												value={field.value}
-												allowNegativeValue={false}
-												onValueChange={(value) => {
-													field.onChange(Number(value));
-												}}
-												placeholder={
-													errors[`${row.name}_1` as keyof FraudDetectionType] &&
-													`${`${row.label}_1` as keyof FraudDetectionType} Belum diisi`
-												}
-											/>
-										)}
-									/>
-								</div>
-								<div className="">
-									<Controller
 										name={`${row.name}_2` as keyof FraudDetectionType}
 										control={control}
 										render={({ field }) => (
@@ -287,13 +263,37 @@ export default function FormDetection({ token }: { token: string }) {
 														"placeholder:text-danger",
 												)}
 												allowNegativeValue={false}
-												value={field.value}
+												value={(field.value as unknown as number) || ""}
 												onValueChange={(value) => {
 													field.onChange(Number(value));
 												}}
 												placeholder={
 													errors[`${row.name}_2` as keyof FraudDetectionType] &&
-													`${`${row.label}_2` as keyof FraudDetectionType} Belum diisi`
+													`${`${row.label}` as keyof FraudDetectionType} Belum diisi`
+												}
+											/>
+										)}
+									/>
+								</div>
+								<div className="border-r">
+									<Controller
+										name={`${row.name}_1` as keyof FraudDetectionType}
+										control={control}
+										render={({ field }) => (
+											<CurrencyInput
+												className={cn(
+													"px-3 py-2 w-full focus:outline-none text-right",
+													errors[`${row.name}_1` as keyof FraudDetectionType] &&
+														"placeholder:text-danger",
+												)}
+												value={(field.value as unknown as number) || ""}
+												allowNegativeValue={false}
+												onValueChange={(value) => {
+													field.onChange(Number(value));
+												}}
+												placeholder={
+													errors[`${row.name}_1` as keyof FraudDetectionType] &&
+													`${`${row.label}` as keyof FraudDetectionType} Belum diisi`
 												}
 											/>
 										)}
