@@ -114,12 +114,12 @@ export default function ReviewAssesmentGrade({
 								<p>Jawaban : {answer}</p>
 								<span>
 									Bukti :{" "}
-									{data?.point[index].proof ? (
+									{data?.point[index].id_proof ? (
 										<Link
-											href={`${process.env.NEXT_PUBLIC_BASE_URL}/api/actualfile/${data.point[index].proof?.file_name}`}
+											href={`${process.env.NEXT_PUBLIC_BASE_URL}/api/actualfile/${data.point[index].id_proof?.file_name}`}
 											target="_blank"
 										>
-											{data.point[index].proof?.file_name}
+											{data.point[index].id_proof?.file_name}
 										</Link>
 									) : (
 										<p>-</p>
