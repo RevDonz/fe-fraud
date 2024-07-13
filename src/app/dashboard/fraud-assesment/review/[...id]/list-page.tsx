@@ -34,11 +34,7 @@ export default function ReviewAssesmentList({
 		queryFn: async () => await getDetailAssesment(token, assesmentKey),
 	});
 
-	const {
-		data: dataPrint,
-		mutate,
-		isPending: isPrintPending,
-	} = useMutation({
+	const { isPending: isPrintPending } = useMutation({
 		mutationKey: ["review-fraud-list-assesment", assesmentKey],
 		mutationFn: async () => {
 			const results = [];

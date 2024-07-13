@@ -9,6 +9,8 @@ import {
 	Pagination,
 	Select,
 	SelectItem,
+	type Selection,
+	type SortDescriptor,
 	Spinner,
 	Table,
 	TableBody,
@@ -17,8 +19,6 @@ import {
 	TableHeader,
 	TableRow,
 	getKeyValue,
-	type Selection,
-	type SortDescriptor,
 } from "@nextui-org/react";
 import { ChevronDownIcon } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
@@ -180,9 +180,10 @@ export function Datatable<TData extends GenericItem>({
 					<p>Rows per page</p>
 					<Select
 						onChange={onRowsPerPageChange}
-						selectedKeys={[rowsPerPage]}
+						selectedKeys={[rowsPerPage.toString()]}
 						className="max-w-20"
 						size="sm"
+						disallowEmptySelection
 					>
 						<SelectItem key={"5"} value={5}>
 							5

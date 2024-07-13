@@ -109,24 +109,33 @@ export default function EditAssesmentForm({
 
 	const mutationDelete = useMutation({
 		mutationFn: async (filename: string) => {
-			const response = await fetch(
-				`${process.env.NEXT_PUBLIC_BASE_URL}/file/${filename}`,
-				{
-					method: "DELETE",
-					headers: { Authorization: `Bearer ${token}` },
-				},
-			);
+			try {
+				const response = await fetch(
+					`${process.env.NEXT_PUBLIC_BASE_URL}/file/${filename}`,
+					{
+						method: "DELETE",
+						headers: { Authorization: `Bearer ${token}` },
+					},
+				);
 
-			const result = await response.json();
+				const result = await response.json();
 
-			return result;
+				return result.success;
+			} catch (error) {
+				console.log(error);
+			}
 		},
 		onSuccess() {
-			queryClient.invalidateQueries({ queryKey: ["current-subbab-assesment"] });
-			return toast.success("File berhasil dihapus!");
+			queryClient.invalidateQueries({
+				queryKey: ["current-subbab-assesment", sub],
+			});
+			toast.success("File berhasil dihapus!");
 		},
 		onError() {
-			return toast.error("File gagal dihapus!");
+			queryClient.invalidateQueries({
+				queryKey: ["current-subbab-assesment", sub],
+			});
+			toast.error("File gagal dihapus!");
 		},
 	});
 

@@ -1,6 +1,7 @@
 "use client";
-import { Questions } from "@/constant/assesment";
-import { getDetailAssesment } from "@/lib/assesment";
+import { PrintComponent } from "@/components/detail-to-print";
+import { ListSubBab, Questions } from "@/constant/assesment";
+import { getAssesmentSubBabByKey, getDetailAssesment } from "@/lib/assesment";
 import {
 	Button,
 	Card,
@@ -20,17 +21,53 @@ import {
 	TableRow,
 	useDisclosure,
 } from "@nextui-org/react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useRef } from "react";
+import { useReactToPrint } from "react-to-print";
 import LoadingDetailAssesment from "./loading-component";
 
 export default function DetailAssesmentList({
 	token,
 	assesmentKey,
 }: { token: string; assesmentKey: string }) {
-	const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+	const { onOpenChange } = useDisclosure();
 	const router = useRouter();
+	const componentRef = useRef(null);
+
+	const dataToPrint = useReactToPrint({
+		content: () => componentRef.current,
+	});
+
+	const { isPending: isPrintPending } = useMutation({
+		mutationKey: ["review-fraud-list-assesment", assesmentKey],
+		mutationFn: async () => {
+			const results = [];
+
+			for (let index = 0; index < ListSubBab.length; index++) {
+				const subBab = ListSubBab[index];
+
+				const response = await getAssesmentSubBabByKey(
+					token,
+					assesmentKey,
+					subBab.toString(),
+				);
+
+				if (response) {
+					results.push(response);
+				} else {
+					throw new Error("Failed to get data");
+				}
+			}
+
+			return results;
+		},
+		onSuccess: (data) => {
+			console.log(data);
+			dataToPrint();
+		},
+	});
 
 	const { data, isPending } = useQuery({
 		queryKey: ["fraud-detail-assesment", assesmentKey],
@@ -98,12 +135,19 @@ export default function DetailAssesmentList({
 						</TableCell>
 						<TableCell>
 							<Button
-								type="button"
 								color="primary"
 								isDisabled={data?.assessment.hasil_internal === null}
+								isLoading={isPrintPending}
+								onClick={() => dataToPrint()}
 							>
 								Unduh Laporan
 							</Button>
+
+							<div className="hidden">
+								<div ref={componentRef}>
+									<PrintComponent assesmentKey={assesmentKey} token={token} />
+								</div>
+							</div>
 						</TableCell>
 					</TableRow>
 				</TableBody>
