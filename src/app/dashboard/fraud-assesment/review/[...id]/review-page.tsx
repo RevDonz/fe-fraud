@@ -140,12 +140,7 @@ export default function ReviewAssesmentGrade({
 											errorMessage={errors.skor?.[index]?.message}
 											value={field.value}
 											onChange={field.onChange}
-											// {...field}
 										>
-											{/* <SelectItem
-												key={"answer"}
-												value={data?.point[index].answer}
-											> */}
 											<SelectItem key={`${data?.point[index].answer}`}>
 												Sudah Tepat
 											</SelectItem>
@@ -159,18 +154,7 @@ export default function ReviewAssesmentGrade({
 					</div>
 				);
 			})}
-			{/* <input
-				type="text"
-				className="hidden"
-				defaultValue={assesmentKey}
-				{...register("id_assessment")}
-			/>
-			<input
-				type="text"
-				className="hidden"
-				defaultValue={subBab}
-				{...register("sub_bab")}
-			/> */}
+
 			<div className="flex justify-end items-center mt-5">
 				<Button color="primary" variant="solid" type="submit">
 					Simpan

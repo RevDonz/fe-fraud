@@ -26,7 +26,7 @@ export type ProofType = {
 };
 
 export interface AssesmentPoint {
-	[key: string]: number;
+	[key: string]: number[];
 }
 
 export type DetailAssesment = {

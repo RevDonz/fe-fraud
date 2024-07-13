@@ -2,6 +2,7 @@
 import { PrintComponent } from "@/components/detail-to-print";
 import { ListSubBab, Questions } from "@/constant/assesment";
 import { getAssesmentSubBabByKey, getDetailAssesment } from "@/lib/assesment";
+import { getEntity } from "@/lib/entity";
 import {
 	Button,
 	Card,
@@ -28,6 +29,14 @@ export default function ReviewAssesmentList({
 	assesmentKey,
 }: { token: string; assesmentKey: string }) {
 	const componentRef = useRef(null);
+
+	const { data: entity } = useQuery({
+		queryKey: ["entity-fraud-detection"],
+		queryFn: async () => {
+			const data = await getEntity(token);
+			return data;
+		},
+	});
 
 	const { data, isPending } = useQuery({
 		queryKey: ["review-fraud-list-assesment", assesmentKey],
@@ -68,61 +77,130 @@ export default function ReviewAssesmentList({
 	});
 
 	const selesai =
-		data?.assessment.id_reviewer_internal !== null &&
+		data?.assessment.id_reviewer_internal !== "" &&
 		data?.assessment.hasil_internal !== null;
+
+	const externalSelesai =
+		data?.assessment.id_reviewer_external !== "" &&
+		data?.assessment.hasil_external !== null;
 
 	if (isPending) return <LoadingReviewAssesment />;
 
 	const unFinished = ListSubBab.filter(
-		(subbab) => data?.point[subbab] === null,
+		(subbab) => data?.point[subbab][0] === null,
 	);
-	const finished = ListSubBab.filter((subbab) => data?.point[subbab] !== null);
+	const finished = ListSubBab.filter(
+		(subbab) => data?.point[subbab][0] !== null,
+	);
+
+	const unFinishedExternal = ListSubBab.filter(
+		(subbab) => data?.point[subbab][1] === null,
+	);
+	const finishedExternal = ListSubBab.filter(
+		(subbab) => data?.point[subbab][1] !== null,
+	);
 
 	return (
 		<div className="flex flex-col gap-5">
-			{selesai && (
-				<Table aria-label="Example static collection table">
-					<TableHeader>
-						<TableColumn>PENGISI ASSESMENT</TableColumn>
-						<TableColumn>REVIEWER</TableColumn>
-						<TableColumn>TANGGAL & WAKTU PENILAIAN</TableColumn>
-						<TableColumn>HASIL</TableColumn>
-						<TableColumn>AKSI</TableColumn>
-					</TableHeader>
-					<TableBody>
-						<TableRow key="1">
-							<TableCell>{data?.assessment.admin}</TableCell>
-							<TableCell>
-								{data?.assessment.reviewer_internal === ""
-									? "Belum dinilai"
-									: data?.assessment.reviewer_internal}
-							</TableCell>
-							<TableCell>{data?.assessment.tanggal_mulai}</TableCell>
-							<TableCell>
-								{data?.assessment.hasil_internal === null
-									? "Belum dinilai"
-									: data?.assessment.hasil_internal}
-							</TableCell>
-							<TableCell>
-								<Button
-									color="primary"
-									isDisabled={data?.assessment.hasil_internal === null}
-									isLoading={isPrintPending}
-									onClick={() => dataToPrint()}
-								>
-									Unduh Laporan
-								</Button>
+			{entity?.data_key !== "external"
+				? selesai && (
+						<Table aria-label="Example static collection table">
+							<TableHeader>
+								<TableColumn>PENGISI ASSESMENT</TableColumn>
+								<TableColumn>REVIEWER</TableColumn>
+								<TableColumn>TANGGAL & WAKTU PENILAIAN</TableColumn>
+								<TableColumn>HASIL INTERNAL</TableColumn>
+								<TableColumn>AKSI</TableColumn>
+							</TableHeader>
+							<TableBody>
+								<TableRow key="1">
+									<TableCell>{data?.assessment.admin}</TableCell>
+									<TableCell>
+										{data?.assessment.reviewer_internal === ""
+											? "Belum dinilai"
+											: data?.assessment.reviewer_internal}
+									</TableCell>
+									<TableCell>{data?.assessment.tanggal_mulai}</TableCell>
+									<TableCell>
+										{data?.assessment.hasil_internal === null
+											? "Belum dinilai"
+											: data?.assessment.hasil_internal}
+									</TableCell>
+									<TableCell>
+										<Button
+											color="primary"
+											isDisabled={data?.assessment.hasil_internal === null}
+											isLoading={isPrintPending}
+											onClick={() => dataToPrint()}
+										>
+											Unduh Laporan
+										</Button>
 
-								<div className="hidden">
-									<div ref={componentRef}>
-										<PrintComponent assesmentKey={assesmentKey} token={token} />
-									</div>
-								</div>
-							</TableCell>
-						</TableRow>
-					</TableBody>
-				</Table>
-			)}
+										<div className="hidden">
+											<div ref={componentRef}>
+												<PrintComponent
+													assesmentKey={assesmentKey}
+													token={token}
+												/>
+											</div>
+										</div>
+									</TableCell>
+								</TableRow>
+							</TableBody>
+						</Table>
+					)
+				: externalSelesai && (
+						<Table aria-label="Example static collection table">
+							<TableHeader>
+								<TableColumn>PENGISI ASSESMENT</TableColumn>
+								<TableColumn>REVIEWER</TableColumn>
+								<TableColumn>TANGGAL & WAKTU PENILAIAN</TableColumn>
+								<TableColumn>HASIL INTERNAL</TableColumn>
+								<TableColumn>HASIL EXTERNAL</TableColumn>
+								<TableColumn>AKSI</TableColumn>
+							</TableHeader>
+							<TableBody>
+								<TableRow key="1">
+									<TableCell>{data?.assessment.admin}</TableCell>
+									<TableCell>
+										{data?.assessment.reviewer_internal === ""
+											? "Belum dinilai"
+											: data?.assessment.reviewer_internal}
+									</TableCell>
+									<TableCell>{data?.assessment.tanggal_mulai}</TableCell>
+									<TableCell>
+										{data?.assessment.hasil_internal === null
+											? "Belum dinilai"
+											: data?.assessment.hasil_internal}
+									</TableCell>
+									<TableCell>
+										{data?.assessment.hasil_external === null
+											? "Belum dinilai"
+											: data?.assessment.hasil_external}
+									</TableCell>
+									<TableCell>
+										<Button
+											color="primary"
+											isDisabled={data?.assessment.hasil_internal === null}
+											isLoading={isPrintPending}
+											onClick={() => dataToPrint()}
+										>
+											Unduh Laporan
+										</Button>
+
+										<div className="hidden">
+											<div ref={componentRef}>
+												<PrintComponent
+													assesmentKey={assesmentKey}
+													token={token}
+												/>
+											</div>
+										</div>
+									</TableCell>
+								</TableRow>
+							</TableBody>
+						</Table>
+					)}
 
 			<div className="flex flex-col gap-5">
 				{Questions.map((question, index) => (
@@ -142,7 +220,72 @@ export default function ReviewAssesmentList({
 												{index + 1}.{subIndex + 1}. {subquestion.title}
 											</p>
 
-											{selesai ? (
+											{entity?.data_key === "external" ? (
+												externalSelesai ? (
+													<div className="flex gap-3" key={`${index * 2}`}>
+														<Button
+															size="sm"
+															color="success"
+															className="text-white"
+															isLoading={isPending}
+														>
+															{data?.point && !isPending
+																? data?.point[subquestion.sub_bab.toString()][1]
+																: ""}
+														</Button>
+
+														<Button
+															size="sm"
+															as={Link}
+															color="primary"
+															href={`/dashboard/fraud-assesment/review/${assesmentKey}/${question.bab}/${subquestion.sub_bab}/detail`}
+														>
+															Lihat Detail
+														</Button>
+													</div>
+												) : finishedExternal.includes(subquestion.sub_bab) ? (
+													<div className="flex gap-3" key={`${index * 2}`}>
+														<Button
+															size="sm"
+															color="warning"
+															className="text-white"
+															href={`/dashboard/fraud-assesment/review/${assesmentKey}/${question.bab}/${subquestion.sub_bab}/edit`}
+															as={Link}
+														>
+															Edit
+														</Button>
+														<Button
+															color="success"
+															isIconOnly
+															size="sm"
+															className="text-white"
+														>
+															<Check className="w-4 h-4" />
+														</Button>
+													</div>
+												) : unFinishedExternal[0] === subquestion.sub_bab ? (
+													<Button
+														color="primary"
+														size="sm"
+														className="text-white"
+														href={`/dashboard/fraud-assesment/review/${assesmentKey}/${question.bab}/${subquestion.sub_bab}`}
+														as={Link}
+													>
+														Mulai Penilaian
+													</Button>
+												) : (
+													<Button
+														color="primary"
+														isDisabled
+														size="sm"
+														className="text-white"
+														href={`/dashboard/fraud-assesment/review/${assesmentKey}/${question.bab}/${subquestion.sub_bab}`}
+														as={Link}
+													>
+														Mulai Penilaian
+													</Button>
+												)
+											) : selesai ? (
 												<div className="flex gap-3" key={`${index * 2}`}>
 													<Button
 														size="sm"
@@ -151,7 +294,7 @@ export default function ReviewAssesmentList({
 														isLoading={isPending}
 													>
 														{data?.point && !isPending
-															? data?.point[subquestion.sub_bab.toString()]
+															? data?.point[subquestion.sub_bab.toString()][0]
 															: ""}
 													</Button>
 
@@ -215,9 +358,13 @@ export default function ReviewAssesmentList({
 				))}
 			</div>
 
-			{!selesai && (
-				<SubmitEvaluation token={token} assessmentKey={assesmentKey} />
-			)}
+			{entity?.data_key !== "external"
+				? !selesai && (
+						<SubmitEvaluation token={token} assessmentKey={assesmentKey} />
+					)
+				: !externalSelesai && (
+						<SubmitEvaluation token={token} assessmentKey={assesmentKey} />
+					)}
 		</div>
 	);
 }

@@ -8,9 +8,11 @@ import { Chip, Tab, Tabs } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
 import {
 	columnsAssessed,
+	columnsAssessedExternal,
 	columnsNotAssessed,
 	columnsNotAssessedExternal,
 	renderCellHasAssessed,
+	renderCellHasAssessedExternal,
 } from "./column";
 import ModalEvaluation from "./modal-fraud-evaluation";
 
@@ -41,10 +43,7 @@ const TableGrade = ({ token }: { token: string }) => {
 
 	const sortedDataAssessedExternal = dataAssessed
 		?.sort(compareDates)
-		.filter(
-			(data) =>
-				data.hasil_external !== null && data.id_reviewer_external !== null,
-		);
+		.filter((data) => data.id_reviewer_external !== "");
 
 	const sortedDataNotAssessedExternal = dataAssessed
 		?.sort(compareDates)
@@ -114,8 +113,16 @@ const TableGrade = ({ token }: { token: string }) => {
 							? sortedDataAssessedExternal ?? []
 							: sortedDataAssessed ?? []
 					}
-					columns={columnsAssessed}
-					renderCell={renderCellHasAssessed}
+					columns={
+						entity?.data_key === "external"
+							? columnsAssessedExternal
+							: columnsAssessed
+					}
+					renderCell={
+						entity?.data_key === "external"
+							? renderCellHasAssessedExternal
+							: renderCellHasAssessed
+					}
 					isLoading={isAssessedPending}
 					label="Table Fraud Assesment"
 				/>
