@@ -183,7 +183,7 @@ export default function CreateAssesmentForm({
 								/>
 								{errors.assesment?.[index]?.file?.message ? (
 									<p className="text-sm text-danger">
-										{errors.assesment?.[index]?.file?.message.toString()}
+										{errors.assesment?.[index]?.file?.message?.toString() ?? ""}
 									</p>
 								) : (
 									""
