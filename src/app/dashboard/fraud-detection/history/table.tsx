@@ -6,6 +6,7 @@ import { cn, formatTanggal } from "@/lib/utils";
 import type { FraudDetectionType } from "@/types/detection";
 import { Button } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
 
 export default function DetectionTable({ token }: { token: string }) {
 	const { data, isPending } = useQuery({
@@ -17,6 +18,11 @@ export default function DetectionTable({ token }: { token: string }) {
 	});
 
 	const columns = [
+		{
+			key: "data_key",
+			label: "ID",
+			sortable: false,
+		},
 		{
 			key: "full_name",
 			label: "NAMA AUDITOR",
@@ -74,7 +80,12 @@ export default function DetectionTable({ token }: { token: string }) {
 						>
 							{cellValue}
 						</Button>
-						<Button color="primary" size="sm">
+						<Button
+							color="primary"
+							size="sm"
+							as={Link}
+							href={`/dashboard/fraud-detection/detail/${history.data_key}`}
+						>
 							Lihat Detail
 						</Button>
 					</div>

@@ -1,4 +1,4 @@
-import type { FraudDetectionType } from "@/types/detection";
+import type { FraudDetectionFull, FraudDetectionType } from "@/types/detection";
 
 export const getDetectionHistory = async (
 	token: string,
@@ -21,4 +21,21 @@ export const getDetectionHistory = async (
 	});
 
 	return data;
+};
+
+export const getDetectionByKey = async (
+	token: string,
+	key: string,
+): Promise<FraudDetectionFull> => {
+	const response = await fetch(
+		`${process.env.NEXT_PUBLIC_BASE_URL}/api/report/${key}`,
+		{
+			headers: { Authorization: `Bearer ${token}` },
+		},
+	);
+
+	const result = await response.json();
+	if (result.data === null) result.data = [];
+
+	return result.data;
 };

@@ -20,6 +20,10 @@ export const Routes = [
 		role: ["admin", "staff"],
 	},
 	{
+		url: "/dashboard/fraud-detection/detail",
+		role: ["admin", "staff"],
+	},
+	{
 		url: "/dashboard/fraud-assesment/history",
 		role: ["admin", "staff"],
 	},
