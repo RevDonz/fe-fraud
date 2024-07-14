@@ -66,7 +66,7 @@ export default function DetailDetectionPage({
 										"px-3 py-2 w-full focus:outline-none text-right",
 									)}
 									allowNegativeValue={false}
-									value={data?.[`${row.name}_1` as keyof FraudDetectionFull]}
+									value={data?.[`${row.name}_2` as keyof FraudDetectionFull]}
 								/>
 							</div>
 							<div className="border-r">
@@ -75,7 +75,7 @@ export default function DetailDetectionPage({
 										"px-3 py-2 w-full focus:outline-none text-right",
 									)}
 									allowNegativeValue={false}
-									value={data?.[`${row.name}_2` as keyof FraudDetectionFull]}
+									value={data?.[`${row.name}_1` as keyof FraudDetectionFull]}
 								/>
 							</div>
 						</div>
