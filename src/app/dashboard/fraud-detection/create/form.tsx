@@ -74,9 +74,11 @@ export default function FormDetection({ token }: { token: string }) {
 						);
 					}
 				}
-
 				onClose();
+				return toast.success("Berhasil!");
 			}
+			onClose();
+			return toast.error("Gagal!");
 		},
 	});
 
@@ -132,9 +134,12 @@ export default function FormDetection({ token }: { token: string }) {
 		<div>
 			<p className="text-xl font-medium py-5">{data?.name}</p>
 			<Divider />
+			{/* {isSuccess ? (
+				<p></p>
+			) : (
+			)} */}
 			<div className="flex flex-col gap-5 py-5">
 				<p className="font-medium">Upload Laporan Keuangan</p>
-
 				<div className="flex gap-3">
 					<input
 						placeholder="Enter your username"
@@ -197,6 +202,7 @@ export default function FormDetection({ token }: { token: string }) {
 					</ModalContent>
 				</Modal>
 			</div>
+
 			<Divider />
 
 			<form onSubmit={handleSubmit(onSubmit)}>
@@ -326,6 +332,7 @@ export default function FormDetection({ token }: { token: string }) {
 									<CurrencyInput
 										className="px-3 py-2 w-full focus:outline-none"
 										value={dataDetection?.data?.[row.key]}
+										readOnly
 									/>
 								</div>
 							</div>

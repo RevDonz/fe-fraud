@@ -8,7 +8,7 @@ import { columns, renderCellFraudHistory } from "./column";
 
 const TableHistroy = ({ token }: { token: string }) => {
 	const { data, isPending } = useQuery({
-		queryKey: ["fraud-history"],
+		queryKey: ["fraud-assesment-history"],
 		queryFn: async () => {
 			const data = await getAssesmentHistory(token);
 			return data;
