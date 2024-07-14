@@ -2,7 +2,7 @@
 
 import Datatable from "@/components/datatable";
 import { getDetectionHistory } from "@/lib/detection";
-import { cn } from "@/lib/utils";
+import { cn, formatTanggal } from "@/lib/utils";
 import type { FraudDetectionType } from "@/types/detection";
 import { Button } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
@@ -59,6 +59,10 @@ export default function DetectionTable({ token }: { token: string }) {
 						</p>
 					</div>
 				);
+
+			case "tanggal": {
+				return <p>{formatTanggal(cellValue as string)}</p>;
+			}
 
 			case "beneish_m": {
 				return (

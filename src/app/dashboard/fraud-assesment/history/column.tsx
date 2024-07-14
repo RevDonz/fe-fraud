@@ -1,5 +1,6 @@
 "use client";
 
+import { formatTanggal } from "@/lib/utils";
 import type { FraudHistoryType } from "@/types/assesment";
 import { Button, Chip } from "@nextui-org/react";
 import Link from "next/link";
@@ -59,6 +60,10 @@ export const renderCellFraudHistory = (
 			return reviewer;
 		}
 
+		case "tanggal_mulai": {
+			return <p>{formatTanggal(cellValue as string)}</p>;
+		}
+
 		case "hasil_internal": {
 			return (
 				<div className="w-full">
@@ -88,6 +93,7 @@ export const renderCellFraudHistory = (
 				</div>
 			);
 		}
+
 		case "hasil_external": {
 			return (
 				<div className="w-full">

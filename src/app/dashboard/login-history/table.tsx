@@ -2,6 +2,7 @@
 
 import Datatable from "@/components/datatable";
 import { getLoginHistory } from "@/lib/entity";
+import { formatTanggal } from "@/lib/utils";
 import type { LoginHistoryType } from "@/types/entity";
 import { useQuery } from "@tanstack/react-query";
 
@@ -57,6 +58,10 @@ const TableLoginHistory = ({ token }: { token: string }) => {
 		switch (columnKey) {
 			case "role":
 				return <p className="capitalize">{cellValue}</p>;
+
+			case "tanggal": {
+				return <p>{formatTanggal(cellValue as string)}</p>;
+			}
 
 			default:
 				return cellValue;
