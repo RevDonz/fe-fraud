@@ -1,6 +1,7 @@
 "use client";
 import { Questions } from "@/constant/assesment";
 import { getAssesmentSubBabByKey } from "@/lib/assesment";
+import { getEntity } from "@/lib/entity";
 import { reviewAssesmentSchema } from "@/schema/fraud/assesment";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Divider, Link, Select, SelectItem } from "@nextui-org/react";
@@ -20,6 +21,16 @@ export default function EditAssesmentGrade({
 	const router = useRouter();
 	const queryClient = useQueryClient();
 
+	const { data: entity } = useQuery({
+		queryKey: ["entity-fraud-detection"],
+		queryFn: async () => {
+			const data = await getEntity(token);
+			return data;
+		},
+	});
+
+	const isExternal = entity?.data_key === "external";
+
 	const { data, isPending } = useQuery({
 		queryKey: ["current-subbab-assesment-key-edit", subBab],
 		queryFn: async () => {
@@ -34,13 +45,22 @@ export default function EditAssesmentGrade({
 
 	const defaultValue = isPending
 		? []
-		: data?.point.map((evaluation) =>
-				evaluation.skor.toString() === "0"
-					? evaluation.skor.toString() === evaluation.answer.toString()
-						? "0"
-						: "tidak-tepat"
-					: evaluation.skor.toString(),
-			);
+		: isExternal
+			? data?.point.map((evaluation) =>
+					evaluation.skor_external.toString() === "0"
+						? evaluation.skor_external.toString() ===
+							evaluation.answer.toString()
+							? "0"
+							: "tidak-tepat"
+						: evaluation.skor_external.toString(),
+				)
+			: data?.point.map((evaluation) =>
+					evaluation.skor.toString() === "0"
+						? evaluation.skor.toString() === evaluation.answer.toString()
+							? "0"
+							: "tidak-tepat"
+						: evaluation.skor.toString(),
+				);
 
 	const {
 		handleSubmit,

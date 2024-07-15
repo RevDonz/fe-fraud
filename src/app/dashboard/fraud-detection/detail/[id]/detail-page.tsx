@@ -22,7 +22,6 @@ export default function DetailDetectionPage({
 
 	return (
 		<div>
-      
 			<div className="py-5">
 				<div className="grid grid-cols-3 border rounded-tl-lg rounded-tr-lg">
 					<div className="bg-default-100 px-3 py-2 text-sm font-medium text-foreground-500 rounded-tl-lg">
