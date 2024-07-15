@@ -11,6 +11,7 @@ export type AdminType = {
 	id: string;
 	email: string;
 	is_active: boolean;
+	is_show: boolean;
 };
 
 export type StaffType = {

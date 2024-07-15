@@ -46,14 +46,25 @@ export default function EditAssesmentGrade({
 	const defaultValue = isPending
 		? []
 		: isExternal
-			? data?.point.map((evaluation) =>
+			? 
+      
+      data?.point.map((evaluation) =>
+
 					evaluation.skor_external.toString() === "0"
-						? evaluation.skor_external.toString() ===
+						? 
+            
+            evaluation.skor_external.toString() ===
 							evaluation.answer.toString()
 							? "0"
 							: "tidak-tepat"
+
+
 						: evaluation.skor_external.toString(),
+
 				)
+
+
+
 			: data?.point.map((evaluation) =>
 					evaluation.skor.toString() === "0"
 						? evaluation.skor.toString() === evaluation.answer.toString()
@@ -61,6 +72,8 @@ export default function EditAssesmentGrade({
 							: "tidak-tepat"
 						: evaluation.skor.toString(),
 				);
+
+	console.log(defaultValue);
 
 	const {
 		handleSubmit,
@@ -125,8 +138,9 @@ export default function EditAssesmentGrade({
 		values.skor = values.skor.map((skor) =>
 			skor === "tidak-tepat" ? "0" : skor,
 		);
-
-		mutation.mutate(values);
+    console.log(values);
+    
+		// mutation.mutate(values);
 	};
 
 	const subTitle = Questions.find((item) => item.bab === bab)?.subtitle.find(
@@ -186,10 +200,16 @@ export default function EditAssesmentGrade({
 											selectedKeys={[field.value]}
 											{...field}
 										>
+
+
 											<SelectItem key={`${data?.point[index].answer}`}>
 												Sudah Tepat
 											</SelectItem>
 											<SelectItem key={"tidak-tepat"}>Tidak Tepat</SelectItem>
+
+
+
+                      
 										</Select>
 									)}
 								/>
