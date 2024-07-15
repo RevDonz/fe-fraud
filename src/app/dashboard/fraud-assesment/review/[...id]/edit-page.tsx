@@ -96,8 +96,10 @@ export default function EditAssesmentGrade({
 	});
 
 	const onSubmit = async (values: z.infer<typeof reviewAssesmentSchema>) => {
+		values.skor = values.skor.map((skor) => (skor === "5" ? "0" : skor));
 		mutation.mutate(values);
 	};
+
 	const subTitle = Questions.find((item) => item.bab === bab)?.subtitle.find(
 		(sub) => sub.sub_bab === subBab,
 	);
@@ -155,15 +157,10 @@ export default function EditAssesmentGrade({
 											selectedKeys={[field.value]}
 											{...field}
 										>
-											<SelectItem key={"1"} value={"1"}>
+											<SelectItem key={`${data?.point[index].answer}`}>
 												Sudah Tepat
 											</SelectItem>
-											<SelectItem key={"0.5"} value={"0.5"}>
-												Kurang Tepat
-											</SelectItem>
-											<SelectItem key={"0"} value={"0"}>
-												Tidak Tepat
-											</SelectItem>
+											<SelectItem key={5}>Tidak Tepat</SelectItem>
 										</Select>
 									)}
 								/>

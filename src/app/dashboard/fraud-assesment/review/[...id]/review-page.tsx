@@ -89,7 +89,6 @@ export default function ReviewAssesmentGrade({
 	const onSubmit = async (values: z.infer<typeof reviewAssesmentSchema>) => {
 		values.skor = values.skor.map((skor) => (skor === "5" ? "0" : skor));
 		mutation.mutate(values);
-		// console.log(values);
 	};
 	const subTitle = Questions.find((item) => item.bab === bab)?.subtitle.find(
 		(sub) => sub.sub_bab === subBab,
