@@ -34,7 +34,15 @@ export default function EditAssesmentGrade({
 
 	const defaultValue = isPending
 		? []
-		: data?.point.map((evaluation) => evaluation.skor.toString());
+		: data?.point.map((evaluation) =>
+				evaluation.skor.toString() === "0"
+					? evaluation.skor.toString() === evaluation.answer.toString()
+						? "0"
+						: "tidak-tepat"
+					: evaluation.skor.toString(),
+			);
+
+	console.log(defaultValue);
 
 	const {
 		handleSubmit,
@@ -96,7 +104,11 @@ export default function EditAssesmentGrade({
 	});
 
 	const onSubmit = async (values: z.infer<typeof reviewAssesmentSchema>) => {
-		values.skor = values.skor.map((skor) => (skor === "5" ? "0" : skor));
+		values.skor = values.skor.map((skor) =>
+			skor === "tidak-tepat" ? "0" : skor,
+		);
+		console.log(values);
+
 		mutation.mutate(values);
 	};
 
@@ -160,7 +172,7 @@ export default function EditAssesmentGrade({
 											<SelectItem key={`${data?.point[index].answer}`}>
 												Sudah Tepat
 											</SelectItem>
-											<SelectItem key={5}>Tidak Tepat</SelectItem>
+											<SelectItem key={"tidak-tepat"}>Tidak Tepat</SelectItem>
 										</Select>
 									)}
 								/>
