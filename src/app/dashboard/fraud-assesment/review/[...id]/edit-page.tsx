@@ -42,8 +42,6 @@ export default function EditAssesmentGrade({
 					: evaluation.skor.toString(),
 			);
 
-	console.log(defaultValue);
-
 	const {
 		handleSubmit,
 		setValue,
@@ -107,7 +105,6 @@ export default function EditAssesmentGrade({
 		values.skor = values.skor.map((skor) =>
 			skor === "tidak-tepat" ? "0" : skor,
 		);
-		console.log(values);
 
 		mutation.mutate(values);
 	};
