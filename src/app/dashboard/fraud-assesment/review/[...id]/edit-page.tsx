@@ -53,8 +53,6 @@ export default function EditAssesmentGrade({
 					evaluation.tepat ? "sudah-tepat" : "tidak-tepat",
 				);
 
-	console.log(defaultValue);
-
 	const {
 		handleSubmit,
 		setValue,
