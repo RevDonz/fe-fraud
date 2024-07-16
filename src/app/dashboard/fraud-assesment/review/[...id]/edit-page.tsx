@@ -46,31 +46,11 @@ export default function EditAssesmentGrade({
 	const defaultValue = isPending
 		? []
 		: isExternal
-			? 
-      
-      data?.point.map((evaluation) =>
-
-					evaluation.skor_external.toString() === "0"
-						? 
-            
-            evaluation.skor_external.toString() ===
-							evaluation.answer.toString()
-							? "0"
-							: "tidak-tepat"
-
-
-						: evaluation.skor_external.toString(),
-
+			? data?.point.map((evaluation) =>
+					evaluation.tepat_external ? "sudah-tepat" : "tidak-tepat",
 				)
-
-
-
 			: data?.point.map((evaluation) =>
-					evaluation.skor.toString() === "0"
-						? evaluation.skor.toString() === evaluation.answer.toString()
-							? "0"
-							: "tidak-tepat"
-						: evaluation.skor.toString(),
+					evaluation.tepat ? "sudah-tepat" : "tidak-tepat",
 				);
 
 	console.log(defaultValue);
@@ -135,12 +115,16 @@ export default function EditAssesmentGrade({
 	});
 
 	const onSubmit = async (values: z.infer<typeof reviewAssesmentSchema>) => {
-		values.skor = values.skor.map((skor) =>
-			skor === "tidak-tepat" ? "0" : skor,
+		const arrayBoolean = values.result.map((value) => value === "sudah-tepat");
+		const arrayNumber = data?.point.map((num, index) =>
+			arrayBoolean[index] ? num.answer.toString() : "0",
 		);
-    console.log(values);
-    
-		// mutation.mutate(values);
+
+		values.skor = arrayNumber;
+		values.tepat = arrayBoolean;
+		console.log(values);
+
+		mutation.mutate(values);
 	};
 
 	const subTitle = Questions.find((item) => item.bab === bab)?.subtitle.find(
@@ -149,7 +133,7 @@ export default function EditAssesmentGrade({
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
-		if (!isPending) setValue("skor", defaultValue as string[]);
+		if (!isPending) setValue("result", defaultValue as string[]);
 	}, [isPending]);
 
 	return (
@@ -186,7 +170,7 @@ export default function EditAssesmentGrade({
 							</div>
 							<div className="flex flex-row gap-3 justify-end items-center w-1/4">
 								<Controller
-									name={`skor.${index}`}
+									name={`result.${index}`}
 									control={control}
 									render={({ field }) => (
 										<Select
@@ -194,22 +178,14 @@ export default function EditAssesmentGrade({
 											disallowEmptySelection
 											variant="bordered"
 											placeholder="Pilih nilai"
-											isInvalid={!!errors.skor?.[index]}
-											errorMessage={errors.skor?.[index]?.message}
+											isInvalid={!!errors.result?.[index]}
+											errorMessage={errors.result?.[index]?.message}
 											defaultSelectedKeys={field.value}
 											selectedKeys={[field.value]}
-											{...field}
+											onChange={field.onChange}
 										>
-
-
-											<SelectItem key={`${data?.point[index].answer}`}>
-												Sudah Tepat
-											</SelectItem>
+											<SelectItem key={"sudah-tepat"}>Sudah Tepat</SelectItem>
 											<SelectItem key={"tidak-tepat"}>Tidak Tepat</SelectItem>
-
-
-
-                      
 										</Select>
 									)}
 								/>
@@ -220,7 +196,7 @@ export default function EditAssesmentGrade({
 				);
 			})}
 
-			<div className="flex justify-end items-center mt-5">
+			<div className="flex justify-end items-center mttidak-tepat">
 				<Button color="primary" variant="solid" type="submit">
 					Simpan
 				</Button>

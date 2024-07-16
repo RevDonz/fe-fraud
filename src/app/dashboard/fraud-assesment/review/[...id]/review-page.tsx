@@ -39,7 +39,7 @@ export default function ReviewAssesmentGrade({
 		defaultValues: {
 			id_assessment: assesmentKey,
 			sub_bab: subBab.toString(),
-			skor: [],
+			result: [],
 		},
 	});
 
@@ -87,9 +87,18 @@ export default function ReviewAssesmentGrade({
 	});
 
 	const onSubmit = async (values: z.infer<typeof reviewAssesmentSchema>) => {
-		values.skor = values.skor.map((skor) => (skor === "5" ? "0" : skor));
+		const arrayBoolean = values.result.map((value) => value === "sudah-tepat");
+		const arrayNumber = data?.point.map((num, index) =>
+			arrayBoolean[index] ? num.answer.toString() : "0",
+		);
+
+		values.skor = arrayNumber;
+		values.tepat = arrayBoolean;
+		console.log(values);
+
 		mutation.mutate(values);
 	};
+
 	const subTitle = Questions.find((item) => item.bab === bab)?.subtitle.find(
 		(sub) => sub.sub_bab === subBab,
 	);
@@ -127,7 +136,7 @@ export default function ReviewAssesmentGrade({
 							</div>
 							<div className="flex flex-row gap-3 justify-end items-center w-1/4">
 								<Controller
-									name={`skor.${index}`}
+									name={`result.${index}`}
 									control={control}
 									render={({ field }) => (
 										<Select
@@ -135,15 +144,13 @@ export default function ReviewAssesmentGrade({
 											disallowEmptySelection
 											variant="bordered"
 											placeholder="Pilih nilai"
-											isInvalid={!!errors.skor?.[index]}
-											errorMessage={errors.skor?.[index]?.message}
+											isInvalid={!!errors.result?.[index]}
+											errorMessage={errors.result?.[index]?.message}
 											value={field.value}
 											onChange={field.onChange}
 										>
-											<SelectItem key={`${data?.point[index].answer}`}>
-												Sudah Tepat
-											</SelectItem>
-											<SelectItem key={5}>Tidak Tepat</SelectItem>
+											<SelectItem key={"sudah-tepat"}>Sudah Tepat</SelectItem>
+											<SelectItem key={"tidak-tepat"}>Tidak Tepat</SelectItem>
 										</Select>
 									)}
 								/>

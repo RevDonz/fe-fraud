@@ -17,6 +17,8 @@ export type CurrentSubBab = {
 	answer: number;
 	skor: string;
 	skor_external: string;
+	tepat: boolean;
+	tepat_external: boolean;
 	id_proof?: ProofType;
 };
 
