@@ -69,7 +69,7 @@ export default function CreateStaffForm({
 				router.push("/dashboard/data-staff");
 			} else {
 				toast.error("Gagal!", {
-					description: <p>Terdapat kesalahan</p>,
+					description: <p>{result.message}</p>,
 				});
 			}
 		} catch (error) {
