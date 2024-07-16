@@ -1,6 +1,7 @@
 "use client";
 import { Questions } from "@/constant/assesment";
 import { getAssesmentSubBabByKey } from "@/lib/assesment";
+import { getEntity } from "@/lib/entity";
 import { Button, Divider, Link, Skeleton } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
 
@@ -14,6 +15,15 @@ export default function DetailReviewAssesmentPage({
 		(sub) => sub.sub_bab === subBab,
 	);
 	const title = Questions.find((item) => item.bab === bab);
+	const { data: entity } = useQuery({
+		queryKey: ["entity-fraud-detection"],
+		queryFn: async () => {
+			const data = await getEntity(token);
+			return data;
+		},
+	});
+
+	const isExternal = entity?.data_key === "external";
 
 	const { data, isPending } = useQuery({
 		queryKey: ["review-subbab-assesment-key", subBab],
@@ -28,7 +38,10 @@ export default function DetailReviewAssesmentPage({
 	});
 
 	const totalSkor = data?.point.reduce(
-		(total, item) => total + Number(item.skor),
+		(total, item) =>
+			isExternal
+				? total + Number(item.skor_external)
+				: total + Number(item.skor),
 		0,
 	);
 
@@ -86,14 +99,25 @@ export default function DetailReviewAssesmentPage({
 							</div>
 							<div className="flex flex-row gap-3 justify-end items-center w-1/4">
 								<div className="flex w-full justify-end">
-									<Button
-										color={
-											data?.point[index].skor !== "0" ? "primary" : "danger"
-										}
-										size="sm"
-									>
-										{data?.point[index].skor !== "0" ? "Benar" : "Tidak Benar"}
-									</Button>
+									{isExternal ? (
+										<Button
+											color={
+												data?.point[index].tepat_external ? "primary" : "danger"
+											}
+											size="sm"
+										>
+											{data?.point[index].tepat_external
+												? "Benar"
+												: "Tidak Benar"}
+										</Button>
+									) : (
+										<Button
+											color={data?.point[index].tepat ? "primary" : "danger"}
+											size="sm"
+										>
+											{data?.point[index].tepat ? "Benar" : "Tidak Benar"}
+										</Button>
+									)}
 								</div>
 							</div>
 						</div>

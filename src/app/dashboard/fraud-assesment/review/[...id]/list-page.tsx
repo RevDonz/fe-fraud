@@ -109,7 +109,7 @@ export default function ReviewAssesmentList({
 								<TableColumn>PENGISI ASSESMENT</TableColumn>
 								<TableColumn>REVIEWER</TableColumn>
 								<TableColumn>TANGGAL & WAKTU PENILAIAN</TableColumn>
-								<TableColumn>HASIL INTERNAL</TableColumn>
+								<TableColumn>HASIL</TableColumn>
 								<TableColumn>AKSI</TableColumn>
 							</TableHeader>
 							<TableBody>

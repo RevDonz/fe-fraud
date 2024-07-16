@@ -19,6 +19,7 @@ import {
 	TableColumn,
 	TableHeader,
 	TableRow,
+	Tooltip,
 	useDisclosure,
 } from "@nextui-org/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -112,7 +113,8 @@ export default function DetailAssesmentList({
 					<TableColumn>PENGISI ASSESMENT</TableColumn>
 					<TableColumn>REVIEWER</TableColumn>
 					<TableColumn>TANGGAL & WAKTU PENILAIAN</TableColumn>
-					<TableColumn>HASIL</TableColumn>
+					<TableColumn>HASIL INTERNAL</TableColumn>
+					<TableColumn>HASIL EXTERNAL</TableColumn>
 					<TableColumn>AKSI</TableColumn>
 				</TableHeader>
 				<TableBody>
@@ -132,6 +134,11 @@ export default function DetailAssesmentList({
 							{data?.assessment.hasil_internal === null
 								? "Belum dinilai"
 								: data?.assessment.hasil_internal}
+						</TableCell>
+						<TableCell>
+							{data?.assessment.hasil_external === null
+								? "Belum dinilai"
+								: data?.assessment.hasil_external}
 						</TableCell>
 						<TableCell>
 							<Button
@@ -170,16 +177,30 @@ export default function DetailAssesmentList({
 										</p>
 
 										<div className="flex gap-3" key={`${index * 2}`}>
-											<Button
-												size="sm"
-												color="success"
-												className="text-white"
-												isLoading={isPending}
-											>
-												{data?.point && !isPending
-													? data?.point[subquestion.sub_bab.toString()]
-													: ""}
-											</Button>
+											{data?.point[subquestion.sub_bab.toString()][0] && (
+												<Tooltip content="Penilaian Reviewer Internal">
+													<Button
+														size="sm"
+														color="success"
+														className="text-white"
+														isLoading={isPending}
+													>
+														{data?.point[subquestion.sub_bab.toString()][0]}
+													</Button>
+												</Tooltip>
+											)}
+											{data?.point[subquestion.sub_bab.toString()][1] && (
+												<Tooltip content="Penilaian Reviewer External">
+													<Button
+														size="sm"
+														color="success"
+														className="text-white"
+														isLoading={isPending}
+													>
+														{data?.point[subquestion.sub_bab.toString()][1]}
+													</Button>
+												</Tooltip>
+											)}
 
 											<Button
 												color="primary"
