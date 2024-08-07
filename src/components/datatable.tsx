@@ -9,6 +9,8 @@ import {
 	Pagination,
 	Select,
 	SelectItem,
+	type Selection,
+	type SortDescriptor,
 	Spinner,
 	Table,
 	TableBody,
@@ -17,16 +19,16 @@ import {
 	TableHeader,
 	TableRow,
 	getKeyValue,
-	type Selection,
-	type SortDescriptor,
 } from "@nextui-org/react";
 import { ChevronDownIcon } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
+
 type Column = {
 	key: string;
 	label: string;
 	sortable: boolean;
 };
+
 interface GenericItem {
 	id: string;
 }
@@ -41,6 +43,7 @@ type LoadingState =
 
 interface FilterOptions<T> {
 	column: keyof T;
+	label: string;
 	options: Array<{ uid: string; name: string }>;
 }
 
@@ -51,17 +54,17 @@ interface DataTableProps<TData> {
 	renderCell?: (row: TData, columnKey: React.Key) => React.ReactNode;
 	isLoading?: boolean;
 	rowPage?: number;
-	filterOptions?: FilterOptions<TData>;
+	filterOptions?: FilterOptions<TData>[];
 }
 
-export function Datatable<TData extends GenericItem, TOption>({
+export function Datatable<TData extends GenericItem>({
 	data,
 	columns,
 	label = "Table",
 	isLoading,
 	rowPage = 5,
 	renderCell,
-	filterOptions,
+	filterOptions = [],
 }: DataTableProps<TData>) {
 	const [page, setPage] = useState(1);
 	const [rowsPerPage, setRowsPerPage] = useState(rowPage);
@@ -69,8 +72,17 @@ export function Datatable<TData extends GenericItem, TOption>({
 	const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
 		direction: "ascending",
 	});
-
-	const [selectedFilter, setSelectedFilter] = useState<Selection>("all");
+	const [selectedFilters, setSelectedFilters] = useState<{
+		[key: string]: Selection;
+	}>(() =>
+		filterOptions.reduce(
+			(acc, filterOption) => {
+				acc[filterOption.column as string] = "all";
+				return acc;
+			},
+			{} as { [key: string]: Selection },
+		),
+	);
 
 	const onRowsPerPageChange = useCallback(
 		(e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -81,16 +93,18 @@ export function Datatable<TData extends GenericItem, TOption>({
 	);
 
 	const filteredItems = useMemo(() => {
-		if (!filterOptions || selectedFilter === "all") {
-			return data;
-		}
-
-		const selectedFilterSet = new Set(selectedFilter as unknown as string[]);
-
-		return data.filter((item) =>
-			selectedFilterSet.has(String(item[filterOptions.column])),
-		);
-	}, [data, selectedFilter, filterOptions]);
+		return data.filter((item) => {
+			return filterOptions.every((filterOption) => {
+				const selectedFilterSet = new Set(
+					selectedFilters[filterOption.column as string] as unknown as string[],
+				);
+				return (
+					selectedFilters[filterOption.column as string] === "all" ||
+					selectedFilterSet.has(String(item[filterOption.column]))
+				);
+			});
+		});
+	}, [data, selectedFilters, filterOptions]);
 
 	const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -111,35 +125,41 @@ export function Datatable<TData extends GenericItem, TOption>({
 	}, [sortDescriptor, items]);
 
 	const TopContent = () => {
-		if (filterOptions)
-			return (
-				<div className="flex w-full justify-between items-center">
-					<Dropdown>
+		return (
+			<div className="flex w-full items-center gap-3">
+				{filterOptions.map((filterOption) => (
+					<Dropdown key={filterOption.column as string}>
 						<DropdownTrigger className="hidden sm:flex">
 							<Button
 								endContent={<ChevronDownIcon className="text-small" />}
 								variant="flat"
 							>
-								Status
+								{filterOption.label}
 							</Button>
 						</DropdownTrigger>
 						<DropdownMenu
 							disallowEmptySelection
-							aria-label="Table Columns"
+							aria-label={`Filter ${String(filterOption.column)}`}
 							closeOnSelect={false}
-							selectedKeys={selectedFilter}
+							selectedKeys={selectedFilters[filterOption.column as string]}
 							selectionMode="multiple"
-							onSelectionChange={setSelectedFilter}
+							onSelectionChange={(keys) =>
+								setSelectedFilters((prev) => ({
+									...prev,
+									[filterOption.column as string]: keys,
+								}))
+							}
 						>
-							{(filterOptions?.options ?? []).map((role) => (
-								<DropdownItem key={role.uid} className="capitalize">
-									{role.name}
+							{(filterOption?.options ?? []).map((option) => (
+								<DropdownItem key={option.uid} className="capitalize">
+									{option.name}
 								</DropdownItem>
 							))}
 						</DropdownMenu>
 					</Dropdown>
-				</div>
-			);
+				))}
+			</div>
+		);
 	};
 
 	const BottomContent = () => {
@@ -160,9 +180,10 @@ export function Datatable<TData extends GenericItem, TOption>({
 					<p>Rows per page</p>
 					<Select
 						onChange={onRowsPerPageChange}
-						selectedKeys={[rowsPerPage]}
+						selectedKeys={[rowsPerPage.toString()]}
 						className="max-w-20"
 						size="sm"
+						disallowEmptySelection
 					>
 						<SelectItem key={"5"} value={5}>
 							5
@@ -193,11 +214,7 @@ export function Datatable<TData extends GenericItem, TOption>({
 		>
 			<TableHeader columns={columns}>
 				{(column) => (
-					<TableColumn
-						align="end"
-						key={column.key}
-						allowsSorting={column.sortable}
-					>
+					<TableColumn key={column.key} allowsSorting={column.sortable}>
 						{column.label}
 					</TableColumn>
 				)}

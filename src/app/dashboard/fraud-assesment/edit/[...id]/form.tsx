@@ -108,15 +108,34 @@ export default function EditAssesmentForm({
 	});
 
 	const mutationDelete = useMutation({
-		mutationFn: (filename: string) => {
-			return fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/file/${filename}`, {
-				method: "DELETE",
-				headers: { Authorization: `Bearer ${token}` },
-			});
+		mutationFn: async (filename: string) => {
+			try {
+				const response = await fetch(
+					`${process.env.NEXT_PUBLIC_BASE_URL}/file/${filename}`,
+					{
+						method: "DELETE",
+						headers: { Authorization: `Bearer ${token}` },
+					},
+				);
+
+				const result = await response.json();
+
+				return result.success;
+			} catch (error) {
+				console.log(error);
+			}
 		},
 		onSuccess() {
-			queryClient.invalidateQueries({ queryKey: ["current-subbab-assesment"] });
-			toast.success("File berhasil dihapus");
+			queryClient.invalidateQueries({
+				queryKey: ["current-subbab-assesment", sub],
+			});
+			toast.success("File berhasil dihapus!");
+		},
+		onError() {
+			queryClient.invalidateQueries({
+				queryKey: ["current-subbab-assesment", sub],
+			});
+			toast.error("File gagal dihapus!");
 		},
 	});
 
@@ -168,14 +187,14 @@ export default function EditAssesmentForm({
 											</Radio>
 											<Radio
 												type="radio"
-												value="2"
+												value="0.5"
 												{...register(`assesment.${index}.answer`)}
 											>
 												Ada, belum lengkap
 											</Radio>
 											<Radio
 												type="radio"
-												value="3"
+												value="0"
 												{...register(`assesment.${index}.answer`)}
 											>
 												Belum ada
@@ -193,16 +212,16 @@ export default function EditAssesmentForm({
 								)}
 							</div>
 							<div className="flex flex-row gap-3 justify-end items-center w-1/4">
-								{data?.[index].proof !== null && getValues(name) !== null ? (
+								{data?.[index].id_proof !== null && getValues(name) !== null ? (
 									<div className="flex items-end gap-3 w-full justify-between">
 										<div className="flex flex-col gap-3">
 											<p>Upload bukti</p>
 											<Link
 												size="sm"
-												href={`${process.env.NEXT_PUBLIC_BASE_URL}/api/actualfile/${data?.[index].proof?.file_name}`}
+												href={`${process.env.NEXT_PUBLIC_BASE_URL}/api/actualfile/${data?.[index].id_proof?.file_name}`}
 												target="_blank"
 											>
-												{data?.[index].proof?.file_name}
+												{data?.[index].id_proof?.file_name}
 											</Link>
 										</div>
 										<Button
@@ -211,7 +230,7 @@ export default function EditAssesmentForm({
 											size="sm"
 											onClick={async () => {
 												mutationDelete.mutate(
-													data?.[index].proof?.file_name as string,
+													data?.[index].id_proof?.file_name as string,
 												);
 											}}
 										>

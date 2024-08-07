@@ -8,7 +8,7 @@ import { columns, renderCellFraudHistory } from "./column";
 
 const TableHistroy = ({ token }: { token: string }) => {
 	const { data, isPending } = useQuery({
-		queryKey: ["fraud-history"],
+		queryKey: ["fraud-assesment-history"],
 		queryFn: async () => {
 			const data = await getAssesmentHistory(token);
 			return data;
@@ -16,8 +16,8 @@ const TableHistroy = ({ token }: { token: string }) => {
 	});
 
 	const compareDates = (a: FraudHistoryType, b: FraudHistoryType) => {
-		const dateA = new Date(a.tanggal).getTime();
-		const dateB = new Date(b.tanggal).getTime();
+		const dateA = new Date(a.tanggal_mulai).getTime();
+		const dateB = new Date(b.tanggal_mulai).getTime();
 		return dateB - dateA;
 	};
 

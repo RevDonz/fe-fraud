@@ -1,12 +1,13 @@
 "use client";
 
+import { formatTanggal } from "@/lib/utils";
 import type { FraudHistoryType } from "@/types/assesment";
 import { Button, Chip } from "@nextui-org/react";
 import Link from "next/link";
 
 export const columns = [
 	{
-		key: "key",
+		key: "data_key",
 		label: "ID ASSESMENT",
 		sortable: false,
 	},
@@ -21,7 +22,7 @@ export const columns = [
 		label: "REVIEWER",
 	},
 	{
-		key: "tanggal",
+		key: "tanggal_mulai",
 		sortable: true,
 		label: "TANGGAL PEMBUATAN",
 	},
@@ -59,6 +60,10 @@ export const renderCellFraudHistory = (
 			return reviewer;
 		}
 
+		case "tanggal_mulai": {
+			return <p>{formatTanggal(cellValue as string)}</p>;
+		}
+
 		case "hasil_internal": {
 			return (
 				<div className="w-full">
@@ -91,21 +96,39 @@ export const renderCellFraudHistory = (
 
 		case "hasil_external": {
 			return (
-				<Chip
-					color="primary"
-					variant={cellValue === null ? "bordered" : "flat"}
-					radius="sm"
-				>
-					{cellValue === null ? "Belum dinilai" : cellValue}
-				</Chip>
+				<div className="w-full">
+					<Chip
+						color={
+							cellValue === null
+								? "primary"
+								: Number(cellValue) > 75
+									? "success"
+									: Number(cellValue) > 50
+										? "warning"
+										: "danger"
+						}
+						variant={cellValue === null ? "bordered" : "flat"}
+						radius="sm"
+					>
+						<p className="w-24 text-center">
+							{cellValue === null
+								? "Belum dinilai"
+								: Number(cellValue) > 75
+									? `Good / ${cellValue}`
+									: Number(cellValue) > 50
+										? `Normal / ${cellValue}`
+										: `Bad / ${cellValue}`}
+						</p>
+					</Chip>
+				</div>
 			);
 		}
 
 		case "status": {
-			const status = history.selesai ? "Sudah Selesai" : "Belum Selesai";
+			const status = history.is_done ? "Sudah Selesai" : "Belum Selesai";
 			return (
 				<Chip
-					color={history.selesai ? "success" : "warning"}
+					color={history.is_done ? "success" : "warning"}
 					variant="flat"
 					radius="sm"
 				>
@@ -120,8 +143,8 @@ export const renderCellFraudHistory = (
 					color="primary"
 					size="sm"
 					as={Link}
-					href={`/dashboard/fraud-assesment/detail/${history.key}`}
-					isDisabled={!history.selesai}
+					href={`/dashboard/fraud-assesment/detail/${history.data_key}`}
+					isDisabled={!history.is_done}
 				>
 					Lihat Detail
 				</Button>

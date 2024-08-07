@@ -16,7 +16,10 @@ export type CurrentSubBab = {
 	point: number;
 	answer: number;
 	skor: string;
-	proof?: ProofType;
+	skor_external: string;
+	tepat: boolean;
+	tepat_external: boolean;
+	id_proof?: ProofType;
 };
 
 export type ProofType = {
@@ -25,23 +28,8 @@ export type ProofType = {
 	file_name: string;
 };
 
-export type Assesments = {
-	id_institution: string;
-	id_admin: string;
-	id_reviewer?: string;
-	tanggal: string;
-	hasil: number;
-	selesai: boolean;
-	key: string;
-	nama_admin: string;
-	admin: string;
-	nama_reviewer: string;
-	reviewer_internal: string;
-	reviewer_external: string;
-};
-
 export interface AssesmentPoint {
-	[key: string]: number;
+	[key: string]: number[];
 }
 
 export type DetailAssesment = {
@@ -50,7 +38,7 @@ export type DetailAssesment = {
 };
 
 export type DetailAssesmentWithKey = {
-	assessment: Assesments;
+	assessment: FraudHistoryType;
 	point: CurrentSubBab[];
 };
 
@@ -59,11 +47,12 @@ export interface FraudHistoryType {
 	id_admin: string;
 	id_reviewer_internal: string;
 	id_reviewer_external: string;
-	tanggal: string;
+	tanggal_mulai: string;
+	tanggal_nilai: string;
 	hasil_internal: number;
 	hasil_external: number;
-	selesai: boolean;
-	key: string;
+	is_done: boolean;
+	data_key: string;
 	id: string;
 	admin: string;
 	reviewer_internal: string;

@@ -1,7 +1,7 @@
 export const Routes = [
 	{
 		url: "/dashboard/accounts",
-		role: ["super admin"],
+		role: ["super_admin"],
 	},
 	{
 		url: "/dashboard/data-staff",
@@ -9,7 +9,7 @@ export const Routes = [
 	},
 	{
 		url: "/dashboard",
-		role: ["admin", "super admin", "staff", "reviewer"],
+		role: ["admin", "super_admin", "staff", "reviewer"],
 	},
 	{
 		url: "/dashboard/login-history",
@@ -17,6 +17,10 @@ export const Routes = [
 	},
 	{
 		url: "/dashboard/fraud-detection",
+		role: ["admin", "staff"],
+	},
+	{
+		url: "/dashboard/fraud-detection/detail",
 		role: ["admin", "staff"],
 	},
 	{

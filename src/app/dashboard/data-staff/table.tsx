@@ -50,7 +50,7 @@ const TableStaff = ({ token }: { token: string }) => {
 
 		const verifyStaff = async (e: React.ChangeEvent<HTMLSelectElement>) => {
 			const response = await fetch(
-				`${process.env.NEXT_PUBLIC_BASE_URL}/api/alter?user_key=${staff.key}`,
+				`${process.env.NEXT_PUBLIC_BASE_URL}/api/alter?user_key=${staff.data_key}`,
 				{
 					method: "PATCH",
 					headers: { Authorization: `Bearer ${token}` },

@@ -1,11 +1,10 @@
 import { Questions } from "@/constant/assesment";
 import { getServerAuthSession } from "@/lib/auth";
 import { Divider } from "@nextui-org/react";
-import DetailReviewAssesmentPage from "./detail";
-import EditAssesmentGrade from "./edit";
-import ReviewAssesmentList from "./list";
-import ReviewAssesmentGrade from "./review";
-import SubmitEvaluation from "./submit";
+import DetailReviewAssesmentPage from "./detail-page";
+import EditAssesmentGrade from "./edit-page";
+import ReviewAssesmentList from "./list-page";
+import ReviewAssesmentGrade from "./review-page";
 
 export default async function ReviewPage({
 	params,
@@ -42,10 +41,6 @@ export default async function ReviewPage({
 				</div>
 			) : bab && subBab && isDetail ? (
 				<div className="p-3">
-					<p className="font-semibold mb-3">
-						{subBab} {title?.title}: {subTitle?.title}
-					</p>
-					<Divider />
 					<DetailReviewAssesmentPage
 						bab={bab}
 						subBab={subBab}
@@ -69,7 +64,6 @@ export default async function ReviewPage({
 			) : (
 				<>
 					<ReviewAssesmentList token={token} assesmentKey={key} />
-					<SubmitEvaluation token={token} assessmentKey={key} />
 				</>
 			)}
 		</div>

@@ -8,9 +8,11 @@ export default function BackButton() {
 	const pathname = usePathname();
 
 	if (
-		["/dashboard/fraud-assesment/history", "/dashboard/data-staff"].includes(
-			pathname,
-		)
+		[
+			"/dashboard/fraud-assesment/history",
+			"/dashboard/fraud-detection/history",
+			"/dashboard/data-staff",
+		].includes(pathname)
 	) {
 		return null;
 	}

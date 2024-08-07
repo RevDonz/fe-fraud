@@ -2,6 +2,7 @@
 
 import Datatable from "@/components/datatable";
 import { getLoginHistory } from "@/lib/entity";
+import { formatTanggal } from "@/lib/utils";
 import type { LoginHistoryType } from "@/types/entity";
 import { useQuery } from "@tanstack/react-query";
 
@@ -58,6 +59,10 @@ const TableLoginHistory = ({ token }: { token: string }) => {
 			case "role":
 				return <p className="capitalize">{cellValue}</p>;
 
+			case "tanggal": {
+				return <p>{formatTanggal(cellValue as string)}</p>;
+			}
+
 			default:
 				return cellValue;
 		}
@@ -71,14 +76,26 @@ const TableLoginHistory = ({ token }: { token: string }) => {
 			isLoading={isPending}
 			label="Table Data Staff"
 			rowPage={10}
-			filterOptions={{
-				column: "role",
-				options: [
-					{ name: "Admin", uid: "admin" },
-					{ name: "Staff", uid: "staff" },
-					{ name: "Reviewer", uid: "reviewer" },
-				],
-			}}
+			filterOptions={[
+				{
+					column: "role",
+					label: "Role",
+					options: [
+						{ name: "Admin", uid: "admin" },
+						{ name: "Staff", uid: "staff" },
+						{ name: "Reviewer", uid: "reviewer" },
+					],
+				},
+				{
+					column: "event",
+					label: "Aktivitas",
+					options: [
+						{ name: "Logged In", uid: "Logged In" },
+						{ name: "Submit Point", uid: "Submit Point" },
+						{ name: "Submitted Assessment", uid: "Submitted Assessment" },
+					],
+				},
+			]}
 		/>
 	);
 };

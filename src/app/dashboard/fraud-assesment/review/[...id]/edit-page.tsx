@@ -1,25 +1,38 @@
 "use client";
 import { Questions } from "@/constant/assesment";
 import { getAssesmentSubBabByKey } from "@/lib/assesment";
+import { getEntity } from "@/lib/entity";
 import { reviewAssesmentSchema } from "@/schema/fraud/assesment";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Divider, Link, Select, SelectItem } from "@nextui-org/react";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
 
-export default function ReviewAssesmentGrade({
+export default function EditAssesmentGrade({
 	bab,
 	subBab,
 	token,
 	assesmentKey,
 }: { bab: number; subBab: number; token: string; assesmentKey: string }) {
 	const router = useRouter();
+	const queryClient = useQueryClient();
+
+	const { data: entity } = useQuery({
+		queryKey: ["entity-fraud-detection"],
+		queryFn: async () => {
+			const data = await getEntity(token);
+			return data;
+		},
+	});
+
+	const isExternal = entity?.data_key === "external";
 
 	const { data, isPending } = useQuery({
-		queryKey: ["current-subbab-assesment-key", subBab],
+		queryKey: ["current-subbab-assesment-key-edit", subBab],
 		queryFn: async () => {
 			const data = await getAssesmentSubBabByKey(
 				token,
@@ -30,8 +43,19 @@ export default function ReviewAssesmentGrade({
 		},
 	});
 
+	const defaultValue = isPending
+		? []
+		: isExternal
+			? data?.point.map((evaluation) =>
+					evaluation.tepat_external ? "sudah-tepat" : "tidak-tepat",
+				)
+			: data?.point.map((evaluation) =>
+					evaluation.tepat ? "sudah-tepat" : "tidak-tepat",
+				);
+
 	const {
 		handleSubmit,
+		setValue,
 		control,
 		formState: { errors },
 	} = useForm<z.infer<typeof reviewAssesmentSchema>>({
@@ -39,7 +63,6 @@ export default function ReviewAssesmentGrade({
 		defaultValues: {
 			id_assessment: assesmentKey,
 			sub_bab: subBab.toString(),
-			skor: [],
 		},
 	});
 
@@ -75,23 +98,41 @@ export default function ReviewAssesmentGrade({
 			toast.loading("Loading...");
 		},
 		onSuccess() {
-			router.push(`/dashboard/fraud-assesment/review/${assesmentKey}`);
 			toast.dismiss();
 			toast.success("Berhasil");
+			queryClient.invalidateQueries({
+				queryKey: ["current-subbab-assesment-key-edit"],
+			});
+			router.push(`/dashboard/fraud-assesment/review/${assesmentKey}`);
 		},
 		onError(error) {
 			toast.dismiss();
-			toast.error("Gagal submit review!");
-			console.log("Error submit", error.message);
+			toast.error("Gagal edit review!");
+			console.log("Error edit", error.message);
 		},
 	});
 
 	const onSubmit = async (values: z.infer<typeof reviewAssesmentSchema>) => {
+		const arrayBoolean = values.result.map((value) => value === "sudah-tepat");
+		const arrayNumber = data?.point.map((num, index) =>
+			arrayBoolean[index] ? num.answer.toString() : "0",
+		);
+
+		values.skor = arrayNumber;
+		values.tepat = arrayBoolean;
+		console.log(values);
+
 		mutation.mutate(values);
 	};
+
 	const subTitle = Questions.find((item) => item.bab === bab)?.subtitle.find(
 		(sub) => sub.sub_bab === subBab,
 	);
+
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+	useEffect(() => {
+		if (!isPending) setValue("result", defaultValue as string[]);
+	}, [isPending]);
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
@@ -102,6 +143,7 @@ export default function ReviewAssesmentGrade({
 						: data?.point[index].answer === 0.5
 							? "Ada, tidak lengkap"
 							: "Tidak ada";
+
 				return (
 					<div key={`${index * 2}`}>
 						<div className="flex w-full justify-between my-3 items-center">
@@ -112,21 +154,21 @@ export default function ReviewAssesmentGrade({
 								<p>Jawaban : {answer}</p>
 								<span>
 									Bukti :{" "}
-									{data?.point[index].proof ? (
+									{data?.point[index].id_proof ? (
 										<Link
-											href={`${process.env.NEXT_PUBLIC_BASE_URL}/api/actualfile/${data.point[index].proof?.file_name}`}
+											href={`${process.env.NEXT_PUBLIC_BASE_URL}/api/actualfile/${data.point[index].id_proof?.file_name}`}
 											target="_blank"
 										>
-											{data.point[index].proof?.file_name}
+											{data.point[index].id_proof?.file_name}
 										</Link>
 									) : (
-										<p>-</p>
+										<span>-</span>
 									)}
 								</span>
 							</div>
 							<div className="flex flex-row gap-3 justify-end items-center w-1/4">
 								<Controller
-									name={`skor.${index}`}
+									name={`result.${index}`}
 									control={control}
 									render={({ field }) => (
 										<Select
@@ -134,19 +176,14 @@ export default function ReviewAssesmentGrade({
 											disallowEmptySelection
 											variant="bordered"
 											placeholder="Pilih nilai"
-											isInvalid={!!errors.skor?.[index]}
-											errorMessage={errors.skor?.[index]?.message}
-											{...field}
+											isInvalid={!!errors.result?.[index]}
+											errorMessage={errors.result?.[index]?.message}
+											defaultSelectedKeys={field.value}
+											selectedKeys={[field.value]}
+											onChange={field.onChange}
 										>
-											<SelectItem key={"1"} value={"1"}>
-												Sudah Tepat
-											</SelectItem>
-											<SelectItem key={"0.5"} value={"0.5"}>
-												Kurang Tepat
-											</SelectItem>
-											<SelectItem key={"0"} value={"0"}>
-												Tidak Tepat
-											</SelectItem>
+											<SelectItem key={"sudah-tepat"}>Sudah Tepat</SelectItem>
+											<SelectItem key={"tidak-tepat"}>Tidak Tepat</SelectItem>
 										</Select>
 									)}
 								/>
@@ -156,19 +193,8 @@ export default function ReviewAssesmentGrade({
 					</div>
 				);
 			})}
-			{/* <input
-				type="text"
-				className="hidden"
-				defaultValue={assesmentKey}
-				{...register("id_assessment")}
-			/>
-			<input
-				type="text"
-				className="hidden"
-				defaultValue={subBab}
-				{...register("sub_bab")}
-			/> */}
-			<div className="flex justify-end items-center mt-5">
+
+			<div className="flex justify-end items-center mttidak-tepat">
 				<Button color="primary" variant="solid" type="submit">
 					Simpan
 				</Button>

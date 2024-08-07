@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Divider, Radio, RadioGroup } from "@nextui-org/react";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
@@ -19,10 +20,12 @@ export default function CreateAssesmentForm({
 		handleSubmit,
 		register,
 		formState: { errors },
+		setError,
 	} = useForm<z.infer<typeof assesmentSchema>>({
 		resolver: zodResolver(assesmentSchema),
 	});
 	const router = useRouter();
+	const [fileErrors, setFileErrors] = useState<string[]>([]);
 
 	const mutation = useMutation({
 		mutationKey: ["submit-assesment"],
@@ -39,7 +42,7 @@ export default function CreateAssesmentForm({
 					}
 
 					const response = await fetch(
-						`${process.env.NEXT_PUBLIC_BASE_URL}/api/point?bab=${assesment.bab}&sub_bab=${assesment.sub_bab}&point=${assesment.point}&answer=${assesment.answer}`,
+						`${process.env.NEXT_PUBLIC_BASE_URL}/api/point?bab=${assesment.bab}&sub_bab=${assesment.sub_bab}&point=${assesment.point}&answer=${Number(assesment.answer)}`,
 						{
 							method: "POST",
 							body:
@@ -48,16 +51,10 @@ export default function CreateAssesmentForm({
 						},
 					);
 
-					if (!response.ok) {
-						throw new Error("Failed to submit data");
-					}
-
 					const result = await response.json();
 
 					if (result.success) {
 						results.push(result.data);
-					} else {
-						throw new Error("Failed to submit data");
 					}
 				}
 
@@ -82,7 +79,11 @@ export default function CreateAssesmentForm({
 	});
 
 	const onSubmit = async (values: z.infer<typeof assesmentSchema>) => {
+		if (fileErrors.length > 0) {
+			return toast.error("Periksa kembali file yang diunggah.");
+		}
 		mutation.mutate(values);
+		// console.log(values);
 	};
 
 	return (
@@ -115,34 +116,32 @@ export default function CreateAssesmentForm({
 								<p>
 									{index + 1}. {questions.title}
 								</p>
-								<div className="flex justify-between items-center">
-									<RadioGroup
-										orientation="horizontal"
+								<RadioGroup
+									orientation="horizontal"
+									{...register(`assesment.${index}.answer`)}
+								>
+									<Radio
+										type="radio"
+										value="1"
 										{...register(`assesment.${index}.answer`)}
 									>
-										<Radio
-											type="radio"
-											value="1"
-											{...register(`assesment.${index}.answer`)}
-										>
-											Ada, dan sudah lengkap
-										</Radio>
-										<Radio
-											type="radio"
-											value="2"
-											{...register(`assesment.${index}.answer`)}
-										>
-											Ada, belum lengkap
-										</Radio>
-										<Radio
-											type="radio"
-											value="3"
-											{...register(`assesment.${index}.answer`)}
-										>
-											Belum ada
-										</Radio>
-									</RadioGroup>
-								</div>
+										Ada, dan sudah lengkap
+									</Radio>
+									<Radio
+										type="radio"
+										value="0.5"
+										{...register(`assesment.${index}.answer`)}
+									>
+										Ada, belum lengkap
+									</Radio>
+									<Radio
+										type="radio"
+										value="0"
+										{...register(`assesment.${index}.answer`)}
+									>
+										Belum ada
+									</Radio>
+								</RadioGroup>
 
 								{errors.assesment?.[index]?.answer?.message ? (
 									<p className="text-sm text-danger">
@@ -158,14 +157,36 @@ export default function CreateAssesmentForm({
 									type="file"
 									accept=".pdf"
 									onChange={(e) => {
-										if (e.target.files && e.target.files.length > 0) {
-											onChange({
-												target: { value: e.target.files[0], name: name },
-											});
+										const file = e.target.files?.[0];
+										if (file) {
+											if (file.size > 2 * 1024 * 1024) {
+												setError(`assesment.${index}.file`, {
+													type: "manual",
+													message: "File tidak boleh lebih dari 2MB",
+												});
+												setFileErrors((prev) => [
+													...prev,
+													`assesment.${index}.file`,
+												]);
+											} else {
+												setFileErrors((prev) =>
+													prev.filter(
+														(err) => err !== `assesment.${index}.file`,
+													),
+												);
+												onChange({ target: { value: file, name: name } });
+											}
 										}
 									}}
 									className="border file:hidden px-2 py-1 rounded-md text-sm"
 								/>
+								{errors.assesment?.[index]?.file?.message ? (
+									<p className="text-sm text-danger">
+										{errors.assesment?.[index]?.file?.message?.toString() ?? ""}
+									</p>
+								) : (
+									""
+								)}
 							</div>
 						</div>
 						<Divider />

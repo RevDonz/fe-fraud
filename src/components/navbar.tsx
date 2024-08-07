@@ -38,8 +38,8 @@ const NavbarComponent = ({
 		Menus = ListMenuNavbar.landingPage;
 	} else if (role === "admin") {
 		Menus = ListMenuNavbar.admin;
-	} else if (role === "super admin") {
-		Menus = ListMenuNavbar.superadmin;
+	} else if (role === "super_admin") {
+		Menus = ListMenuNavbar.super_admin;
 	} else if (role === "staff") {
 		Menus = ListMenuNavbar.staff;
 	} else if (role === "reviewer") {
@@ -133,9 +133,6 @@ const NavbarComponent = ({
 								<p className="font-semibold">Signed in as {role}</p>
 							</DropdownItem>
 
-							<DropdownItem key="settings" textValue="setting">
-								My Settings
-							</DropdownItem>
 							<DropdownItem
 								key="logout"
 								color="danger"

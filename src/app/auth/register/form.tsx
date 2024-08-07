@@ -76,10 +76,7 @@ const RegisterForm = () => {
 					duration: 10000,
 					closeButton: true,
 					description: (
-						<p>
-							Cek email <strong>{values.email}</strong> untuk memverifikasi akun
-							Anda
-						</p>
+						<p>Silahkan tunggu untuk Superadmin memverifikasi akun Anda</p>
 					),
 				});
 

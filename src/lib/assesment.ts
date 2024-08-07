@@ -22,7 +22,7 @@ export const getAssesmentHistory = async (
 	const data = result.data.map((history: FraudHistoryType) => {
 		return {
 			...history,
-			id: history.key,
+			id: history.data_key,
 		};
 	});
 

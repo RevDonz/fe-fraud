@@ -4,7 +4,7 @@ import Datatable from "@/components/datatable";
 import { getAllAdmin } from "@/lib/accounts";
 import type { AdminType, EntityType } from "@/types/entity";
 import type { ChipProps } from "@nextui-org/react";
-import { Select, SelectItem } from "@nextui-org/react";
+import { Select, SelectItem, Tab, Tabs } from "@nextui-org/react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 const statusColorMap: Record<string, ChipProps["color"]> = {
@@ -26,6 +26,9 @@ export const DataTableAccounts = ({ token }: { token: string }) => {
 			}
 		},
 	});
+
+	const activeAccounts = data?.filter((admin) => admin.is_show);
+	const nonActiveAccounts = data?.filter((admin) => !admin.is_show);
 
 	const columns = [
 		{
@@ -50,7 +53,7 @@ export const DataTableAccounts = ({ token }: { token: string }) => {
 		},
 	];
 
-	const renderCellAccounts = (data: AdminType, columnKey: React.Key) => {
+	const renderCellAllAccounts = (data: AdminType, columnKey: React.Key) => {
 		const cellValue = data[columnKey as keyof AdminType];
 
 		const verifyAdmin = async () => {
@@ -100,15 +103,94 @@ export const DataTableAccounts = ({ token }: { token: string }) => {
 		}
 	};
 
+	const renderCellAccounts = (data: AdminType, columnKey: React.Key) => {
+		const cellValue = data[columnKey as keyof AdminType];
+
+		const verifyAdmin = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+			const value = e.target.value;
+
+			if (value === "konfirmasi") {
+				const response = await fetch(
+					`${process.env.NEXT_PUBLIC_BASE_URL}/api/confirm?key=${data.id}`,
+					{
+						method: "POST",
+						headers: { Authorization: `Bearer ${token}` },
+					},
+				);
+				const result = await response.json();
+				if (result.success) {
+					queryClient.invalidateQueries({ queryKey: ["admin-list"] });
+					return toast.success("Berhasil mengubah status");
+				}
+				return toast.error("Gagal mengubah status");
+			}
+
+			const response = await fetch(
+				`${process.env.NEXT_PUBLIC_BASE_URL}/api/reject?key=${data.id}`,
+				{
+					method: "DELETE",
+					headers: { Authorization: `Bearer ${token}` },
+				},
+			);
+			const result = await response.json();
+			if (result.success) {
+				queryClient.invalidateQueries({ queryKey: ["admin-list"] });
+				return toast.success("Berhasil mengubah status");
+			}
+			return toast.error("Gagal mengubah status");
+		};
+
+		switch (columnKey) {
+			case "is_active":
+				return (
+					<Select
+						aria-label="status"
+						onChange={verifyAdmin}
+						placeholder="Pilih Status"
+						disallowEmptySelection
+					>
+						<SelectItem key={"konfirmasi"} value={"konfirmasi"}>
+							Konfirmasi
+						</SelectItem>
+						<SelectItem key={"tolak"} value={"tolak"}>
+							Tolak
+						</SelectItem>
+					</Select>
+				);
+
+			case "name":
+			case "address":
+			case "phone":
+			case "email":
+				return data.institusi[columnKey as keyof EntityType];
+
+			default:
+				return cellValue as React.ReactNode;
+		}
+	};
+
 	if (error) return <p>error bang</p>;
 
 	return (
-		<Datatable
-			data={data ?? []}
-			columns={columns}
-			renderCell={renderCellAccounts}
-			isLoading={isPending}
-			label="Table Account Admin"
-		/>
+		<Tabs aria-label="Options" color="primary" variant="bordered" size="lg">
+			<Tab key="active" title="Semua Akun">
+				<Datatable
+					data={activeAccounts ?? []}
+					columns={columns}
+					renderCell={renderCellAllAccounts}
+					isLoading={isPending}
+					label="Table Account Admin"
+				/>
+			</Tab>
+			<Tab key="nonactive" title="Menunggu Konfirmasi">
+				<Datatable
+					data={nonActiveAccounts ?? []}
+					columns={columns}
+					renderCell={renderCellAccounts}
+					isLoading={isPending}
+					label="Table Account Admin"
+				/>
+			</Tab>
+		</Tabs>
 	);
 };

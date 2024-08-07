@@ -4,24 +4,22 @@ import { getAssesmentSubBabByKey } from "@/lib/assesment";
 import { reviewAssesmentSchema } from "@/schema/fraud/assesment";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Divider, Link, Select, SelectItem } from "@nextui-org/react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
 
-export default function EditAssesmentGrade({
+export default function ReviewAssesmentGrade({
 	bab,
 	subBab,
 	token,
 	assesmentKey,
 }: { bab: number; subBab: number; token: string; assesmentKey: string }) {
 	const router = useRouter();
-	const queryClient = useQueryClient();
 
 	const { data, isPending } = useQuery({
-		queryKey: ["current-subbab-assesment-key-edit", subBab],
+		queryKey: ["current-subbab-assesment-key", assesmentKey, subBab],
 		queryFn: async () => {
 			const data = await getAssesmentSubBabByKey(
 				token,
@@ -32,14 +30,8 @@ export default function EditAssesmentGrade({
 		},
 	});
 
-	const defaultValue = isPending
-		? []
-		: data?.point.map((evaluation) => evaluation.skor.toString());
-
 	const {
 		handleSubmit,
-		setValue,
-		getValues,
 		control,
 		formState: { errors },
 	} = useForm<z.infer<typeof reviewAssesmentSchema>>({
@@ -47,6 +39,7 @@ export default function EditAssesmentGrade({
 		defaultValues: {
 			id_assessment: assesmentKey,
 			sub_bab: subBab.toString(),
+			result: [],
 		},
 	});
 
@@ -82,31 +75,33 @@ export default function EditAssesmentGrade({
 			toast.loading("Loading...");
 		},
 		onSuccess() {
+			router.push(`/dashboard/fraud-assesment/review/${assesmentKey}`);
 			toast.dismiss();
 			toast.success("Berhasil");
-			queryClient.invalidateQueries({
-				queryKey: ["current-subbab-assesment-key-edit"],
-			});
-			router.push(`/dashboard/fraud-assesment/review/${assesmentKey}`);
 		},
 		onError(error) {
 			toast.dismiss();
-			toast.error("Gagal edit review!");
-			console.log("Error edit", error.message);
+			toast.error("Gagal submit review!");
+			console.log("Error submit", error.message);
 		},
 	});
 
 	const onSubmit = async (values: z.infer<typeof reviewAssesmentSchema>) => {
+		const arrayBoolean = values.result.map((value) => value === "sudah-tepat");
+		const arrayNumber = data?.point.map((num, index) =>
+			arrayBoolean[index] ? num.answer.toString() : "0",
+		);
+
+		values.skor = arrayNumber;
+		values.tepat = arrayBoolean;
+		console.log(values);
+
 		mutation.mutate(values);
 	};
+
 	const subTitle = Questions.find((item) => item.bab === bab)?.subtitle.find(
 		(sub) => sub.sub_bab === subBab,
 	);
-
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-	useEffect(() => {
-		if (!isPending) setValue("skor", defaultValue as string[]);
-	}, [isPending]);
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
@@ -117,7 +112,6 @@ export default function EditAssesmentGrade({
 						: data?.point[index].answer === 0.5
 							? "Ada, tidak lengkap"
 							: "Tidak ada";
-
 				return (
 					<div key={`${index * 2}`}>
 						<div className="flex w-full justify-between my-3 items-center">
@@ -128,21 +122,21 @@ export default function EditAssesmentGrade({
 								<p>Jawaban : {answer}</p>
 								<span>
 									Bukti :{" "}
-									{data?.point[index].proof ? (
+									{data?.point[index].id_proof ? (
 										<Link
-											href={`${process.env.NEXT_PUBLIC_BASE_URL}/api/actualfile/${data.point[index].proof?.file_name}`}
+											href={`${process.env.NEXT_PUBLIC_BASE_URL}/api/actualfile/${data.point[index].id_proof?.file_name}`}
 											target="_blank"
 										>
-											{data.point[index].proof?.file_name}
+											{data.point[index].id_proof?.file_name}
 										</Link>
 									) : (
-										<span>-</span>
+										<p>-</p>
 									)}
 								</span>
 							</div>
 							<div className="flex flex-row gap-3 justify-end items-center w-1/4">
 								<Controller
-									name={`skor.${index}`}
+									name={`result.${index}`}
 									control={control}
 									render={({ field }) => (
 										<Select
@@ -150,21 +144,13 @@ export default function EditAssesmentGrade({
 											disallowEmptySelection
 											variant="bordered"
 											placeholder="Pilih nilai"
-											isInvalid={!!errors.skor?.[index]}
-											errorMessage={errors.skor?.[index]?.message}
-											defaultSelectedKeys={field.value}
-											selectedKeys={[field.value]}
-											{...field}
+											isInvalid={!!errors.result?.[index]}
+											errorMessage={errors.result?.[index]?.message}
+											value={field.value}
+											onChange={field.onChange}
 										>
-											<SelectItem key={"1"} value={"1"}>
-												Sudah Tepat
-											</SelectItem>
-											<SelectItem key={"0.5"} value={"0.5"}>
-												Kurang Tepat
-											</SelectItem>
-											<SelectItem key={"0"} value={"0"}>
-												Tidak Tepat
-											</SelectItem>
+											<SelectItem key={"sudah-tepat"}>Sudah Tepat</SelectItem>
+											<SelectItem key={"tidak-tepat"}>Tidak Tepat</SelectItem>
 										</Select>
 									)}
 								/>

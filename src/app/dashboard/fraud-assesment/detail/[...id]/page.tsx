@@ -1,6 +1,6 @@
 import { getServerAuthSession } from "@/lib/auth";
-import DetailAssesmentPage from "./detail";
-import DetailAssesmentList from "./list-assesment";
+import DetailAssesmentPage from "./detail-page";
+import DetailAssesmentList from "./list-page";
 
 export default async function DetailAssesment({
 	params,

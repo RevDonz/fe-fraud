@@ -6,9 +6,9 @@ export const assesmentSchema = z.object({
 			bab: z.coerce.number(),
 			sub_bab: z.coerce.number(),
 			point: z.coerce.number(),
-			answer: z.coerce
-				.number()
-				.min(1, { message: "Jawaban tidak boleh kosong" }),
+			answer: z.enum(["1", "0.5", "0"], {
+				invalid_type_error: "Jawaban tidak boleh kosong",
+			}),
 			file: z.any().optional(),
 		}),
 	),
@@ -17,5 +17,9 @@ export const assesmentSchema = z.object({
 export const reviewAssesmentSchema = z.object({
 	id_assessment: z.string(),
 	sub_bab: z.coerce.string(),
-	skor: z.array(z.string({ required_error: "Nilai tidak boleh kosong" })),
+	skor: z
+		.array(z.string({ required_error: "Nilai tidak boleh kosong" }))
+		.optional(),
+	tepat: z.array(z.boolean()).optional(),
+	result: z.array(z.string()),
 });

@@ -80,51 +80,47 @@ export const Questions: BabType[] = [
 				questions: [
 					{
 						id: "Q1",
-						title:
-							"Apakah terdapat SOP yang lengkap dan memadai sesuai siklus bisnis?",
+						title: "Apakah terdapat akuntan internal?",
 					},
 					{
 						id: "Q2",
-						title:
-							"Apakah terdapat staff khusus yang memantau implementasi SOP?",
+						title: "Apakah akuntan di entitas kompeten?",
 					},
 					{
 						id: "Q3",
 						title:
-							"Apakah staff khusus tersebut paham terhadap SOP yang berlaku?",
+							"Apakah akuntan di entitas rutin update akuntansi, perpajakan dan lain-lain?",
 					},
 					{
 						id: "Q4",
-						title: "Apakah terdapat internal audit terkait SOP di entitas?",
+						title: "Apakah terdapat internal audit di entitas?",
 					},
 					{
 						id: "Q5",
-						title: "Apakah terdapat eksternal audit terkait SOP di entitas?",
+						title: "Apakah terdapat eksternal audit di entitas?",
 					},
 					{
 						id: "Q6",
-						title:
-							"Apakah audit internal dan audit eksternal terkait SOP dilakukan rutin?",
+						title: "Apakah audit internal dan audit eksternal rutin dilakukan?",
 					},
 					{
 						id: "Q7",
-						title:
-							"Apakah laporan hasil audit SOP dibahas di tingkat manajemen?",
+						title: "Apakah laporan hasil audit dibahas di tingkat manajemen?",
 					},
 					{
 						id: "Q8",
 						title:
-							"Apakah hasil audit SOP (intern dan ekstern) selalu ada tindak lanjut?",
+							"Apakah hasil audit (intern dan ekstern) selalu ada tindak lanjut?",
 					},
 					{
 						id: "Q9",
 						title:
-							"Apakah terdapat RTM (Rapat Tinjauan Manajemen) dan laporan hasil audit SOP didokumentasikan?",
+							"Apakah terdapat RTM (rapat tinjauan manajemen) dan laporan hasil audit didokumentasikan?",
 					},
 					{
 						id: "Q10",
 						title:
-							"Apakah terdapat continuous improvement (perbaikan terus-menerus) terkait dengan SOP?",
+							"Apakah terdapat continous improvement (perbaikan terus-menerus) terkait dengan kualitas laporan keuangan dan annual report?",
 					},
 				],
 			},
