@@ -1,6 +1,6 @@
 "use client";
-import { ListSubBab, Questions } from "@/constant/assesment";
-import { getAssesmentSubBabByKey } from "@/lib/assesment";
+import { Questions } from "@/constant/assesment";
+import type { DetailAssesmentWithKey } from "@/types/assesment";
 import {
 	Button,
 	Card,
@@ -13,56 +13,11 @@ import {
 	TableHeader,
 	TableRow,
 } from "@nextui-org/react";
-import { useQuery } from "@tanstack/react-query";
 interface PrintComponentProps {
-	token: string;
-	assesmentKey: string;
+	dataToPrint: DetailAssesmentWithKey[];
 }
 
-export const PrintComponent = ({
-	assesmentKey,
-	token,
-}: PrintComponentProps) => {
-	const fetchAssesmentData = async (token: string, assesmentKey: string) => {
-		const results = [];
-		for (let index = 0; index < ListSubBab.length; index++) {
-			const subBab = ListSubBab[index];
-			const response = await getAssesmentSubBabByKey(
-				token,
-				assesmentKey,
-				subBab.toString(),
-			);
-
-			if (response) {
-				results.push(response);
-			} else {
-				throw new Error("Failed to get data");
-			}
-		}
-		return results;
-	};
-
-	const useAssesmentData = (token: string, assesmentKey: string) => {
-		return useQuery({
-			queryKey: ["assesmentData", assesmentKey],
-			queryFn: () => fetchAssesmentData(token, assesmentKey),
-		});
-	};
-
-	const {
-		data: dataToPrint,
-		isLoading,
-		error,
-	} = useAssesmentData(token, assesmentKey);
-
-	if (isLoading)
-		return (
-			<div className="min-h-screen w-full flex flex-col items-center justify-center">
-				<p>Loading...</p>
-			</div>
-		);
-	if (error) return <p>Error: {error.message}</p>;
-
+export const PrintComponent = ({ dataToPrint }: PrintComponentProps) => {
 	return (
 		<div className="flex flex-col w-full max-w-screen-xl mx-auto px-6 py-10 gap-5">
 			<div className="flex items-center gap-5">
@@ -78,17 +33,17 @@ export const PrintComponent = ({
 				</TableHeader>
 				<TableBody>
 					<TableRow key="1">
-						<TableCell>{dataToPrint?.[0].assessment.admin}</TableCell>
+						<TableCell>{dataToPrint?.[0]?.assessment.admin}</TableCell>
 						<TableCell>
-							{dataToPrint?.[0].assessment.reviewer_internal === ""
+							{dataToPrint?.[0]?.assessment?.reviewer_internal === ""
 								? "Belum dinilai"
-								: dataToPrint?.[0].assessment.reviewer_internal}
+								: dataToPrint?.[0]?.assessment?.reviewer_internal}
 						</TableCell>
-						<TableCell>{dataToPrint?.[0].assessment.tanggal_mulai}</TableCell>
+						<TableCell>{dataToPrint?.[0]?.assessment?.tanggal_mulai}</TableCell>
 						<TableCell>
-							{dataToPrint?.[0].assessment.hasil_internal === null
+							{dataToPrint?.[0]?.assessment?.hasil_internal === null
 								? "Belum dinilai"
-								: dataToPrint?.[0].assessment.hasil_internal}
+								: dataToPrint?.[0]?.assessment?.hasil_internal}
 						</TableCell>
 					</TableRow>
 				</TableBody>
@@ -127,9 +82,9 @@ export const PrintComponent = ({
 						<Divider />
 						{subTitle?.questions?.map((questions, index) => {
 							const answer =
-								data?.point[index].answer === 1
+								data?.point[index]?.answer === 1
 									? "Ada, dan sudah lengkap"
-									: data?.point[index].answer === 0.5
+									: data?.point[index]?.answer === 0.5
 										? "		Ada, belum lengkap"
 										: "		Belum ada";
 							return (
@@ -144,13 +99,13 @@ export const PrintComponent = ({
 													<p className="font-medium">Jawaban : {answer}</p>
 													<div className="font-medium flex">
 														<p>Bukti : </p>
-														{data?.point[index].id_proof !== null ? (
+														{data?.point[index]?.id_proof !== null ? (
 															<Link
 																size="sm"
-																href={`${process.env.NEXT_PUBLIC_BASE_URL}/api/actualfile/${data?.point[index].id_proof?.file_name}`}
+																href={`${process.env.NEXT_PUBLIC_BASE_URL}/api/actualfile/${data?.point[index]?.id_proof?.file_name}`}
 																target="_blank"
 															>
-																{data?.point[index].id_proof?.file_name}
+																{data?.point[index]?.id_proof?.file_name}
 															</Link>
 														) : (
 															<p>-</p>
@@ -163,13 +118,13 @@ export const PrintComponent = ({
 											<div className="flex w-full justify-end">
 												<Button
 													color={
-														data?.point[index].skor !== "0"
+														data?.point[index]?.skor !== "0"
 															? "primary"
 															: "danger"
 													}
 													size="sm"
 												>
-													{data?.point[index].skor !== "0"
+													{data?.point[index]?.skor !== "0"
 														? "Benar"
 														: "Tidak Benar"}
 												</Button>

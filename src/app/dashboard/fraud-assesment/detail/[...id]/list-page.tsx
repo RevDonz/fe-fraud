@@ -22,7 +22,7 @@ import {
 	Tooltip,
 	useDisclosure,
 } from "@nextui-org/react";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
@@ -41,32 +41,30 @@ export default function DetailAssesmentList({
 		content: () => componentRef.current,
 	});
 
-	const { isPending: isPrintPending } = useMutation({
-		mutationKey: ["review-fraud-list-assesment", assesmentKey],
-		mutationFn: async () => {
-			const results = [];
+	const { isPending: isPrintPending, data: dataToPrint2 } = useQuery({
+		queryKey: ["review-fraud-list-assesment", assesmentKey],
+		queryFn: async () => {
+			try {
+				const results = [];
 
-			for (let index = 0; index < ListSubBab.length; index++) {
-				const subBab = ListSubBab[index];
+				for (let index = 0; index < ListSubBab.length; index++) {
+					const subBab = ListSubBab[index];
 
-				const response = await getAssesmentSubBabByKey(
-					token,
-					assesmentKey,
-					subBab.toString(),
-				);
+					const response = await getAssesmentSubBabByKey(
+						token,
+						assesmentKey,
+						subBab.toString(),
+					);
 
-				if (response) {
-					results.push(response);
-				} else {
-					throw new Error("Failed to get data");
+					if (response) {
+						results.push(response);
+					}
 				}
-			}
 
-			return results;
-		},
-		onSuccess: (data) => {
-			console.log(data);
-			dataToPrint();
+				return results;
+			} catch (error) {
+				console.log(error);
+			}
 		},
 	});
 
@@ -152,7 +150,7 @@ export default function DetailAssesmentList({
 
 							<div className="hidden">
 								<div ref={componentRef}>
-									<PrintComponent assesmentKey={assesmentKey} token={token} />
+									<PrintComponent dataToPrint={dataToPrint2 ?? []} />
 								</div>
 							</div>
 						</TableCell>
