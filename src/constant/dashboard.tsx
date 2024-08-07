@@ -2,7 +2,7 @@ import { Card, CardBody, CardHeader, Divider } from "@nextui-org/react";
 
 export const DataDashboard = [
 	{
-		role: "super admin",
+		role: "super_admin",
 		component: (
 			<CardBody>
 				<div className="flex flex-col gap-5">

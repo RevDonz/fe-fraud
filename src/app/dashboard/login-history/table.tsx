@@ -8,7 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 
 const TableLoginHistory = ({ token }: { token: string }) => {
 	const { data, isPending } = useQuery({
-		queryKey: ["data-login-history"],
+		queryKey: ["data-activity-history"],
 		queryFn: async () => {
 			const data = await getLoginHistory(token);
 			return data;
