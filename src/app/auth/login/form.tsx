@@ -42,18 +42,18 @@ const LoginForm = () => {
 
 			toast.dismiss();
 
-			// toast.promise(result, {
-			// 	loading: "Loading...",
-			// 	success: () => {
-			// 		reset();
-			// 		router.push("/dashboard");
-			// 		return "Login Berhasil!";
-			// 	},
-			// 	error: (result) => {
-			// 		console.error(`Error toast: ${result}`);
-			// 		return result;
-			// 	},
-			// });
+			toast.promise(result, {
+				loading: "Loading...",
+				success: () => {
+					reset();
+					router.push("/dashboard");
+					return "Login Berhasil!";
+				},
+				error: (result) => {
+					console.error(`Error toast: ${result}`);
+					return result;
+				},
+			});
 		} catch (error) {
 			console.log(`Error catch: ${error}`);
 		}
