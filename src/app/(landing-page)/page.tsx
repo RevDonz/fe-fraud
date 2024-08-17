@@ -30,17 +30,17 @@ export default function LandingPage() {
 						<p className="font-semibold text-3xl lg:text-5xl">
 							Pantau Laporan Keuangan Entitas Anda
 						</p>
-						<p className="text-lg lg:text-xl text-justify">
+						<p className="text-lg lg:text-xl text-justify w-full xl:w-11/12">
 							FDP Merupakan protokol pencegahan Fraud yang digunakan oleh setiap
 							entitas, baik yang berorientasi profit maupun non-profit.
 						</p>
-						<p className="text-lg lg:text-xl text-justify">
+						<p className="text-lg lg:text-xl text-justify w-full xl:w-11/12">
 							Dalam protokol tersebut terdapat beberapa dimensi dan indikator
 							pencegahan fraud yang wajib dilakukan entitas dan tersedia di
 							entitas, anda dapat mengukur tingkat maturity pencegahan fraud di
 							lingkungan anda, dengan mempergunakan FDP.
 						</p>
-						<p className="text-lg lg:text-xl text-justify">
+						<p className="text-lg lg:text-xl text-justify w-full xl:w-11/12">
 							FDP Juga menyediakan layanan pendeteksi kecurangan pada Laporan
 							Keuangan menggunakan Beneish M-Score Calculator.
 						</p>
