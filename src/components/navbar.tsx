@@ -1,6 +1,7 @@
 "use client";
 
 import { ListMenuNavbar, type MenuItem } from "@/constant/navbar-menu";
+import { cn } from "@/lib/utils";
 import {
 	Button,
 	Dropdown,
@@ -65,7 +66,9 @@ const NavbarComponent = ({
 			isBordered
 			onMenuOpenChange={setIsMenuOpen}
 			classNames={{
+				base: [cn(isAuthPage && "bg-[#002E62]")],
 				item: [
+					cn(isAuthPage && "text-white"),
 					"flex",
 					"relative",
 					"h-full",
@@ -118,6 +121,7 @@ const NavbarComponent = ({
 								type="button"
 								variant="light"
 								endContent={<ChevronDown className="h-4 w-4" />}
+								className={cn(isAuthPage ? "text-white" : "")}
 							>
 								{name}
 							</Button>
@@ -147,7 +151,8 @@ const NavbarComponent = ({
 					<>
 						<Button
 							variant="bordered"
-							color="primary"
+							color={isAuthPage ? "default" : "primary"}
+							className={cn(isAuthPage ? "text-white" : "")}
 							as={Link}
 							href="/auth/login"
 							prefetch
@@ -155,7 +160,12 @@ const NavbarComponent = ({
 							Masuk
 						</Button>
 
-						<Button color="primary" as={Link} href="/auth/register">
+						<Button
+							as={Link}
+							href="/auth/register"
+							color="primary"
+							className={cn(isAuthPage ? "text-[#002E62] bg-white" : "")}
+						>
 							Daftar
 						</Button>
 					</>

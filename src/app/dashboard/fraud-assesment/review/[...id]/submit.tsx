@@ -32,45 +32,70 @@ export default function SubmitEvaluation({
 			id_assessment: assessmentKey,
 			sub_bab: "1.1",
 			skor: ["1", "1", "0", "0", "0.5", "0", "0.5", "1", "1", "0"],
+			tepat: [true, true, true, true, true, true, true, true, true, true],
 		},
 		{
 			id_assessment: assessmentKey,
 			sub_bab: "1.2",
 			skor: ["1", "0", "0.5", "1", "0", "1", "0.5", "1", "1", "1"],
+			tepat: [true, true, true, true, true, true, true, true, true, true],
 		},
 		{
 			id_assessment: assessmentKey,
 			sub_bab: "2.1",
+			tepat: [true, true, true, true, true, true, true, true, true, true],
 			skor: ["0", "0.5", "0", "1", "0.5", "1", "0", "0", "0", "0"],
 		},
 		{
 			id_assessment: assessmentKey,
 			sub_bab: "2.2",
+			tepat: [true, true, true, true, true, true, true, true, true, true],
 			skor: ["0", "1", "0", "1", "0", "0", "0", "1", "0", "0.5"],
 		},
 		{
 			id_assessment: assessmentKey,
 			sub_bab: "3.1",
+			tepat: [true, true, true, true, true, true, true, true],
 			skor: ["0", "0", "0.5", "0.5", "0", "0", "1", "0"],
 		},
 		{
 			id_assessment: assessmentKey,
 			sub_bab: "3.2",
+			tepat: [true, true, true, true, true, true, true],
 			skor: ["0", "1", "1", "0.5", "0", "0", "0.5"],
 		},
 		{
 			id_assessment: assessmentKey,
 			sub_bab: "4.1",
+			tepat: [true, true, true, true, true, true, true],
 			skor: ["1", "0", "0.5", "0", "0.5", "0", "1"],
 		},
 		{
 			id_assessment: assessmentKey,
 			sub_bab: "4.2",
+			tepat: [true, true, true, true, true, true, true, true],
 			skor: ["0.5", "0", "1", "0.5", "0", "0.5", "1", "1"],
 		},
 		{
 			id_assessment: assessmentKey,
 			sub_bab: "5.1",
+			tepat: [
+				true,
+				true,
+				true,
+				true,
+				true,
+				true,
+				true,
+				true,
+				true,
+				true,
+				true,
+				true,
+				true,
+				true,
+				true,
+			],
 			skor: [
 				"0.5",
 				"0.5",
@@ -108,6 +133,23 @@ export default function SubmitEvaluation({
 				"0",
 				"1",
 				"0",
+			],
+			tepat: [
+				true,
+				true,
+				true,
+				true,
+				true,
+				true,
+				true,
+				true,
+				true,
+				true,
+				true,
+				true,
+				true,
+				true,
+				true,
 			],
 		},
 	];
@@ -280,9 +322,9 @@ export default function SubmitEvaluation({
 				<Button type="button" onClick={automation}>
 					Automation 1
 				</Button>
-				<Button type="button" onClick={automation2}>
+				{/* <Button type="button" onClick={automation2}>
 					Automation 2
-				</Button>
+				</Button> */}
 			</div>
 		</div>
 	);
