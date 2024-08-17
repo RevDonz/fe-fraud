@@ -2,6 +2,7 @@
 import { cn } from "@/lib/utils";
 import { Button } from "@nextui-org/react";
 import Image from "next/image";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const FooterLandingPage = () => {
@@ -16,7 +17,9 @@ const FooterLandingPage = () => {
 								Daftarkan entitas untuk menggunakan FDP!
 							</p>
 							<div className="">
-								<Button color="primary">Daftarkan sekarang!</Button>
+								<Button color="primary" as={Link} href="/auth/register">
+									Daftarkan sekarang!
+								</Button>
 							</div>
 						</div>
 						<div className="w-full sm:w-1/4 flex justify-end">

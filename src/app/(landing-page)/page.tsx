@@ -2,6 +2,7 @@ import { Button, Card, CardBody } from "@nextui-org/react";
 
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 
 export const metadata: Metadata = {
 	title: "Fraud Deterrence Propeller",
@@ -44,6 +45,11 @@ export default function LandingPage() {
 							FDP Juga menyediakan layanan pendeteksi kecurangan pada Laporan
 							Keuangan menggunakan Beneish M-Score Calculator.
 						</p>
+						<div className="mt-5">
+							<Button color="primary" size="lg" as={Link} href="/auth/register">
+								Daftar Sekarang
+							</Button>
+						</div>
 					</div>
 				</div>
 			</div>
