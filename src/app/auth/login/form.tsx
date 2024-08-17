@@ -31,29 +31,28 @@ const LoginForm = () => {
 
 	const onSubmit = async (values: z.infer<typeof loginSchema>) => {
 		try {
-			const result = await signIn("credentials", {
+			const result = signIn("credentials", {
 				username: values.username,
 				password: values.password,
 				redirect: false,
 			});
 
-      console.log(result);
-      
+			console.log(result);
 
 			toast.dismiss();
 
-			// toast.promise(result, {
-			// 	loading: "Loading...",
-			// 	success: () => {
-			// 		reset();
-			// 		router.push("/dashboard");
-			// 		return "Login Berhasil!";
-			// 	},
-			// 	error: (result) => {
-			// 		console.error(`Error toast: ${result}`);
-			// 		return result;
-			// 	},
-			// });
+			toast.promise(result, {
+				loading: "Loading...",
+				success: () => {
+					reset();
+					router.push("/dashboard");
+					return "Login Berhasil!";
+				},
+				error: (result) => {
+					console.error(`Error toast: ${result}`);
+					return result;
+				},
+			});
 		} catch (error) {
 			console.log(`Error catch: ${error}`);
 		}
