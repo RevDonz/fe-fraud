@@ -1,4 +1,5 @@
 import { Button, Card, CardBody } from "@nextui-org/react";
+
 import type { Metadata } from "next";
 import Image from "next/image";
 
@@ -11,37 +12,38 @@ export const metadata: Metadata = {
 export default function LandingPage() {
 	return (
 		<div className="flex flex-col w-full">
-			<div className="bg-[#f7f7f7]" id="home">
+			<div className="relative" id="home">
+				<div className="w-full h-full absolute z-10">
+					<Image
+						alt="hero-image"
+						src={"/assets/img/new/hero-section.png"}
+						fill
+						className="object-contain object-right hidden xl:block"
+					/>
+				</div>
+				<div className="w-full z-20 h-full absolute bg-gradient-to-r from-[#002E62] from-30% to-[#002E62] xl:to-transparent" />
 				<div
-					className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-5 content-center justify-items-stretch hero-container px-4 max-w-screen-xl mx-auto"
+					className="z-50 relative grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-5 content-center justify-items-stretch hero-container px-4 max-w-screen-2xl mx-auto"
 					id="hero"
 				>
-					<div className="flex flex-col justify-center gap-5">
-						<p className="text-primary-500 font-semibold text-5xl">
+					<div className="flex flex-col justify-center gap-5 text-white">
+						<p className="font-semibold text-3xl lg:text-5xl">
 							Pantau Laporan Keuangan Entitas Anda
 						</p>
-						<p className="text-xl text-justify">
+						<p className="text-lg lg:text-xl text-justify">
 							FDP Merupakan protokol pencegahan Fraud yang digunakan oleh setiap
 							entitas, baik yang berorientasi profit maupun non-profit.
 						</p>
-						<p className="text-xl text-justify">
+						<p className="text-lg lg:text-xl text-justify">
 							Dalam protokol tersebut terdapat beberapa dimensi dan indikator
 							pencegahan fraud yang wajib dilakukan entitas dan tersedia di
 							entitas, anda dapat mengukur tingkat maturity pencegahan fraud di
 							lingkungan anda, dengan mempergunakan FDP.
 						</p>
-						<p className="text-xl text-justify">
+						<p className="text-lg lg:text-xl text-justify">
 							FDP Juga menyediakan layanan pendeteksi kecurangan pada Laporan
 							Keuangan menggunakan Beneish M-Score Calculator.
 						</p>
-					</div>
-					<div className="justify-self-center">
-						<Image
-							alt="hero-image"
-							src={"/assets/img/hero-image.svg"}
-							width={450}
-							height={450}
-						/>
 					</div>
 				</div>
 			</div>
