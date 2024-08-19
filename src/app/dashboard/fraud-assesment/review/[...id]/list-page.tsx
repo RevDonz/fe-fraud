@@ -39,7 +39,7 @@ export default function ReviewAssesmentList({
 	});
 
 	const { data, isPending } = useQuery({
-		queryKey: ["review-fraud-list-assesment", assesmentKey],
+		queryKey: ["fraud-detail-assesment", assesmentKey],
 		queryFn: async () => await getDetailAssesment(token, assesmentKey),
 	});
 
@@ -69,6 +69,9 @@ export default function ReviewAssesmentList({
 			}
 		},
 	});
+
+	console.log(dataToPrint2);
+	// reviewer
 
 	const dataToPrint = useReactToPrint({
 		content: () => componentRef.current,
