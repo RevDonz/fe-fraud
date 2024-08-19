@@ -14,6 +14,7 @@ import {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
@@ -28,12 +29,14 @@ export default function EditAssesmentForm({
 		handleSubmit,
 		register,
 		getValues,
+		setError,
 		formState: { errors },
 	} = useForm<z.infer<typeof assesmentSchema>>({
 		resolver: zodResolver(assesmentSchema),
 	});
 	const router = useRouter();
 	const queryClient = useQueryClient();
+	const [fileErrors, setFileErrors] = useState<string[]>([]);
 
 	const mutation = useMutation({
 		mutationKey: ["submit-assesment"],
@@ -80,7 +83,7 @@ export default function EditAssesmentForm({
 			}
 		},
 		onMutate() {
-			toast.loading("Loading...");
+			toast.loading("Menyimpan jawaban, mohon tunggu sebentar...");
 		},
 		onSuccess(data) {
 			toast.dismiss();
@@ -96,6 +99,9 @@ export default function EditAssesmentForm({
 	});
 
 	const onSubmit = async (values: z.infer<typeof assesmentSchema>) => {
+		if (fileErrors.length > 0) {
+			return toast.error("Periksa kembali file yang diunggah.");
+		}
 		mutation.mutate(values);
 	};
 
@@ -244,10 +250,25 @@ export default function EditAssesmentForm({
 											type="file"
 											accept=".pdf"
 											onChange={(e) => {
-												if (e.target.files && e.target.files.length > 0) {
-													onChange({
-														target: { value: e.target.files[0], name: name },
-													});
+												const file = e.target.files?.[0];
+												if (file) {
+													if (file.size > 1 * 1024 * 1024) {
+														setError(`assesment.${index}.file`, {
+															type: "manual",
+															message: "File tidak boleh lebih dari 1MB",
+														});
+														setFileErrors((prev) => [
+															...prev,
+															`assesment.${index}.file`,
+														]);
+													} else {
+														setFileErrors((prev) =>
+															prev.filter(
+																(err) => err !== `assesment.${index}.file`,
+															),
+														);
+														onChange({ target: { value: file, name: name } });
+													}
 												}
 											}}
 											className="border file:hidden px-2 py-1 rounded-md text-sm"

@@ -33,7 +33,7 @@ export default async function FillQuestionPage({
 					{subBab} {title?.title}: {subTitle?.title}
 				</p>
 				<p className="text-danger">
-					File yang diunggah tidak boleh melebihi 2MB.
+					File yang diunggah tidak boleh melebihi 1MB.
 				</p>
 			</div>
 			<Divider />
