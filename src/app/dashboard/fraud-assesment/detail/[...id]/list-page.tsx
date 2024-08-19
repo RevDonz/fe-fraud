@@ -41,8 +41,17 @@ export default function DetailAssesmentList({
 		content: () => componentRef.current,
 	});
 
+	const { data, isPending } = useQuery({
+		queryKey: ["fraud-detail-assesment", assesmentKey],
+		queryFn: async () => {
+			const data = await getDetailAssesment(token, assesmentKey);
+
+			return data;
+		},
+	});
+
 	const { isPending: isPrintPending, data: dataToPrint2 } = useQuery({
-		queryKey: ["review-fraud-list-assesment", assesmentKey],
+		queryKey: ["review-fraud-list-assesment-reviewer", assesmentKey],
 		queryFn: async () => {
 			try {
 				const results = [];
@@ -68,14 +77,8 @@ export default function DetailAssesmentList({
 		},
 	});
 
-	const { data, isPending } = useQuery({
-		queryKey: ["fraud-detail-assesment", assesmentKey],
-		queryFn: async () => {
-			const data = await getDetailAssesment(token, assesmentKey);
-
-			return data;
-		},
-	});
+	console.log(dataToPrint2);
+  // admin
 
 	if (isPending) return <LoadingDetailAssesment />;
 
