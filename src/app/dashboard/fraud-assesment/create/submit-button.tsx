@@ -1322,9 +1322,11 @@ export default function SubmitButton({
 				>
 					Submit
 				</Button>
-				<Button type="button" onClick={automation}>
-					Automation Assesment
-				</Button>
+				{process.env.NEXT_PUBLIC_ENVIRONTMENT !== "production" && (
+					<Button type="button" onClick={automation}>
+						Automation Assesment
+					</Button>
+				)}
 			</div>
 		</div>
 	);
