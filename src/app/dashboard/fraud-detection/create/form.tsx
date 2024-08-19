@@ -134,10 +134,7 @@ export default function FormDetection({ token }: { token: string }) {
 		<div>
 			<p className="text-xl font-medium py-5">{data?.name}</p>
 			<Divider />
-			{/* {isSuccess ? (
-				<p></p>
-			) : (
-			)} */}
+
 			<div className="flex flex-col gap-5 py-5">
 				<p className="font-medium">Upload Laporan Keuangan</p>
 				<div className="flex gap-3">

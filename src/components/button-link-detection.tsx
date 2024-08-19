@@ -6,6 +6,13 @@ import { usePathname } from "next/navigation";
 export default function ButtonLink() {
 	const pathname = usePathname();
 
+	const handleDownload = () => {
+		const link = document.createElement("a");
+		link.href = "/assets/file/Template Fraud Detection.xlsx";
+		link.download = "Template Fraud Detection.xlsx";
+		link.click();
+	};
+
 	return (
 		<div className="flex flex-row items-center justify-between gap-3 mb-5">
 			<div className="flex gap-3">
@@ -35,7 +42,7 @@ export default function ButtonLink() {
 				</Button>
 			</div>
 			{pathname === "/dashboard/fraud-detection/create" && (
-				<Button color="success" className="text-white">
+				<Button color="success" className="text-white" onClick={handleDownload}>
 					Unduh Template Format File
 				</Button>
 			)}
