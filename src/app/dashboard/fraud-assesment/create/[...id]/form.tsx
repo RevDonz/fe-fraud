@@ -64,7 +64,7 @@ export default function CreateAssesmentForm({
 			}
 		},
 		onMutate() {
-			toast.loading("Loading...");
+			toast.loading("Menyimpan jawaban, mohon tunggu sebentar...");
 		},
 		onSuccess(data) {
 			toast.dismiss();
@@ -83,7 +83,6 @@ export default function CreateAssesmentForm({
 			return toast.error("Periksa kembali file yang diunggah.");
 		}
 		mutation.mutate(values);
-		// console.log(values);
 	};
 
 	return (
@@ -159,10 +158,10 @@ export default function CreateAssesmentForm({
 									onChange={(e) => {
 										const file = e.target.files?.[0];
 										if (file) {
-											if (file.size > 2 * 1024 * 1024) {
+											if (file.size > 1 * 1024 * 1024) {
 												setError(`assesment.${index}.file`, {
 													type: "manual",
-													message: "File tidak boleh lebih dari 2MB",
+													message: "File tidak boleh lebih dari 1MB",
 												});
 												setFileErrors((prev) => [
 													...prev,
