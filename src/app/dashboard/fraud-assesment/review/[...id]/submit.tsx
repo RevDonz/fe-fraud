@@ -319,9 +319,11 @@ export default function SubmitEvaluation({
 				>
 					Submit
 				</Button>
-				<Button type="button" onClick={automation}>
-					Automation 1
-				</Button>
+				{process.env.NEXT_PUBLIC_ENVIRONTMENT !== "production" && (
+					<Button type="button" onClick={automation}>
+						Automation 1
+					</Button>
+				)}
 				{/* <Button type="button" onClick={automation2}>
 					Automation 2
 				</Button> */}
